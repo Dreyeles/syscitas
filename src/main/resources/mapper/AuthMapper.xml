@@ -1,30 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-
 <!-- ruta de mi interface -->
 <mapper namespace="com.sisol.sys_citas.mapper.AuthMapper">
-<!--nombre del metodo-->
-<select id="verificarCorreo" statementType="CALLABLE" resultType="com.sisol.sys_citas.dto.UsuarioSesionDTO">
-  { call sp_verificacion_correo_activo(
-      #{correo, mode=IN, jdbcType=VARCHAR}
-    )
-  }
-</select>
 
-<!-- Obtener nombre completo de paciente -->
-<select id="obtenerNombrePaciente" resultType="string">
-  SELECT CONCAT(nombres, ' ', apellidos) FROM paciente WHERE id = #{id}
-</select>
+    <!-- nombre del metodo -->
+    <select id="verificarCorreo" statementType="CALLABLE" resultType="com.sisol.sys_citas.dto.UsuarioSesionDTO">
+        { call sp_verificacion_correo_activo(
+            #{correo, mode=IN, jdbcType=VARCHAR}
+        )
+        }
+    </select>
 
-<!-- Obtener nombre completo de medico -->
-<select id="obtenerNombreMedico" resultType="string">
-  SELECT CONCAT(nombres, ' ', apellidos) FROM medico WHERE id = #{id}
-</select>
+    <!-- Verificar si un correo ya existe -->
+    <select id="existeCorreo" resultType="boolean">
+        SELECT COUNT(*) > 0 FROM usuario WHERE correo = #{correo}
+    </select>
 
-<!-- Obtener nombre completo de personal administrativo -->
-<select id="obtenerNombrePersonalAdministrativo" resultType="string">
-  SELECT CONCAT(nombres, ' ', apellidos) FROM personal_administrativo WHERE id = #{id}
-</select>
+    <!-- Verificar si un DNI ya existe en la tabla paciente -->
+    <select id="existeDni" resultType="boolean">
+        SELECT COUNT(*) > 0 FROM paciente WHERE dni = #{dni}
+    </select>
+
+    <!-- Insertar un nuevo usuario -->
+    <!-- Se han eliminado 'fecha_registro' y 'fecha_actualizacion' del INSERT porque la DB las maneja con DEFAULT current_timestamp() -->
+    <insert id="insertarUsuario" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO usuario (correo, contrasenia, rol, activo)
+        VALUES (#{correo}, #{contrasenia}, #{rol}, #{activo})
+    </insert>
+
+    <!-- Insertar un nuevo paciente -->
+    <!-- IMPORTANTE: 'id' del paciente ahora es el mismo 'id' del usuario -->
+    <!-- Se han añadido 'contacto_emergencia_nombre' y 'contacto_emergencia_telefono' -->
+    <insert id="insertarPaciente">
+        INSERT INTO paciente (id, dni, nombres, apellidos, telefono, estado_civil, direccion, contacto_emergencia_nombre, contacto_emergencia_telefono, fecha_nacimiento, sexo, alergias, grupo_sanguineo)
+        VALUES (#{id}, #{dni}, #{nombres}, #{apellidos}, #{telefono}, #{estadoCivil}, #{direccion}, #{contactoEmergenciaNombre}, #{contactoEmergenciaTelefono}, #{fechaNacimiento}, #{sexo}, #{alergias}, #{grupoSanguineo})
+    </insert>
+
+    <!-- Obtener nombre completo de paciente -->
+    <select id="obtenerNombrePaciente" resultType="string">
+        SELECT CONCAT(nombres, ' ', apellidos) FROM paciente WHERE id = #{id}
+    </select>
+
+    <!-- Obtener nombre completo de medico -->
+    <select id="obtenerNombreMedico" resultType="string">
+        SELECT CONCAT(nombres, ' ', apellidos) FROM medico WHERE id = #{id}
+    </select>
+
+    <!-- Obtener nombre completo de personal administrativo -->
+    <select id="obtenerNombrePersonalAdministrativo" resultType="string">
+        SELECT CONCAT(nombres, ' ', apellidos) FROM personal_administrativo WHERE id = #{id}
+    </select>
 
 </mapper>

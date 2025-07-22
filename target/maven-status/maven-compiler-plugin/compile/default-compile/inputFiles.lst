@@ -1,29 +1,49 @@
-C:\Users\GRGE\Documents\SISOL\proyecto-sisol\sys-citas\src\main\java\com\sisol\sys_citas\clients\reciec\config\ClientReniecApiConfig.java
-C:\Users\GRGE\Documents\SISOL\proyecto-sisol\sys-citas\src\main\java\com\sisol\sys_citas\clients\reciec\dto\ResponseClientReniecDTO.java
-C:\Users\GRGE\Documents\SISOL\proyecto-sisol\sys-citas\src\main\java\com\sisol\sys_citas\clients\reciec\exception\ClientReniecApiException.java
-C:\Users\GRGE\Documents\SISOL\proyecto-sisol\sys-citas\src\main\java\com\sisol\sys_citas\clients\reciec\service\ClientReniecApiService.java
-C:\Users\GRGE\Documents\SISOL\proyecto-sisol\sys-citas\src\main\java\com\sisol\sys_citas\controller\AutenticacionController.java
-C:\Users\GRGE\Documents\SISOL\proyecto-sisol\sys-citas\src\main\java\com\sisol\sys_citas\controller\InicioController.java
-C:\Users\GRGE\Documents\SISOL\proyecto-sisol\sys-citas\src\main\java\com\sisol\sys_citas\controller\PacienteController.java
-C:\Users\GRGE\Documents\SISOL\proyecto-sisol\sys-citas\src\main\java\com\sisol\sys_citas\controllerAdvices\UsuarioSesionAdvice.java
-C:\Users\GRGE\Documents\SISOL\proyecto-sisol\sys-citas\src\main\java\com\sisol\sys_citas\dto\UsuarioSesionDTO.java
-C:\Users\GRGE\Documents\SISOL\proyecto-sisol\sys-citas\src\main\java\com\sisol\sys_citas\enums\Comprobante.java
-C:\Users\GRGE\Documents\SISOL\proyecto-sisol\sys-citas\src\main\java\com\sisol\sys_citas\enums\EstadoAtencion.java
-C:\Users\GRGE\Documents\SISOL\proyecto-sisol\sys-citas\src\main\java\com\sisol\sys_citas\enums\EstadoCita.java
-C:\Users\GRGE\Documents\SISOL\proyecto-sisol\sys-citas\src\main\java\com\sisol\sys_citas\enums\EstadoCivil.java
-C:\Users\GRGE\Documents\SISOL\proyecto-sisol\sys-citas\src\main\java\com\sisol\sys_citas\enums\EstadoPago.java
-C:\Users\GRGE\Documents\SISOL\proyecto-sisol\sys-citas\src\main\java\com\sisol\sys_citas\enums\GrupoSanguineo.java
-C:\Users\GRGE\Documents\SISOL\proyecto-sisol\sys-citas\src\main\java\com\sisol\sys_citas\enums\Rol.java
-C:\Users\GRGE\Documents\SISOL\proyecto-sisol\sys-citas\src\main\java\com\sisol\sys_citas\enums\Sexo.java
-C:\Users\GRGE\Documents\SISOL\proyecto-sisol\sys-citas\src\main\java\com\sisol\sys_citas\enums\TurnoMedico.java
-C:\Users\GRGE\Documents\SISOL\proyecto-sisol\sys-citas\src\main\java\com\sisol\sys_citas\exceptions\AutenticacionException.java
-C:\Users\GRGE\Documents\SISOL\proyecto-sisol\sys-citas\src\main\java\com\sisol\sys_citas\exceptions\PacienteException.java
-C:\Users\GRGE\Documents\SISOL\proyecto-sisol\sys-citas\src\main\java\com\sisol\sys_citas\forms\LoginForm.java
-C:\Users\GRGE\Documents\SISOL\proyecto-sisol\sys-citas\src\main\java\com\sisol\sys_citas\mapper\AuthMapper.java
-C:\Users\GRGE\Documents\SISOL\proyecto-sisol\sys-citas\src\main\java\com\sisol\sys_citas\security\AutenticacionService.java
-C:\Users\GRGE\Documents\SISOL\proyecto-sisol\sys-citas\src\main\java\com\sisol\sys_citas\security\AutorizacionInterceptor.java
-C:\Users\GRGE\Documents\SISOL\proyecto-sisol\sys-citas\src\main\java\com\sisol\sys_citas\security\config\WebMvcConfig.java
-C:\Users\GRGE\Documents\SISOL\proyecto-sisol\sys-citas\src\main\java\com\sisol\sys_citas\services\impl\PacienteServiceImpl.java
-C:\Users\GRGE\Documents\SISOL\proyecto-sisol\sys-citas\src\main\java\com\sisol\sys_citas\services\PacienteService.java
-C:\Users\GRGE\Documents\SISOL\proyecto-sisol\sys-citas\src\main\java\com\sisol\sys_citas\SysCitasApplication.java
-C:\Users\GRGE\Documents\SISOL\proyecto-sisol\sys-citas\src\main\java\com\sisol\sys_citas\utils\PasswordHashUtils.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\clients\reciec\config\ClientReniecApiConfig.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\clients\reciec\dto\ResponseClientReniecDTO.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\clients\reciec\exception\ClientReniecApiException.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\clients\reciec\exception\RegistroException.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\clients\reciec\service\ClientReniecApiService.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\config\SecurityConfig.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\controller\AutenticacionController.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\controller\CitasController.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\controller\InicioController.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\controller\PacienteController.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\controllerAdvices\GlobalExceptionHandler.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\controllerAdvices\UsuarioSesionAdvice.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\dto\RegistroUsuarioDTO.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\dto\UsuarioSesionDTO.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\enums\Comprobante.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\enums\EstadoAtencion.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\enums\EstadoCita.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\enums\EstadoCivil.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\enums\EstadoPago.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\enums\GrupoSanguineo.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\enums\Rol.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\enums\Sexo.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\enums\TurnoMedico.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\exceptions\AutenticacionException.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\exceptions\PacienteException.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\forms\LoginForm.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\forms\RegistroForm.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\mapper\AuthMapper.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\model\Cita.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\model\Especialidad.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\model\Medico.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\model\Paciente.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\model\PersonalAdministrativo.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\model\Servicio.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\model\Usuario.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\repository\CitaRepository.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\repository\EspecialidadRepository.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\repository\MedicoRepository.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\repository\PacienteRepository.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\repository\PersonalAdministrativoRepository.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\repository\ServicioRepository.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\repository\UsuarioRepository.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\security\AutenticacionService.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\security\AutorizacionInterceptor.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\security\config\WebMvcConfig.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\service\impl\PacienteServiceImpl.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\service\PacienteService.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\service\RegistroService.java
+C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\SysCitasApplication.java

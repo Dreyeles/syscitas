@@ -1,6 +1,5 @@
 package com.sisol.sys_citas.enums;
 
-
 public enum GrupoSanguineo {
     A_POSITIVO("A+"),
     A_NEGATIVO("A-"),
@@ -11,22 +10,13 @@ public enum GrupoSanguineo {
     O_POSITIVO("O+"),
     O_NEGATIVO("O-");
 
+    private final String displayName;
 
-    private final String valorMostrar;
-
-
-    //constructor
-    GrupoSanguineo(String valorMostrar) {
-        this.valorMostrar = valorMostrar;
+    GrupoSanguineo(String displayName) {
+        this.displayName = displayName;
     }
 
-    //getter para mostrar el texto
-    public String getValorMostrar(){
-        return valorMostrar;
+    public String getDisplayName() {
+        return displayName;
     }
-
-    //getter and setters con lombook
-
-
-
 }
