@@ -83,15 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
       dropdown.style.top = (rect.bottom + 8 + window.scrollY) + 'px';
       dropdown.style.zIndex = 99999;
       document.body.appendChild(dropdown);
-      // Funcionalidad para cerrar sesión con redirección
-      var cerrarSesion = document.getElementById('cerrarSesionLink');
-      if (cerrarSesion) {
-        cerrarSesion.addEventListener('click', function(ev) {
-          ev.preventDefault();
-          fetch('/auth/logout', { method: 'POST', credentials: 'same-origin' })
-            .then(function() { window.location.href = '/inicio'; });
-        });
-      }
+      // Funcionalidad de logout manejada por header.html
       // Funcionalidad para ir a Mi cuenta y cerrar el dropdown
       var miCuenta = document.getElementById('miCuentaLink');
       if (miCuenta) {
