@@ -1,0 +1,77 @@
+<!-- Menú para Personal Administrativo -->
+<div th:fragment="menu-personal-administrativo">
+  <li class="nav-item has-submenu">
+    <a class="nav-link" href="#">
+      <i class="bi bi-person-badge"></i>
+      <span>👨‍⚕️ Médicos</span>
+    </a>
+    <ul class="nav flex-column submenu">
+      <li class="nav-item">
+        <a class="nav-link" href="/admin/medicos/registrar">
+          <i class="bi bi-person-plus"></i>
+          <span>Registrar Médico</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/admin/medicos/consultar">
+          <i class="bi bi-search"></i>
+          <span>Consultar Médicos</span>
+        </a>
+      </li>
+    </ul>
+  </li>
+
+  <li class="nav-item has-submenu">
+    <a class="nav-link" href="#">
+      <i class="bi bi-hospital"></i>
+      <span>🏥 Especialidades y Servicios</span>
+    </a>
+    <ul class="nav flex-column submenu">
+      <li class="nav-item">
+        <a class="nav-link" href="/admin/especialidades/reporte">
+          <i class="bi bi-file-earmark-text"></i>
+          <span>Reporte de Especialidades</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/admin/especialidades/agregar">
+          <i class="bi bi-plus-circle"></i>
+          <span>Agregar Especialidad</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/admin/servicios/reporte">
+          <i class="bi bi-file-earmark-text"></i>
+          <span>Reporte de Servicios</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/admin/servicios/agregar">
+          <i class="bi bi-plus-circle"></i>
+          <span>Agregar Servicio</span>
+        </a>
+      </li>
+    </ul>
+  </li>
+
+  <li class="nav-item has-submenu">
+    <a class="nav-link" href="#">
+      <i class="bi bi-people"></i>
+      <span>👤 Pacientes</span>
+    </a>
+    <ul class="nav flex-column submenu">
+      <li class="nav-item">
+        <a class="nav-link" href="/admin/pacientes/reporte">
+          <i class="bi bi-file-earmark-text"></i>
+          <span>Reporte de Pacientes</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/admin/pacientes/historial">
+          <i class="bi bi-clipboard2-pulse"></i>
+          <span>Historial Clínico</span>
+        </a>
+      </li>
+    </ul>
+  </li>
+</div> 

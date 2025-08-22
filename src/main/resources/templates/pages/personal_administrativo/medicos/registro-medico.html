@@ -1,0 +1,268 @@
+<!-- Fragmento para Registro de Médicos -->
+<div th:fragment="registro-medico" class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="bi bi-person-plus me-2"></i>Registro de Médico
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <!-- Mensajes de éxito y error -->
+                    <div th:if="${mensajeExito}" class="alert alert-success mb-3" role="alert" th:text="${mensajeExito}">
+                        Médico registrado exitosamente.
+                    </div>
+
+                    <div th:if="${mensajeError}" class="alert alert-danger mb-3" role="alert" th:text="${mensajeError}">
+                        Error al registrar médico.
+                    </div>
+
+                    <form th:action="@{/medico/registrar}" th:object="${registroMedicoDTO}" method="post" id="registroMedicoForm" class="needs-validation" novalidate>
+                        <!-- Información Personal -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="text-primary border-bottom pb-2">
+                                    <i class="bi bi-person me-2"></i>Información Personal
+                                </h5>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="nombres" class="form-label">Nombres *</label>
+                                <input type="text" class="form-control" id="nombres" th:field="*{nombres}" required
+                                       th:classappend="${#fields.hasErrors('nombres')} ? 'is-invalid' : ''">
+                                <div class="invalid-feedback" th:each="err : ${#fields.errors('nombres')}" th:text="${err}">
+                                    Por favor ingrese los nombres del médico.
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="apellidos" class="form-label">Apellidos *</label>
+                                <input type="text" class="form-control" id="apellidos" th:field="*{apellidos}" required
+                                       th:classappend="${#fields.hasErrors('apellidos')} ? 'is-invalid' : ''">
+                                <div class="invalid-feedback" th:each="err : ${#fields.errors('apellidos')}" th:text="${err}">
+                                    Por favor ingrese los apellidos del médico.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label for="dni" class="form-label">DNI *</label>
+                                <input type="text" class="form-control" id="dni" th:field="*{dni}" maxlength="8" required
+                                       th:classappend="${#fields.hasErrors('dni')} ? 'is-invalid' : ''">
+                                <div class="invalid-feedback" th:each="err : ${#fields.errors('dni')}" th:text="${err}">
+                                    Por favor ingrese un DNI válido.
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="numeroColegiado" class="form-label">Número de Colegiado *</label>
+                                <input type="text" class="form-control" id="numeroColegiado" th:field="*{numeroColegiado}" maxlength="6" required
+                                       th:classappend="${#fields.hasErrors('numeroColegiado')} ? 'is-invalid' : ''">
+                                <div class="invalid-feedback" th:each="err : ${#fields.errors('numeroColegiado')}" th:text="${err}">
+                                    Por favor ingrese el número de colegiado.
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="turno" class="form-label">Turno *</label>
+                                <select class="form-select" id="turno" th:field="*{turno}" required
+                                        th:classappend="${#fields.hasErrors('turno')} ? 'is-invalid' : ''">
+                                    <option value="">Seleccione...</option>
+                                    <option value="MANANA">Mañana</option>
+                                    <option value="TARDE">Tarde</option>
+                                </select>
+                                <div class="invalid-feedback" th:each="err : ${#fields.errors('turno')}" th:text="${err}">
+                                    Por favor seleccione el turno.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label for="telefono" class="form-label">Teléfono</label>
+                                <input type="tel" class="form-control" id="telefono" th:field="*{telefono}"
+                                       th:classappend="${#fields.hasErrors('telefono')} ? 'is-invalid' : ''">
+                                <div class="invalid-feedback" th:each="err : ${#fields.errors('telefono')}" th:text="${err}">
+                                    Por favor ingrese un número de teléfono válido.
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="sexo" class="form-label">Sexo *</label>
+                                <select class="form-select" id="sexo" th:field="*{sexo}" required
+                                        th:classappend="${#fields.hasErrors('sexo')} ? 'is-invalid' : ''">
+                                    <option value="">Seleccione...</option>
+                                    <option th:each="s : ${sexos}" th:value="${s.name()}" th:text="${s.displayName}"></option>
+                                </select>
+                                <div class="invalid-feedback" th:each="err : ${#fields.errors('sexo')}" th:text="${err}"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="estadoCivil" class="form-label">Estado Civil *</label>
+                                <select class="form-select" id="estadoCivil" th:field="*{estadoCivil}" required
+                                        th:classappend="${#fields.hasErrors('estadoCivil')} ? 'is-invalid' : ''">
+                                    <option value="">Seleccione...</option>
+                                    <option th:each="ec : ${estadosCiviles}" th:value="${ec.displayName}" th:text="${ec.displayName}"></option>
+                                </select>
+                                <div class="invalid-feedback" th:each="err : ${#fields.errors('estadoCivil')}" th:text="${err}"></div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento</label>
+                                <input type="date" class="form-control" id="fechaNacimiento" th:field="*{fechaNacimiento}"
+                                       th:classappend="${#fields.hasErrors('fechaNacimiento')} ? 'is-invalid' : ''">
+                                <div class="invalid-feedback" th:each="err : ${#fields.errors('fechaNacimiento')}" th:text="${err}"></div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="horaInicioTurno" class="form-label">Hora de Inicio del Turno *</label>
+                                <input type="time" class="form-control" id="horaInicioTurno" th:field="*{horaInicioTurno}" required readonly
+                                       th:classappend="${#fields.hasErrors('horaInicioTurno')} ? 'is-invalid' : ''">
+                                <div class="invalid-feedback" th:each="err : ${#fields.errors('horaInicioTurno')}" th:text="${err}">
+                                    Por favor seleccione la hora de inicio del turno.
+                                </div>
+                                <small class="form-text text-muted">Se establece automáticamente según el turno seleccionado</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="horaFinTurno" class="form-label">Hora de Fin del Turno *</label>
+                                <input type="time" class="form-control" id="horaFinTurno" th:field="*{horaFinTurno}" required readonly
+                                       th:classappend="${#fields.hasErrors('horaFinTurno')} ? 'is-invalid' : ''">
+                                <div class="invalid-feedback" th:each="err : ${#fields.errors('horaFinTurno')}" th:text="${err}">
+                                    Por favor seleccione la hora de fin del turno.
+                                </div>
+                                <small class="form-text text-muted">Se establece automáticamente según el turno seleccionado</small>
+                            </div>
+                        </div>
+
+                        <!-- Información Profesional -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="text-primary border-bottom pb-2">
+                                    <i class="bi bi-briefcase me-2"></i>Información Profesional
+                                </h5>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="especialidadId" class="form-label">Especialidad *</label>
+                                <select class="form-select" id="especialidadId" th:field="*{especialidadId}" required
+                                        th:classappend="${#fields.hasErrors('especialidadId')} ? 'is-invalid' : ''">
+                                    <option value="">Seleccione una especialidad...</option>
+                                    <option th:each="e : ${especialidades}" th:value="${e.id}" th:text="${e.nombre}"></option>
+                                </select>
+                                <div class="invalid-feedback" th:each="err : ${#fields.errors('especialidadId')}" th:text="${err}">
+                                    Por favor seleccione una especialidad.
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="estado" class="form-label">Estado *</label>
+                                <select class="form-select" id="estado" th:field="*{estado}" required
+                                        th:classappend="${#fields.hasErrors('estado')} ? 'is-invalid' : ''">
+                                    <option value="">Seleccione...</option>
+                                    <option value="ACTIVO">Activo</option>
+                                    <option value="INACTIVO">Inactivo</option>
+                                    <option value="LICENCIA">Licencia</option>
+                                    <option value="VACACIONES">Vacaciones</option>
+                                </select>
+                                <div class="invalid-feedback" th:each="err : ${#fields.errors('estado')}" th:text="${err}">
+                                    Por favor seleccione el estado.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Información de Usuario -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="text-primary border-bottom pb-2">
+                                    <i class="bi bi-shield-lock me-2"></i>Información de Usuario
+                                </h5>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">Correo Electrónico *</label>
+                                <input type="email" class="form-control" id="email" th:field="*{email}" required
+                                       th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''">
+                                <div class="invalid-feedback" th:each="err : ${#fields.errors('email')}" th:text="${err}">
+                                    Por favor ingrese un correo electrónico válido.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="password" class="form-label">Contraseña *</label>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="password" th:field="*{password}" required
+                                           th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : ''">
+                                    <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="invalid-feedback" th:each="err : ${#fields.errors('password')}" th:text="${err}">
+                                    Por favor ingrese una contraseña.
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="confirmPassword" class="form-label">Confirmar Contraseña *</label>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="confirmPassword" th:field="*{confirmPassword}" required
+                                           th:classappend="${#fields.hasErrors('confirmPassword')} ? 'is-invalid' : ''">
+                                    <button class="btn btn-outline-secondary" type="button" id="toggleConfirmPassword">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="invalid-feedback" th:each="err : ${#fields.errors('confirmPassword')}" th:text="${err}">
+                                    Las contraseñas no coinciden.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Botones de Acción -->
+                        <div class="row">
+                            <div class="col-12">
+                                <hr class="my-4">
+                                <div class="d-flex justify-content-end gap-2">
+                                    <button type="button" class="btn btn-secondary" id="btnCancelar">
+                                        <i class="bi bi-x-circle me-2"></i>Cancelar
+                                    </button>
+                                    <button type="button" class="btn btn-warning" id="btnLimpiar">
+                                        <i class="bi bi-arrow-clockwise me-2"></i>Limpiar
+                                    </button>
+                                    <button type="submit" class="btn btn-primary" id="btnRegistrar">
+                                        <i class="bi bi-check-circle me-2"></i>Registrar Médico
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div> 
+
+<!-- Modal de éxito en registro de médico -->
+<div class="modal fade" id="registroExitosoModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title"><i class="bi bi-check-circle me-2"></i>Registro Exitoso</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>El médico ha sido registrado correctamente.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Aceptar</button>
+      </div>
+    </div>
+  </div>
+  </div>

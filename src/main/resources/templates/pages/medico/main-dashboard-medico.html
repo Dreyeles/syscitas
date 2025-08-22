@@ -1,0 +1,232 @@
+<!-- Dashboard Principal para Médicos -->
+<div th:fragment="main-dashboard-medico" class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="h3 mb-0 text-gray-800">Dashboard Médico</h1>
+            <p class="mb-4">Bienvenido, <span th:text="${usuario.nombres}">Doctor</span></p>
+        </div>
+    </div>
+
+    <!-- Tarjetas de estadísticas -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Citas Hoy
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">8</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="bi bi-calendar-check fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Pacientes Atendidos
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">12</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="bi bi-people fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Próxima Cita
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">15:30</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="bi bi-clock fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Historiales Pendientes
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">3</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="bi bi-journal-medical fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="row">
+        <!-- Agenda del día -->
+        <div class="col-lg-8">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Agenda de Hoy</h6>
+                    <div class="dropdown no-arrow">
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="bi bi-three-dots-vertical fa-sm fa-fw text-gray-400"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                            <div class="dropdown-header">Opciones:</div>
+                            <a class="dropdown-item" href="#">Ver agenda completa</a>
+                            <a class="dropdown-item" href="#">Configurar horarios</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Hora</th>
+                                    <th>Paciente</th>
+                                    <th>Tipo</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>09:00</td>
+                                    <td>María González</td>
+                                    <td>Consulta General</td>
+                                    <td><span class="badge bg-success">Completada</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary">Ver</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>10:30</td>
+                                    <td>Juan Pérez</td>
+                                    <td>Control</td>
+                                    <td><span class="badge bg-warning">En espera</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary">Atender</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>12:00</td>
+                                    <td>Ana Rodríguez</td>
+                                    <td>Consulta General</td>
+                                    <td><span class="badge bg-secondary">Pendiente</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary">Ver</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>15:30</td>
+                                    <td>Carlos López</td>
+                                    <td>Control</td>
+                                    <td><span class="badge bg-secondary">Pendiente</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary">Ver</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel lateral -->
+        <div class="col-lg-4">
+            <!-- Notificaciones -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Notificaciones</h6>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>Nueva cita programada</strong>
+                                <br>
+                                <small class="text-muted">Paciente: Laura Martínez - Mañana 11:00</small>
+                            </div>
+                            <span class="badge bg-primary rounded-pill">Nuevo</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>Recordatorio de control</strong>
+                                <br>
+                                <small class="text-muted">Paciente: Roberto Silva - En 2 días</small>
+                            </div>
+                            <span class="badge bg-warning rounded-pill">Recordatorio</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>Historial actualizado</strong>
+                                <br>
+                                <small class="text-muted">Paciente: Carmen Vega</small>
+                            </div>
+                            <span class="badge bg-info rounded-pill">Actualizado</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Accesos rápidos -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Accesos Rápidos</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <button class="btn btn-outline-primary btn-block" data-tab-target="agenda-atencion-tab">
+                                <i class="bi bi-calendar-week"></i><br>
+                                <small>Mi Agenda</small>
+                            </button>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <button class="btn btn-outline-success btn-block" data-tab-target="registro-atencion-tab">
+                                <i class="bi bi-journal-plus"></i><br>
+                                <small>Registrar Atención</small>
+                            </button>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <button class="btn btn-outline-info btn-block" data-tab-target="consultar-historial-tab">
+                                <i class="bi bi-search"></i><br>
+                                <small>Consultar Historial</small>
+                            </button>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <button class="btn btn-outline-warning btn-block" data-tab-target="registrar-historial-tab">
+                                <i class="bi bi-plus-circle"></i><br>
+                                <small>Nuevo Historial</small>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

@@ -72,6 +72,8 @@ CSS STRUCTURE:
   --light-color: #fff;
   --swiper-theme-color: #111 !important;
   --cadet-blue-color: #9AB4B7;
+  --body-font: "Poppins", sans-serif;
+  --heading-font: "Poppins", sans-serif;
 }
 
 /* on mobile devices below 600px */
@@ -80,12 +82,6 @@ CSS STRUCTURE:
     --header-height: 100px;
     --header-height-min: 80px;
   }
-}
-
-/* Fonts */
-:root {
-  --body-font: "Poppins", sans-serif;
-  --heading-font: "Poppins", sans-serif;
 }
 
 /*----------------------------------------------*/

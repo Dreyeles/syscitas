@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments/header :: head"></head>
+<head th:replace="~{fragments/header :: head}"></head>
+  <link rel="stylesheet" th:href="@{/css/inicio.css}">
 
 <body data-bs-spy="scroll" data-bs-target="#header-nav" tabindex="0">
 
-  <!-- SVG Icons -->
+  <!-- ========================================
+       SECCIÓN: SVG ICONOS
+       ======================================== -->
   <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
     <symbol xmlns="http://www.w3.org/2000/svg" id="home-thermometer" viewBox="0 0 24 24">
       <path fill="currentColor" d="M19 8a2 2 0 0 1 2 2v6.76c.61.55 1 1.35 1 2.24c0 1.66-1.34 3-3 3s-3-1.34-3-3c0-.89.39-1.69 1-2.24V10c0-1.1.9-2 2-2m0 1c-.55 0-1 .45-1 1v1h2v-1c0-.55-.45-1-1-1M5 20v-8H2l10-9l4.4 3.96A3.97 3.97 0 0 0 15 10v6c-.63.83-1 1.87-1 3l.1 1H5Z" />
@@ -48,27 +51,101 @@
     </symbol>
   </svg>
 
-  <!-- Header -->
-  <div th:replace="fragments/header :: header"></div>
-  
-  <!-- Navbar -->
-  <div th:replace="fragments/header :: navbar"></div>
-
-  <!-- Intro Section -->
+  <!-- ========================================
+       SECCIÓN: HEADER, NAVEGACIÓN Y BANNER PRINCIPAL
+       ======================================== -->
+  <div th:replace="~{fragments/header :: header}"></div>
+  <div th:replace="~{fragments/header :: navbar}"></div>
   <section id="intro" class="position-relative overflow-hidden">
     <div class="banner">
       <div class="container">
         <div class="banner-content position-absolute padding-large">
-          <h1 class="banner-title display-3 fw-bold text-dark">Nos preocupamos por tu bienestar</h1>
-          <p class="banner-desc mt-3 mb-4">Sistema Integral de Salud Ocupacional y Laboral. Brindamos atención médica de calidad con tecnología avanzada y profesionales especializados.</p>
-        </div>
+          <h1 class="banner-title display-3 fw-bold text-dark" th:text="${titulo}"></h1>
+          <p class="banner-desc mt-3 mb-4" th:text="${descripcion}"></p>
+          </div>
       </div>
     </div>
   </section>
 
-  <!-- About Us Section -->
+  <!-- ========================================
+       SECCIÓN: SOBRE NOSOTROS
+       ======================================== -->
   <section id="about-us" class="padding-large">
     <div class="container">
+      <!-- Contenido de Nosotros -->
+      <div class="row mb-5">
+        <div class="col-12">
+          <div class="display-header mb-5">
+            <h1 class="display-4 fw-bold text-center text-dark">Sobre Nosotros</h1>
+            <p class="lead text-center text-muted">Conoce más sobre SISOL y nuestro compromiso con tu salud</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-5">
+        <div class="col-lg-6">
+          <h2 class="h3 mb-4">Nuestra Misión</h2>
+          <p class="lead">Brindar atención médica integral de alta calidad, accesible y personalizada, contribuyendo al bienestar y la salud ocupacional de nuestros pacientes.</p>
+          <p>En SISOL nos comprometemos a ofrecer servicios médicos especializados con tecnología avanzada y un equipo de profesionales altamente calificados.</p>
+        </div>
+        <div class="col-lg-6">
+          <h2 class="h3 mb-4">Nuestra Visión</h2>
+          <p class="lead">Ser líderes en el sector de la salud ocupacional, reconocidos por la excelencia en la atención médica y el compromiso con la innovación tecnológica.</p>
+          <p>Aspiramos a ser la institución de referencia en salud preventiva y ocupacional, contribuyendo significativamente al desarrollo de una sociedad más saludable.</p>
+        </div>
+      </div>
+
+      <div class="row mb-5">
+        <div class="col-12">
+          <h2 class="h3 mb-4 text-center">Nuestros Valores</h2>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center">
+              <i class="bi bi-heart-pulse text-primary display-6 mb-3"></i>
+              <h5 class="card-title">Excelencia</h5>
+              <p class="card-text">Buscamos la excelencia en todos nuestros servicios y atención al paciente.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center">
+              <i class="bi bi-shield-check text-primary display-6 mb-3"></i>
+              <h5 class="card-title">Confianza</h5>
+              <p class="card-text">Construimos relaciones basadas en la confianza y la transparencia.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center">
+              <i class="bi bi-people text-primary display-6 mb-3"></i>
+              <h5 class="card-title">Compromiso</h5>
+              <p class="card-text">Nos comprometemos con el bienestar y la salud de nuestros pacientes.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center">
+              <i class="bi bi-lightbulb text-primary display-6 mb-3"></i>
+              <h5 class="card-title">Innovación</h5>
+              <p class="card-text">Aplicamos tecnología avanzada para mejorar la atención médica.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-5">
+        <div class="col-12">
+          <h2 class="h3 mb-4 text-center">Nuestra Historia</h2>
+          <p class="text-center lead">Con más de 10 años de experiencia en el sector de la salud, SISOL ha crecido de ser una pequeña clínica a convertirse en una red integral de servicios médicos ocupacionales.</p>
+          <p class="text-center">Hemos atendido a más de 5,000 pacientes satisfechos y contamos con 26 sucursales en todo el país, con un equipo de 53 médicos especialistas comprometidos con tu salud.</p>
+        </div>
+      </div>
+
+      <!-- Contadores existentes -->
       <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6">
           <div class="counter-info text-center">
@@ -110,8 +187,10 @@
     </div>
   </section>
 
-  <!-- Our Services Section -->
-  <section id="our-services" style="background-image: url(/img/services-bg.jpg); background-repeat: no-repeat; background-position: center; background-position: top;">
+  <!-- ========================================
+       SECCIÓN: NUESTROS SERVICIOS 
+       ======================================== -->
+  <section id="our-services">
     <div class="container">
       <div class="row">
         <div class="display-header text-light d-flex flex-wrap justify-content-between padding-medium">
@@ -170,7 +249,7 @@
               </svg>
             </div>
             <div class="icon-box-content">
-              <h3 class="card-title py-2">Atención Farmacéutica</h3>
+              <h3 class="card-title py-2">Farmacia</h3>
               <p>Servicios farmacéuticos especializados y asesoramiento en medicamentos.</p>
             </div>
           </div>
@@ -178,8 +257,10 @@
       </div>
     </div>
   </section>
-  
-  <!-- FAQs Section -->
+
+  <!-- ========================================
+       SECCIÓN: PREGUNTAS FRECUENTES
+       ======================================== -->
   <section id="faqs" class="padding-large">
     <div class="container">
       <div class="row">
@@ -267,7 +348,9 @@
     </div>
   </section>
 
-  <!-- Department Section -->
+  <!-- ========================================
+       SECCIÓN: DEPARTAMENTOS MÉDICOS
+       ======================================== -->
   <section id="department" class="overflow-hidden">
     <div class="container">
       <div class="row">
@@ -341,14 +424,26 @@
     </div>
   </section>
 
-  <!-- Footer -->
-  <div th:replace="fragments/footer :: footer"></div>
+  <!-- ========================================
+       SECCIÓN: FOOTER Y MODALES
+       ======================================== -->
+  <div th:replace="~{fragments/footer :: footer}"></div>
+  <div th:replace="~{fragments/footer :: scripts}"></div>
+  <div th:replace="~{fragments/login :: loginModal}"></div>
 
-  <!-- Scripts -->
-  <div th:replace="fragments/footer :: scripts"></div>
+  <!-- ========================================
+       SECCIÓN: SCRIPTS EXTERNOS
+       ======================================== -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-  <div th:replace="fragments/login :: loginModal"></div>
-
+  
+  <!-- ========================================
+       SECCIÓN: JAVASCRIPT EXTERNO
+       ======================================== -->
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+    // Variable para el modal de login
+    window.showLoginModal = /*[[${param.showLoginModal}]]*/ false;
+    /*]]>*/
+  </script>
 </body>
 </html>

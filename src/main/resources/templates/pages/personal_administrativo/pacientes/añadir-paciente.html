@@ -1,0 +1,209 @@
+<!-- Fragmento para Añadir Paciente -->
+<div th:fragment="añadir-paciente" class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="bi bi-person-plus me-2"></i>Añadir Nuevo Paciente
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <!-- Mensajes de éxito y error -->
+                    <div th:if="${mensajeExito}" class="alert alert-success mb-3" role="alert" th:text="${mensajeExito}">
+                        Paciente registrado exitosamente.
+                    </div>
+
+                    <div th:if="${mensajeError}" class="alert alert-danger mb-3" role="alert" th:text="${mensajeError}">
+                        Error al registrar paciente.
+                    </div>
+
+                    <form th:action="@{/paciente/registrar}" th:object="${registroPacienteDTO}" method="post" id="añadirPacienteForm" class="needs-validation" novalidate>
+                        <!-- Información Personal -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="text-primary border-bottom pb-2">
+                                    <i class="bi bi-person me-2"></i>Información Personal
+                                </h5>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="nombres" class="form-label">Nombres *</label>
+                                <input type="text" class="form-control" id="nombres" th:field="*{nombres}" required
+                                       th:classappend="${#fields.hasErrors('nombres')} ? 'is-invalid' : ''">
+                                <div class="invalid-feedback" th:each="err : ${#fields.errors('nombres')}" th:text="${err}">
+                                    Por favor ingrese los nombres del paciente.
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="apellidos" class="form-label">Apellidos *</label>
+                                <input type="text" class="form-control" id="apellidos" th:field="*{apellidos}" required
+                                       th:classappend="${#fields.hasErrors('apellidos')} ? 'is-invalid' : ''">
+                                <div class="invalid-feedback" th:each="err : ${#fields.errors('apellidos')}" th:text="${err}">
+                                    Por favor ingrese los apellidos del paciente.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label for="dni" class="form-label">DNI *</label>
+                                <input type="text" class="form-control" id="dni" th:field="*{dni}" maxlength="8" required
+                                       th:classappend="${#fields.hasErrors('dni')} ? 'is-invalid' : ''">
+                                <div class="invalid-feedback" th:each="err : ${#fields.errors('dni')}" th:text="${err}">
+                                    Por favor ingrese un DNI válido (8 dígitos).
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento *</label>
+                                <input type="date" class="form-control" id="fechaNacimiento" th:field="*{fechaNacimiento}" required
+                                       th:classappend="${#fields.hasErrors('fechaNacimiento')} ? 'is-invalid' : ''">
+                                <div class="invalid-feedback" th:each="err : ${#fields.errors('fechaNacimiento')}" th:text="${err}">
+                                    Por favor seleccione la fecha de nacimiento.
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="telefono" class="form-label">Teléfono</label>
+                                <input type="tel" class="form-control" id="telefono" th:field="*{telefono}"
+                                       th:classappend="${#fields.hasErrors('telefono')} ? 'is-invalid' : ''">
+                                <div class="invalid-feedback" th:each="err : ${#fields.errors('telefono')}" th:text="${err}">
+                                    Por favor ingrese un número de teléfono válido.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="sexo" class="form-label">Sexo *</label>
+                                <select class="form-select" id="sexo" th:field="*{sexo}" required
+                                        th:classappend="${#fields.hasErrors('sexo')} ? 'is-invalid' : ''">
+                                    <option value="">Seleccione...</option>
+                                    <option th:each="s : ${sexos}" th:value="${s.name()}" th:text="${s.getDisplayName()}"></option>
+                                </select>
+                                <div class="invalid-feedback" th:each="err : ${#fields.errors('sexo')}" th:text="${err}">
+                                    Por favor seleccione el sexo.
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="estadoCivil" class="form-label">Estado Civil *</label>
+                                <select class="form-select" id="estadoCivil" th:field="*{estadoCivil}" required
+                                        th:classappend="${#fields.hasErrors('estadoCivil')} ? 'is-invalid' : ''">
+                                    <option value="">Seleccione...</option>
+                                    <option th:each="ec : ${estadosCiviles}" th:value="${ec.name()}" th:text="${ec.getDisplayName()}"></option>
+                                </select>
+                                <div class="invalid-feedback" th:each="err : ${#fields.errors('estadoCivil')}" th:text="${err}">
+                                    Por favor seleccione el estado civil.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Información de Dirección -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="text-primary border-bottom pb-2">
+                                    <i class="bi bi-geo-alt me-2"></i>Información de Dirección
+                                </h5>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="direccion" class="form-label">Dirección</label>
+                                <input type="text" class="form-control" id="direccion" th:field="*{direccion}"
+                                       th:classappend="${#fields.hasErrors('direccion')} ? 'is-invalid' : ''">
+                                <div class="invalid-feedback" th:each="err : ${#fields.errors('direccion')}" th:text="${err}">
+                                    Por favor ingrese la dirección del paciente.
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="distrito" class="form-label">Distrito</label>
+                                <input type="text" class="form-control" id="distrito" th:field="*{distrito}"
+                                       th:classappend="${#fields.hasErrors('distrito')} ? 'is-invalid' : ''">
+                                <div class="invalid-feedback" th:each="err : ${#fields.errors('distrito')}" th:text="${err}">
+                                    Por favor ingrese el distrito.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Información de Contacto de Emergencia -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="text-primary border-bottom pb-2">
+                                    <i class="bi bi-exclamation-triangle me-2"></i>Contacto de Emergencia
+                                </h5>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label for="contactoEmergenciaNombre" class="form-label">Nombre del Contacto *</label>
+                                <input type="text" class="form-control" id="contactoEmergenciaNombre" th:field="*{contactoEmergenciaNombre}" required
+                                       th:classappend="${#fields.hasErrors('contactoEmergenciaNombre')} ? 'is-invalid' : ''">
+                                <div class="invalid-feedback" th:each="err : ${#fields.errors('contactoEmergenciaNombre')}" th:text="${err}">
+                                    Por favor ingrese el nombre del contacto de emergencia.
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="contactoEmergenciaTelefono" class="form-label">Teléfono de Emergencia *</label>
+                                <input type="tel" class="form-control" id="contactoEmergenciaTelefono" th:field="*{contactoEmergenciaTelefono}" maxlength="11" required
+                                       th:classappend="${#fields.hasErrors('contactoEmergenciaTelefono')} ? 'is-invalid' : ''">
+                                <div class="invalid-feedback" th:each="err : ${#fields.errors('contactoEmergenciaTelefono')}" th:text="${err}">
+                                    Por favor ingrese el teléfono de emergencia.
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="contactoEmergenciaParentesco" class="form-label">Parentesco *</label>
+                                <select class="form-select" id="contactoEmergenciaParentesco" th:field="*{contactoEmergenciaParentesco}" required
+                                        th:classappend="${#fields.hasErrors('contactoEmergenciaParentesco')} ? 'is-invalid' : ''">
+                                    <option value="">Seleccione...</option>
+                                    <option th:each="p : ${parentescos}" th:value="${p}" th:text="${p}"></option>
+                                </select>
+                                <div class="invalid-feedback" th:each="err : ${#fields.errors('contactoEmergenciaParentesco')}" th:text="${err}">
+                                    Por favor seleccione el parentesco.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Botones de Acción -->
+                        <div class="row">
+                            <div class="col-12">
+                                <hr class="my-4">
+                                <div class="d-flex justify-content-end gap-2">
+                                    <button type="button" class="btn btn-secondary" id="btnCancelar">
+                                        <i class="bi bi-x-circle me-2"></i>Cancelar
+                                    </button>
+                                    <button type="button" class="btn btn-warning" id="btnLimpiar">
+                                        <i class="bi bi-arrow-clockwise me-2"></i>Limpiar
+                                    </button>
+                                    <button type="submit" class="btn btn-primary" id="btnRegistrar">
+                                        <i class="bi bi-check-circle me-2"></i>Registrar Paciente
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de éxito en registro de paciente -->
+<div class="modal fade" id="registroExitosoModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title"><i class="bi bi-check-circle me-2"></i>Registro Exitoso</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>El paciente ha sido registrado correctamente.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div> 

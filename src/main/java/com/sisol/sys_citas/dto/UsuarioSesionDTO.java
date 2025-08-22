@@ -15,8 +15,15 @@ import lombok.ToString;
 public class UsuarioSesionDTO {
     private Long id;
     private String nombres;
-    private String Correo;
+    private String correo; // ¡Cambiado a 'correo' con minúscula!
     private String contrasenia;
     private Rol rol;
+    private String apellidos;
 
+    public String getApellidos() {
+        return apellidos;
+    }
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
 }

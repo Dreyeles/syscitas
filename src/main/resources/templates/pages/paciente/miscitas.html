@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: head"></head>
+
+<body data-bs-spy="scroll" data-bs-target="#header-nav" tabindex="0">
+
+  <!-- Header -->
+  <div th:replace="fragments/header :: header"></div>
+  
+  <!-- Navbar -->
+  <div th:replace="fragments/header :: navbar"></div>
+
+  <!-- Main Content -->
+  <main class="padding-large">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="display-header mb-5">
+            <h1 class="display-4 fw-bold text-center text-dark">Mis Citas</h1>
+            <p class="lead text-center text-muted">Gestiona tus citas médicas de forma fácil y rápida</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mensaje de error si existe -->
+      <div th:if="${error != null}" class="row mb-4">
+        <div class="col-12">
+          <div class="alert alert-danger" role="alert">
+            <h5><i class="bi bi-exclamation-triangle me-2"></i>Error</h5>
+            <p th:text="${error}">Error desconocido</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mensaje cuando no hay citas -->
+      <div th:if="${#lists.isEmpty(citas)}" class="col-12">
+        <div class="text-center py-5">
+          <i class="bi bi-calendar-x display-1 text-muted mb-3"></i>
+          <h3 class="text-muted">No tienes citas agendadas</h3>
+          <p class="text-muted">Agenda tu primera cita médica</p>
+          <a th:href="@{/citas/nueva}" class="btn btn-primary">
+            <i class="bi bi-plus-circle me-2"></i>Agendar Cita
+          </a>
+        </div>
+      </div>
+
+      <!-- Lista de Citas -->
+      <div class="row" th:if="${!#lists.isEmpty(citas)}">
+        <div class="col-12">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">
+              <i class="bi bi-calendar-check me-2"></i>Mis Citas Agendadas
+            </h2>
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-outline-primary btn-sm" onclick="sortCitas('fecha-asc')">
+                <i class="bi bi-sort-up me-1"></i>Fecha ↑
+              </button>
+              <button type="button" class="btn btn-outline-primary btn-sm" onclick="sortCitas('fecha-desc')">
+                <i class="bi bi-sort-down me-1"></i>Fecha ↓
+              </button>
+            </div>
+          </div>
+          
+          <div class="row" id="citas-container">
+            <div th:each="cita : ${citas}" class="col-lg-4 col-md-6 mb-4 cita-card" 
+                 th:attr="data-fecha=${cita.disponibilidad != null ? cita.disponibilidad.fechaDisponibilidad : '9999-12-31'},
+                          data-hora=${cita.disponibilidad != null ? cita.disponibilidad.horaInicio : '23:59'}">
+              <div class="card h-100 shadow-sm border-0" 
+                   th:classappend="${cita.estado == 'CANCELADA'} ? 'opacity-75' : ''">
+                <div class="card-header text-center" 
+                     th:style="${cita.estado == 'CONFIRMADA'} ? 'background-color: #00a39c; color: #fff;' : 
+                               (${cita.estado == 'CANCELADA'} ? 'background-color: #dc3545; color: #fff;' : 
+                               (${cita.estado == 'PENDIENTE'} ? 'background-color: #ffc107; color: #000;' : 'background-color: #6c757d; color: #fff;'))">
+                   <h6 class="mb-0" style="color: #fff;">
+                     <span th:text="${cita.estado}">Estado</span>
+                   </h6>
+                 </div>
+                 <div class="card-body">
+                   <div class="mb-3">
+                     <p class="mb-2"><strong><i class="bi bi-calendar-event me-2"></i>Cita #:</strong> 
+                       <span th:text="${cita.numTicket}">-</span>
+                     </p>
+                     <p class="mb-2"><strong><i class="bi bi-calendar me-2"></i>Fecha:</strong> 
+                       <span th:if="${cita.disponibilidad != null}" th:text="${#temporals.format(cita.disponibilidad.fechaDisponibilidad, 'dd/MM/yyyy')}">-</span>
+                       <span th:if="${cita.disponibilidad == null}" class="text-muted">No disponible</span>
+                     </p>
+                    <p class="mb-2"><strong><i class="bi bi-clock me-2"></i>Hora:</strong> 
+                      <span th:if="${cita.disponibilidad != null}" th:text="${#temporals.format(cita.disponibilidad.horaInicio, 'HH:mm')}">-</span>
+                      <span th:if="${cita.disponibilidad == null}" class="text-muted">No disponible</span>
+                    </p>
+                    <p class="mb-2"><strong><i class="bi bi-person-badge me-2"></i>Médico:</strong> 
+                      <span th:if="${cita.medico != null}" th:text="${cita.medico.nombres + ' ' + cita.medico.apellidos}">-</span>
+                      <span th:if="${cita.medico == null}" class="text-muted">No asignado</span>
+                    </p>
+                    <p class="mb-2"><strong><i class="bi bi-gear me-2"></i>Servicio:</strong> 
+                      <span th:if="${cita.servicio != null}" th:text="${cita.servicio.nombre}">-</span>
+                      <span th:if="${cita.servicio == null}" class="text-muted">No especificado</span>
+                    </p>
+                    <p class="mb-2"><strong><i class="bi bi-building me-2"></i>Especialidad:</strong> 
+                      <span th:if="${cita.medico != null and cita.medico.especialidad != null}" th:text="${cita.medico.especialidad.nombre}">-</span>
+                      <span th:if="${cita.medico == null or cita.medico.especialidad == null}" class="text-muted">No especificada</span>
+                    </p>
+                    <!-- Mostrar información de reagendamiento si aplica -->
+                    <div th:if="${cita.estado == 'CONFIRMADA' and cita.observaciones != null and cita.observaciones.contains('REAGENDADA')}" 
+                         class="alert alert-warning p-2 mt-2" style="font-size: 0.8rem; margin-bottom: 0;">
+                      <small>
+                        <i class="bi bi-info-circle me-1"></i>
+                        <strong>Cita reagendada:</strong> Esta cita fue reagendada anteriormente
+                      </small>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer bg-transparent border-0">
+                  <div class="d-flex gap-2 justify-content-center">
+                    <!-- Botones para citas confirmadas -->
+                    <button class="btn btn-outline-primary btn-sm" 
+                            th:if="${cita.estado == 'CONFIRMADA' and (cita.observaciones == null or !cita.observaciones.contains('REAGENDADA'))}" 
+                            data-bs-toggle="modal" data-bs-target="#reagendarModal"
+                            th:attr="data-num-ticket=${cita.numTicket},
+                                     data-fecha=${cita.disponibilidad != null ? #temporals.format(cita.disponibilidad.fechaDisponibilidad, 'dd/MM/yyyy') : 'No disponible'},
+                                     data-hora=${cita.disponibilidad != null ? #temporals.format(cita.disponibilidad.horaInicio, 'HH:mm') : 'No disponible'},
+                                     data-medico=${cita.medico != null ? cita.medico.nombres + ' ' + cita.medico.apellidos : 'No asignado'},
+                                     data-medico-id=${cita.medico != null ? cita.medico.id : ''},
+                                     data-especialidad=${cita.medico != null and cita.medico.especialidad != null ? cita.medico.especialidad.nombre : 'No especificada'},
+                                     data-servicio=${cita.servicio != null ? cita.servicio.nombre : 'No especificado'}">
+                      <i class="bi bi-pencil me-1"></i>Reagendar
+                    </button>
+                    <button class="btn btn-outline-danger btn-sm" th:if="${cita.estado == 'CONFIRMADA'}"
+                            data-bs-toggle="modal" data-bs-target="#cancelarModal"
+                            th:attr="data-num-ticket=${cita.numTicket}">
+                      <i class="bi bi-x-circle me-1"></i>Cancelar
+                    </button>
+                    
+                    <!-- Botón para citas pendientes -->
+                    <button class="btn btn-outline-info btn-sm" th:if="${cita.estado == 'PENDIENTE'}">
+                      <i class="bi bi-eye me-1"></i>Ver Detalles
+                    </button>
+                    
+                    <!-- Mensaje para citas canceladas -->
+                    <div th:if="${cita.estado == 'CANCELADA'}" class="text-muted text-center">
+                      <i class="bi bi-info-circle me-1"></i>
+                      <small>Esta cita ha sido cancelada</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botones de acción -->
+      <div class="row mt-4">
+        <div class="col-12 text-center">
+          <a th:href="@{/citas/nueva}" class="btn btn-primary me-2">
+            <i class="bi bi-plus-circle me-2"></i>Agendar Nueva Cita
+          </a>
+          <a th:href="@{/inicio}" class="btn btn-outline-secondary">
+            <i class="bi bi-house me-2"></i>Volver al Inicio
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <div th:replace="fragments/footer :: footer"></div>
+
+  <!-- Login Modal -->
+  <div th:replace="fragments/login :: loginModal"></div>
+
+  <!-- Modal Reagendar Cita -->
+  <div class="modal fade" id="reagendarModal" tabindex="-1" aria-labelledby="reagendarModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: #00a39c; color: white;">
+          <h5 class="modal-title" id="reagendarModalLabel" style="color: white;">
+            <i class="bi bi-calendar-event me-2"></i>Reagendar Cita
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Información de la cita actual -->
+          <div class="alert alert-info" role="alert">
+            <h6 class="mb-2"><i class="bi bi-info-circle me-2"></i>Información de la cita actual</h6>
+            <div class="row">
+              <div class="col-md-6">
+                <p class="mb-1"><strong>Cita #:</strong> <span id="modal-num-ticket">-</span></p>
+                <p class="mb-1"><strong>Fecha actual:</strong> <span id="modal-fecha-actual">-</span></p>
+                <p class="mb-1"><strong>Hora actual:</strong> <span id="modal-hora-actual">-</span></p>
+              </div>
+              <div class="col-md-6">
+                <p class="mb-1"><strong>Médico:</strong> <span id="modal-medico">-</span></p>
+                <p class="mb-1"><strong>Especialidad:</strong> <span id="modal-especialidad">-</span></p>
+                <p class="mb-1"><strong>Servicio:</strong> <span id="modal-servicio">-</span></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Formulario para nueva fecha -->
+          <form id="reagendarForm">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="nueva-fecha" class="form-label">
+                  <i class="bi bi-calendar me-1"></i>Nueva Fecha
+                </label>
+                <input type="date" class="form-control" id="nueva-fecha" name="nuevaFecha" required>
+                <div class="form-text">Selecciona la nueva fecha para tu cita</div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="nueva-hora" class="form-label">
+                  <i class="bi bi-clock me-1"></i>Nueva Hora
+                </label>
+                <select class="form-select" id="nueva-hora" name="nuevaHora" required disabled>
+                  <option value="">Primero selecciona una fecha</option>
+                </select>
+                <div class="form-text">Horarios disponibles para la fecha seleccionada</div>
+              </div>
+            </div>
+
+
+
+            <!-- Información adicional -->
+            <div class="alert alert-warning" role="alert">
+              <h6 class="mb-2"><i class="bi bi-exclamation-triangle me-2"></i>Importante</h6>
+              <ul class="mb-0">
+                <li>El reagendamiento debe hacerse con al menos 24 horas de anticipación</li>
+                <li><strong>Solo puedes reagendar una cita una vez</strong></li>
+                <li>Una vez reagendada, no podrás volver a reagendar la misma cita</li>
+                <li>Si necesitas cancelar, usa el botón "Cancelar Cita"</li>
+              </ul>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+            <i class="bi bi-x-circle me-1"></i>Cancelar
+          </button>
+          <button type="button" class="btn btn-primary" id="btn-confirmar-reagendar">
+            <i class="bi bi-check-circle me-1"></i>Confirmar Reagendamiento
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Cancelar Cita -->
+  <div class="modal fade" id="cancelarModal" tabindex="-1" aria-labelledby="cancelarModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: #dc3545; color: white;">
+          <h5 class="modal-title" id="cancelarModalLabel" style="color: white;">
+            <i class="bi bi-exclamation-triangle me-2"></i>Cancelar Cita
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Advertencia -->
+          <div class="alert alert-warning" role="alert">
+            <h6 class="mb-2"><i class="bi bi-exclamation-triangle me-2"></i>¡Atención!</h6>
+            <p class="mb-2">¿Estás seguro de que deseas cancelar esta cita?</p>
+            <ul class="mb-0">
+              <li>Esta acción no se puede deshacer</li>
+              <li>La cita será cancelada definitivamente</li>
+              <li>El horario quedará disponible para otros pacientes</li>
+              <li>Si deseas reagendar, utiliza la opción "Reagendar" en lugar de cancelar</li>
+            </ul>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <i class="bi bi-x-circle me-1"></i>No Cancelar
+          </button>
+          <button type="button" class="btn btn-danger" id="btn-confirmar-cancelar">
+            <i class="bi bi-check-circle me-1"></i>Sí, Cancelar Cita
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script th:src="@{/js/navbar.js}"></script>
+  
+  <script>
+    function sortCitas(criterio) {
+      const container = document.getElementById('citas-container');
+      const citasArray = Array.from(container.querySelectorAll('.cita-card'));
+      
+      citasArray.sort((a, b) => {
+        switch(criterio) {
+          case 'fecha-asc':
+            const fechaA = a.getAttribute('data-fecha');
+            const fechaB = b.getAttribute('data-fecha');
+            if (fechaA === fechaB) {
+              const horaA = a.getAttribute('data-hora');
+              const horaB = b.getAttribute('data-hora');
+              return horaA.localeCompare(horaB);
+            }
+            return fechaA.localeCompare(fechaB);
+            
+          case 'fecha-desc':
+            const fechaA2 = a.getAttribute('data-fecha');
+            const fechaB2 = b.getAttribute('data-fecha');
+            if (fechaA2 === fechaB2) {
+              const horaA2 = a.getAttribute('data-hora');
+              const horaB2 = b.getAttribute('data-hora');
+              return horaB2.localeCompare(horaA2);
+            }
+            return fechaB2.localeCompare(fechaA2);
+            
+          default:
+            return 0;
+        }
+      });
+      
+      // Limpiar el contenedor y volver a agregar las citas ordenadas
+      container.innerHTML = '';
+      citasArray.forEach(cita => container.appendChild(cita));
+      
+      // Actualizar el estado visual de los botones
+      document.querySelectorAll('.btn-group button').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.target.classList.add('active');
+    }
+
+    // Manejar el modal de reagendar
+    document.addEventListener('DOMContentLoaded', function() {
+      const reagendarModal = document.getElementById('reagendarModal');
+      const cancelarModal = document.getElementById('cancelarModal');
+      
+      // Variables globales para reagendamiento
+      let citaAReagendar = null;
+      let medicoIdReagendar = null;
+      
+      // Modal de reagendar
+      reagendarModal.addEventListener('show.bs.modal', function (event) {
+        // Botón que activó el modal
+        const button = event.relatedTarget;
+        
+        // Extraer información de los atributos data-*
+        const numTicket = button.getAttribute('data-num-ticket');
+        const fecha = button.getAttribute('data-fecha');
+        const hora = button.getAttribute('data-hora');
+        const medico = button.getAttribute('data-medico');
+        const medicoId = button.getAttribute('data-medico-id');
+        const especialidad = button.getAttribute('data-especialidad');
+        const servicio = button.getAttribute('data-servicio');
+        
+        // Guardar datos para el reagendamiento
+        citaAReagendar = numTicket;
+        medicoIdReagendar = medicoId;
+        
+        // Actualizar el contenido del modal
+        document.getElementById('modal-num-ticket').textContent = numTicket || '-';
+        document.getElementById('modal-fecha-actual').textContent = fecha || '-';
+        document.getElementById('modal-hora-actual').textContent = hora || '-';
+        document.getElementById('modal-medico').textContent = medico || '-';
+        document.getElementById('modal-especialidad').textContent = especialidad || '-';
+        document.getElementById('modal-servicio').textContent = servicio || '-';
+        
+        // Limpiar y preparar los campos de nueva fecha y hora
+        const nuevaFechaInput = document.getElementById('nueva-fecha');
+        const nuevaHoraSelect = document.getElementById('nueva-hora');
+        
+        nuevaFechaInput.value = '';
+        nuevaHoraSelect.innerHTML = '<option value="">Primero selecciona una fecha</option>';
+        nuevaHoraSelect.disabled = true;
+        
+        // Configurar fecha mínima (mañana)
+        const mañana = new Date();
+        mañana.setDate(mañana.getDate() + 1);
+        nuevaFechaInput.min = mañana.toISOString().split('T')[0];
+      });
+
+      // Modal de cancelar
+      let citaACancelar = null;
+      
+      cancelarModal.addEventListener('show.bs.modal', function (event) {
+        // Botón que activó el modal
+        const button = event.relatedTarget;
+        
+        // Extraer el número de ticket
+        const numTicket = button.getAttribute('data-num-ticket');
+        
+        // Guardar el número de ticket para la cancelación
+        citaACancelar = numTicket;
+      });
+
+      // Event listeners para reagendamiento
+      document.getElementById('nueva-fecha').addEventListener('change', function() {
+        const fecha = this.value;
+        const nuevaHoraSelect = document.getElementById('nueva-hora');
+        
+        if (!fecha) {
+          nuevaHoraSelect.innerHTML = '<option value="">Primero selecciona una fecha</option>';
+          nuevaHoraSelect.disabled = true;
+          return;
+        }
+        
+        // Crear fecha en UTC para evitar problemas de zona horaria
+        const [year, month, day] = fecha.split('-').map(Number);
+        const fechaObj = new Date(Date.UTC(year, month - 1, day));
+        const diaSemana = fechaObj.getUTCDay();
+        
+        // Validar que no sea domingo (0)
+        if (diaSemana === 0) {
+          alert('No se pueden agendar citas en domingos. Por favor seleccione otra fecha.');
+          this.value = '';
+          nuevaHoraSelect.innerHTML = '<option value="">Primero selecciona una fecha</option>';
+          nuevaHoraSelect.disabled = true;
+          return;
+        }
+        
+        // Cargar horarios disponibles para la nueva fecha
+        if (medicoIdReagendar) {
+          cargarHorariosDisponiblesReagendar(medicoIdReagendar, fecha);
+        }
+      });
+
+      // Manejar la confirmación de cancelación
+      document.getElementById('btn-confirmar-cancelar').addEventListener('click', function() {
+        if (!citaACancelar) {
+          alert('Error: No se pudo identificar la cita a cancelar');
+          return;
+        }
+        
+        // Mostrar loading en el botón
+        const btnConfirmar = this;
+        const textoOriginal = btnConfirmar.innerHTML;
+        btnConfirmar.innerHTML = '<i class="spinner-border spinner-border-sm me-1"></i>Cancelando...';
+        btnConfirmar.disabled = true;
+
+        // Realizar la petición AJAX para cancelar la cita
+        fetch('/api/citas/cancelar', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            numTicket: citaACancelar,
+            motivoCancelacion: null
+          })
+        })
+        .then(response => {
+          if (!response.ok) {
+            return response.json().then(err => Promise.reject(err));
+          }
+          return response.json();
+        })
+        .then(data => {
+          // Cerrar el modal
+          const modal = bootstrap.Modal.getInstance(cancelarModal);
+          modal.hide();
+          
+          // Mostrar mensaje de éxito
+          alert('Cita cancelada exitosamente. El horario ha quedado disponible para otros pacientes.');
+          
+          // Recargar la página para mostrar los cambios
+          window.location.reload();
+        })
+        .catch(error => {
+          console.error('Error al cancelar la cita:', error);
+          alert('Error al cancelar la cita: ' + (error.mensaje || error.message || 'Error desconocido'));
+        })
+        .finally(() => {
+          // Restaurar el botón
+          btnConfirmar.innerHTML = textoOriginal;
+          btnConfirmar.disabled = false;
+        });
+      });
+
+      // Manejar la confirmación de reagendamiento
+      document.getElementById('btn-confirmar-reagendar').addEventListener('click', function() {
+        const nuevaFecha = document.getElementById('nueva-fecha').value;
+        const nuevaHora = document.getElementById('nueva-hora').value;
+        
+        if (!citaAReagendar) {
+          alert('Error: No se pudo identificar la cita a reagendar');
+          return;
+        }
+        
+        if (!nuevaFecha || !nuevaHora) {
+          alert('Por favor seleccione la nueva fecha y hora para la cita');
+          return;
+        }
+        
+        // Mostrar loading en el botón
+        const btnConfirmar = this;
+        const textoOriginal = btnConfirmar.innerHTML;
+        btnConfirmar.innerHTML = '<i class="spinner-border spinner-border-sm me-1"></i>Reagendando...';
+        btnConfirmar.disabled = true;
+
+        // Realizar la petición AJAX para reagendar la cita
+        reagendarCita(citaAReagendar, nuevaHora, btnConfirmar, textoOriginal);
+      });
+    });
+
+    // Funciones para reagendamiento
+    async function cargarHorariosDisponiblesReagendar(medicoId, fecha) {
+      const nuevaHoraSelect = document.getElementById('nueva-hora');
+      
+      try {
+        // Mostrar loading
+        nuevaHoraSelect.innerHTML = '<option value="">Cargando horarios...</option>';
+        nuevaHoraSelect.disabled = true;
+        
+        const response = await fetch(`/api/agendar-cita/horarios/${medicoId}/${fecha}`);
+        const horarios = await response.json();
+        
+        // Limpiar el select
+        nuevaHoraSelect.innerHTML = '';
+        
+        // Verificar si hay horarios disponibles
+        if (horarios && horarios.length > 0) {
+          nuevaHoraSelect.innerHTML = '<option value="">Selecciona una nueva hora...</option>';
+          nuevaHoraSelect.disabled = false;
+          
+          horarios.forEach(horario => {
+            const option = document.createElement('option');
+            option.value = horario.id;
+            
+            // Formatear la hora para mostrar solo HH:MM
+            let horaFormateada = horario.horaInicio;
+            if (horaFormateada) {
+              // Si la hora viene con segundos, los removemos
+              if (horaFormateada.includes(':')) {
+                const partes = horaFormateada.split(':');
+                if (partes.length >= 2) {
+                  horaFormateada = partes[0] + ':' + partes[1];
+                }
+              }
+            }
+            
+            option.textContent = horaFormateada;
+            nuevaHoraSelect.appendChild(option);
+          });
+        } else {
+          // No hay horarios disponibles
+          nuevaHoraSelect.innerHTML = '<option value="">No hay horarios disponibles</option>';
+          nuevaHoraSelect.disabled = true;
+        }
+      } catch (error) {
+        console.error('Error al cargar horarios para reagendar:', error);
+        nuevaHoraSelect.innerHTML = '<option value="">Error al cargar horarios</option>';
+        nuevaHoraSelect.disabled = true;
+      }
+    }
+
+    async function reagendarCita(numTicket, nuevaDisponibilidadId, btnConfirmar, textoOriginal) {
+      try {
+        const response = await fetch('/api/citas/reagendar', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            numTicket: numTicket,
+            nuevaDisponibilidadId: nuevaDisponibilidadId
+          })
+        });
+        
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.mensaje || 'Error al reagendar la cita');
+        }
+        
+        const data = await response.json();
+        
+        // Cerrar el modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('reagendarModal'));
+        modal.hide();
+        
+        // Mostrar mensaje de éxito
+        alert('Cita reagendada exitosamente. Se ha confirmado tu nueva fecha y hora.');
+        
+        // Recargar la página para mostrar los cambios
+        window.location.reload();
+        
+      } catch (error) {
+        console.error('Error al reagendar la cita:', error);
+        alert('Error al reagendar la cita: ' + error.message);
+      } finally {
+        // Restaurar el botón
+        btnConfirmar.innerHTML = textoOriginal;
+        btnConfirmar.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>

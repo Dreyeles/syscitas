@@ -1,6 +1,7 @@
 package com.sisol.sys_citas.model;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 // import java.util.Set; // Si quisieras una relación OneToMany con Citas
 
 @Entity
@@ -17,8 +18,13 @@ public class Servicio {
     @Column(name = "descripcion", length = 500)
     private String descripcion;
 
-    @Column(name = "costo", nullable = false)
-    private Double costo;
+    @Column(name = "precio_servicio", nullable = false, precision = 10, scale = 2)
+    private BigDecimal precioServicio;
+
+    // Relación ManyToOne con Especialidad
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "especialidad_id", nullable = false)
+    private Especialidad especialidad;
 
     // Si un servicio puede tener muchas citas (relación inversa):
     // @OneToMany(mappedBy = "servicio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -27,10 +33,11 @@ public class Servicio {
     // --- Constructores ---
     public Servicio() {}
 
-    public Servicio(String nombre, String descripcion, Double costo) {
+    public Servicio(String nombre, String descripcion, BigDecimal precioServicio, Especialidad especialidad) {
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.costo = costo;
+        this.precioServicio = precioServicio;
+        this.especialidad = especialidad;
     }
 
     // --- Getters y Setters ---
@@ -40,8 +47,12 @@ public class Servicio {
     public void setNombre(String nombre) { this.nombre = nombre; }
     public String getDescripcion() { return descripcion; }
     public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
-    public Double getCosto() { return costo; }
-    public void setCosto(Double costo) { this.costo = costo; }
+    public BigDecimal getPrecioServicio() { return precioServicio; }
+    public void setPrecioServicio(BigDecimal precioServicio) { this.precioServicio = precioServicio; }
+    
+    public Especialidad getEspecialidad() { return especialidad; }
+    public void setEspecialidad(Especialidad especialidad) { this.especialidad = especialidad; }
+    
     // public Set<Cita> getCitas() { return citas; } // Si añades la relación OneToMany
     // public void setCitas(Set<Cita> citas) { this.citas = citas; }
 }

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Historial del Paciente</title>
+</head>
+<body>
+    <div th:fragment="historial-paciente">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <i class="bi bi-journal-medical me-2"></i>
+                    Historial Médico del Paciente
+                </h5>
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-outline-primary btn-sm" id="btnNuevaConsulta">
+                        <i class="bi bi-plus-circle me-1"></i>
+                        Nueva Consulta
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm">
+                        <i class="bi bi-printer me-1"></i>
+                        Imprimir
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <!-- Información del Paciente -->
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <h6 class="text-primary">Paciente</h6>
+                                        <p class="mb-1"><strong>Nombre:</strong> María González López</p>
+                                        <p class="mb-1"><strong>DNI:</strong> 12345678</p>
+                                        <p class="mb-1"><strong>Edad:</strong> 28 años</p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6 class="text-primary">Contacto</h6>
+                                        <p class="mb-1"><strong>Teléfono:</strong> 987654321</p>
+                                        <p class="mb-1"><strong>Email:</strong> maria.gonzalez@email.com</p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6 class="text-primary">Información Médica</h6>
+                                        <p class="mb-1"><strong>Grupo Sanguíneo:</strong> O+</p>
+                                        <p class="mb-1"><strong>Alergias:</strong> Penicilina</p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6 class="text-primary">Estado</h6>
+                                        <p class="mb-1"><strong>Estado:</strong> <span class="badge bg-success">Activo</span></p>
+                                        <p class="mb-1"><strong>Última Visita:</strong> 15/03/2024</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filtros de búsqueda -->
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label for="filtroFechaHistorial" class="form-label">Rango de Fechas</label>
+                        <select class="form-select" id="filtroFechaHistorial">
+                            <option value="">Todos los registros</option>
+                            <option value="ultimo-mes">Último mes</option>
+                            <option value="ultimos-3-meses">Últimos 3 meses</option>
+                            <option value="ultimo-ano">Último año</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="filtroTipoConsulta" class="form-label">Tipo de Consulta</label>
+                        <select class="form-select" id="filtroTipoConsulta">
+                            <option value="">Todas</option>
+                            <option value="consulta-general">Consulta General</option>
+                            <option value="especialidad">Especialidad</option>
+                            <option value="emergencia">Emergencia</option>
+                            <option value="control">Control</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="filtroMedicoHistorial" class="form-label">Médico</label>
+                        <select class="form-select" id="filtroMedicoHistorial">
+                            <option value="">Todos</option>
+                            <option value="dr-garcia">Dr. García</option>
+                            <option value="dra-martinez">Dra. Martínez</option>
+                            <option value="dr-rodriguez">Dr. Rodríguez</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 d-flex align-items-end">
+                        <div class="d-flex gap-2 w-100">
+                            <button type="button" class="btn btn-primary btn-sm flex-fill" id="btnBuscarHistorial">
+                                <i class="bi bi-search me-1"></i>
+                                Buscar
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm" id="btnLimpiarFiltrosHistorial">
+                                <i class="bi bi-arrow-clockwise me-1"></i>
+                                Limpiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botones de exportación -->
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn btn-success btn-sm" id="btnExportarExcelHistorial">
+                                <i class="bi bi-file-earmark-excel me-1"></i>
+                                Exportar Excel
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm" id="btnExportarPDFHistorial">
+                                <i class="bi bi-file-earmark-pdf me-1"></i>
+                                Exportar PDF
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline del Historial -->
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker bg-primary">
+                            <i class="bi bi-stethoscope"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h6 class="mb-0">Consulta General - Dr. García</h6>
+                                    <span class="badge bg-primary">15/03/2024</span>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h6 class="text-primary">Síntomas</h6>
+                                            <p>Dolor de cabeza, fiebre leve, malestar general</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h6 class="text-primary">Diagnóstico</h6>
+                                            <p>Resfriado común con fiebre leve</p>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-md-6">
+                                            <h6 class="text-primary">Tratamiento</h6>
+                                            <p>Paracetamol 500mg cada 6 horas, reposo, hidratación</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h6 class="text-primary">Observaciones</h6>
+                                            <p>Paciente responde bien al tratamiento</p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3">
+                                        <button type="button" class="btn btn-outline-info btn-sm" onclick="verDetallesConsulta('C001')">
+                                            <i class="bi bi-eye me-1"></i>
+                                            Ver Detalles
+                                        </button>
+                                        <button type="button" class="btn btn-outline-warning btn-sm" onclick="editarConsulta('C001')">
+                                            <i class="bi bi-pencil me-1"></i>
+                                            Editar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker bg-success">
+                            <i class="bi bi-heart-pulse"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h6 class="mb-0">Control Cardiológico - Dra. Martínez</h6>
+                                    <span class="badge bg-success">10/02/2024</span>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h6 class="text-primary">Examen</h6>
+                                            <p>Electrocardiograma, presión arterial</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h6 class="text-primary">Resultados</h6>
+                                            <p>Presión: 120/80, ECG normal</p>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-md-6">
+                                            <h6 class="text-primary">Recomendaciones</h6>
+                                            <p>Mantener dieta baja en sal, ejercicio regular</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h6 class="text-primary">Próximo Control</h6>
+                                            <p>3 meses</p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3">
+                                        <button type="button" class="btn btn-outline-info btn-sm" onclick="verDetallesConsulta('C002')">
+                                            <i class="bi bi-eye me-1"></i>
+                                            Ver Detalles
+                                        </button>
+                                        <button type="button" class="btn btn-outline-warning btn-sm" onclick="editarConsulta('C002')">
+                                            <i class="bi bi-pencil me-1"></i>
+                                            Editar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker bg-warning">
+                            <i class="bi bi-exclamation-triangle"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h6 class="mb-0">Emergencia - Dr. Rodríguez</h6>
+                                    <span class="badge bg-warning">25/01/2024</span>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h6 class="text-primary">Motivo</h6>
+                                            <p>Dolor abdominal agudo</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h6 class="text-primary">Diagnóstico</h6>
+                                            <p>Apendicitis aguda</p>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-md-6">
+                                            <h6 class="text-primary">Tratamiento</h6>
+                                            <p>Cirugía de apendicectomía</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h6 class="text-primary">Estado</h6>
+                                            <p>Recuperación exitosa</p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3">
+                                        <button type="button" class="btn btn-outline-info btn-sm" onclick="verDetallesConsulta('C003')">
+                                            <i class="bi bi-eye me-1"></i>
+                                            Ver Detalles
+                                        </button>
+                                        <button type="button" class="btn btn-outline-warning btn-sm" onclick="editarConsulta('C003')">
+                                            <i class="bi bi-pencil me-1"></i>
+                                            Editar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Paginación -->
+                <nav aria-label="Navegación de páginas" class="mt-4">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Siguiente</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Modal Detalles de Consulta -->
+        <div class="modal fade" id="detallesConsultaModal" tabindex="-1" aria-labelledby="detallesConsultaModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="detallesConsultaModalLabel">
+                            <i class="bi bi-journal-text me-2"></i>
+                            Detalles de la Consulta
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6 class="text-primary">Información General</h6>
+                                <p><strong>Fecha:</strong> <span id="fechaConsultaDetalle">-</span></p>
+                                <p><strong>Médico:</strong> <span id="medicoConsultaDetalle">-</span></p>
+                                <p><strong>Tipo de Consulta:</strong> <span id="tipoConsultaDetalle">-</span></p>
+                                <p><strong>Duración:</strong> <span id="duracionConsultaDetalle">-</span></p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="text-primary">Vitales</h6>
+                                <p><strong>Presión Arterial:</strong> <span id="presionDetalle">-</span></p>
+                                <p><strong>Temperatura:</strong> <span id="temperaturaDetalle">-</span></p>
+                                <p><strong>Pulso:</strong> <span id="pulsoDetalle">-</span></p>
+                                <p><strong>Peso:</strong> <span id="pesoDetalle">-</span></p>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <h6 class="text-primary">Síntomas</h6>
+                                <p id="sintomasDetalle">-</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="text-primary">Diagnóstico</h6>
+                                <p id="diagnosticoDetalle">-</p>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <h6 class="text-primary">Tratamiento</h6>
+                                <p id="tratamientoDetalle">-</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="text-primary">Observaciones</h6>
+                                <p id="observacionesDetalle">-</p>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <h6 class="text-primary">Medicamentos Recetados</h6>
+                                <div id="medicamentosDetalle">-</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary">Editar Consulta</button>
+                        <button type="button" class="btn btn-success">Imprimir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Estilos para Timeline -->
+        <style>
+            .timeline {
+                position: relative;
+                padding: 20px 0;
+            }
+            
+            .timeline::before {
+                content: '';
+                position: absolute;
+                left: 30px;
+                top: 0;
+                bottom: 0;
+                width: 2px;
+                background: #dee2e6;
+            }
+            
+            .timeline-item {
+                position: relative;
+                margin-bottom: 30px;
+                padding-left: 60px;
+            }
+            
+            .timeline-marker {
+                position: absolute;
+                left: 20px;
+                top: 0;
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-size: 10px;
+            }
+            
+            .timeline-content {
+                background: white;
+                border-radius: 8px;
+            }
+        </style>
+    </div>
+</body>
+</html> 

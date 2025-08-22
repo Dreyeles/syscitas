@@ -1,0 +1,328 @@
+/* Variables CSS */
+:root {
+  --accent-color: #333;
+  --black-color: #000;
+  --dark-color: #4C5354;
+  --primary-color: #1CBCCF;
+  --primary-color-200: #E8F0F1;
+  --primary-color-400: #c4e9ed;
+  --gray-color: #777F81;
+  --bs-gray-300: #DCDCDC;
+  --bs-light-rgb: rgba(255, 255, 255, 1);
+  --bs-primary-rgb: rgba(144, 198, 205, 1);
+  --light-color: #fff;
+  --swiper-theme-color: #111 !important;
+  --cadet-blue-color: #9AB4B7;
+  --body-font: "Poppins", sans-serif;
+  --heading-font: "Poppins", sans-serif;
+}
+
+/* Estilos generales */
+html {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  scroll-padding-top: 100px; 
+}
+
+body {
+  font-family: var(--body-font);
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--accent-color);
+  margin: 0;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Tipografía */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--heading-font);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--dark-color);
+  margin-bottom: 20px;
+}
+
+.text-primary {
+  color: var(--primary-color) !important;
+}
+
+.text-primary-500 {
+  color: var(--bs-primary-rgb) !important;
+}
+
+.text-dark {
+  color: var(--dark-color) !important;
+}
+
+.text-light {
+  color: var(--light-color) !important;
+}
+
+.text-cadet-blue {
+  color: var(--cadet-blue-color) !important;
+}
+
+/* Fondos */
+.bg-light {
+  background-color: var(--light-color) !important;
+}
+
+.bg-primary {
+  background-color: var(--primary-color) !important;
+}
+
+.bg-primary-200 {
+  background-color: var(--primary-color-200) !important;
+}
+
+/* Bordes y radios */
+.border-radius-10 {
+  border-radius: 10px;
+}
+
+.border-radius-20 {
+  border-radius: 20px;
+}
+
+/* Espaciado de secciones */
+.padding-small {
+  padding: 50px 0;
+}
+
+.padding-medium {
+  padding: 80px 0;
+}
+
+.padding-large {
+  padding: 120px 0;
+}
+
+@media only screen and (max-width: 768px) {
+  .padding-large {
+    padding: 80px 0;
+  }
+}
+
+/* Banner principal */
+.banner {
+  position: relative;
+  width: 100%;
+  max-width: 1920px;
+  height: 800px;
+  overflow: hidden;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  background-image: linear-gradient(
+    to left,
+    rgba(0,0,0,0) 0%,
+    rgba(0,0,0,0.5) 25%,
+    rgba(0,0,0,0.8) 50%
+  ), url('/img/hero-banner.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.banner-content {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50%;
+  z-index: 2;
+  padding: 2.5rem 2rem;
+  margin-left: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: none;
+}
+
+.banner-content h1,
+.banner-content p {
+  color: #fff !important;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+
+.banner-title {
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+
+.banner-desc {
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+
+@media (max-width: 767px) {
+  .banner {
+    height: auto;
+    aspect-ratio: 3/4;
+    min-height: 300px;
+    max-height: 80vh;
+  }
+  .banner-content {
+    width: 100%;
+    padding: 1.5rem 1rem;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    align-items: flex-start;
+  }
+}
+
+/* Servicios */
+#our-services {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-400) 100%);
+  position: relative;
+}
+
+#our-services::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url(/img/services-bg.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  opacity: 0.1;
+  z-index: 1;
+}
+
+#our-services .container {
+  position: relative;
+  z-index: 2;
+}
+
+#our-services .icon-box {
+  transition: all 0.3s ease;
+}
+
+#our-services .icon-box:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Mejorar legibilidad del texto en la sección de servicios */
+#our-services .text-light {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+#our-services h2.text-light {
+  font-weight: 700;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* FAQ */
+.accordion .accordion-item {
+  border: 1px solid var(--bs-gray-300);
+}
+
+.accordion .accordion-button:not(.collapsed) {
+  background-color: var(--primary-color-200);
+  color: var(--dark-color);
+}
+
+/* Departamentos médicos */
+.medical-department-tab .nav-tabs .nav-item.show .nav-link,
+.medical-department-tab .nav-tabs .nav-link.active {
+  background-color: var(--primary-color);
+  color: var(--light-color);
+}
+
+.medical-department-tab .tab-content .tab-pane {
+  padding: 30px;
+  background: var(--light-color);
+  border-radius: 10px;
+  position: relative;
+}
+
+.medical-department-tab .tab-content .tab-pane:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: var(--primary-color);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+/* Enlaces de departamentos */
+.department-links {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 1rem;
+}
+
+.department-links li {
+  cursor: pointer;
+  padding: 4px 0;
+  transition: color 0.2s, text-decoration 0.2s;
+}
+
+.department-links li:hover {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+/* Contadores */
+.counter-info {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.counter-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.counter-prefix {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.counter-description {
+  font-size: 1.1rem;
+  color: var(--gray-color);
+  margin: 0;
+}
+
+/* Dropdown header */
+.dropdown-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Responsive */
+@media only screen and (max-width: 1280px) {
+  .medical-department-tab .tab-content .tab-pane {
+    padding: 20px;
+  }
+}
+
+@media only screen and (max-width: 680px) {
+  #department .medical-department-tab {
+    margin-top: 30px;
+  }
+
+  .medical-department-tab button {
+    font-size: 14px;
+    padding: 8px 15px;
+  }
+
+  .medical-department-tab .nav-tabs {
+    flex-direction: column;
+  }
+} 

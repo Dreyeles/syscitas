@@ -1,4 +1,4 @@
-package com.sisol.sys_citas.exceptions;
+package com.sisol.sys_citas.clients.reciec.exception;
 
 public class RegistroException extends RuntimeException {
 

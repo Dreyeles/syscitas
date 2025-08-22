@@ -1,5 +1,6 @@
 package com.sisol.sys_citas.controller;
 
+import com.sisol.sys_citas.clients.reciec.exception.RegistroException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,10 +13,8 @@ import jakarta.validation.Valid;
 
 import com.sisol.sys_citas.dto.RegistroUsuarioDTO;
 import com.sisol.sys_citas.enums.EstadoCivil;
-import com.sisol.sys_citas.enums.GrupoSanguineo;
 import com.sisol.sys_citas.enums.Sexo;
 import com.sisol.sys_citas.service.RegistroService;
-import com.sisol.sys_citas.exceptions.RegistroException; // Importar tu excepción personalizada
 
 @Controller
 @RequestMapping("/auth")
@@ -28,17 +27,15 @@ public class AutenticacionController {
     }
 
     // --- MÉTODO PARA LA PÁGINA DE LOGIN ---
-    @GetMapping("/login") // Este método manejará las solicitudes GET a /auth/login
+    @GetMapping("/login")
     public String showLoginForm(Model model) {
-        // Al devolver "fragments/login", Thymeleaf buscará el archivo en
-        // src/main/resources/templates/fragments/login.html
-        return "fragments/login";
+        // Redirigir a la página de inicio con el modal de login abierto
+        return "redirect:/inicio?showLoginModal=true";
     }
     // --- FIN DEL MÉTODO DE LOGIN ---
 
     // --- MÉTODOS DE REGISTRO DE PACIENTES ---
 
-    // Este método manejará las solicitudes GET a /auth/registro/mostrar
     @GetMapping("/registro/mostrar")
     public String showRegistrationForm(Model model) {
         if (!model.containsAttribute("registroUsuarioDTO")) {
@@ -46,9 +43,14 @@ public class AutenticacionController {
         }
         model.addAttribute("sexos", Sexo.values());
         model.addAttribute("estadosCiviles", EstadoCivil.values());
-        model.addAttribute("gruposSanguineos", GrupoSanguineo.values());
+        model.addAttribute("parentescos", new String[]{"Conyuge", "Padre", "Madre", "Hijo", "Hermano", "Amigo", "Otro"});
 
-        return "registrousuario";
+        return "pages/paciente/registrousuario";
+    }
+    
+    @GetMapping("/registro-paciente")
+    public String showRegistrationFormAlternativo(Model model) {
+        return showRegistrationForm(model);
     }
 
     @PostMapping("/registrar")
@@ -57,46 +59,34 @@ public class AutenticacionController {
                                RedirectAttributes redirectAttributes,
                                Model model) {
 
-        // Validaciones iniciales del DTO (anotaciones @Valid)
-        if (bindingResult.hasErrors()) {
-            // Si hay errores de validación del DTO, se vuelve al formulario
-            model.addAttribute("sexos", Sexo.values());
-            model.addAttribute("estadosCiviles", EstadoCivil.values());
-            model.addAttribute("gruposSanguineos", GrupoSanguineo.values());
-            return "registrousuario";
-        }
-
-        // Validación de coincidencia de contraseñas
+        // Validar contraseñas antes de verificar bindingResult
         if (!registroUsuarioDTO.contraseniasCoinciden()) {
-            bindingResult.rejectValue("confirmarContrasenia", "error.registroUsuarioDTO", "Las contraseñas no coinciden.");
+            bindingResult.rejectValue("confirmarContrasenia", "contrasenia.mismatch", "Las contraseñas no coinciden.");
         }
 
-        // Re-check de errores después de la validación de contraseñas
         if (bindingResult.hasErrors()) {
             model.addAttribute("sexos", Sexo.values());
             model.addAttribute("estadosCiviles", EstadoCivil.values());
-            model.addAttribute("gruposSanguineos", GrupoSanguineo.values());
-            return "registrousuario";
+            model.addAttribute("parentescos", new String[]{"Conyuge", "Padre", "Madre", "Hijo", "Hermano", "Amigo", "Otro"});
+            return "pages/paciente/registrousuario";
         }
 
         try {
             registroService.registrarNuevoPaciente(registroUsuarioDTO);
-            redirectAttributes.addFlashAttribute("mensajeExito", "¡Registro de paciente exitoso! Ahora puedes iniciar sesión.");
-            return "redirect:/auth/login";
-        } catch (RegistroException e) { // Cambiado de IllegalStateException a RegistroException
-            bindingResult.reject("error.registroUsuarioDTO", e.getMessage()); // Añade el mensaje de error al BindingResult
+            redirectAttributes.addFlashAttribute("mensajeExito", "Registro exitoso. Por favor inicie sesión.");
+            return "redirect:/inicio?showLoginModal=true";
+        } catch (RegistroException e) {
+            model.addAttribute("error", e.getMessage());
             model.addAttribute("sexos", Sexo.values());
             model.addAttribute("estadosCiviles", EstadoCivil.values());
-            model.addAttribute("gruposSanguineos", GrupoSanguineo.values());
-            return "registrousuario";
+            model.addAttribute("parentescos", new String[]{"Conyuge", "Padre", "Madre", "Hijo", "Hermano", "Amigo", "Otro"});
+            return "pages/paciente/registrousuario";
         } catch (Exception e) {
-            // Para cualquier otro error inesperado no cubierto por RegistroException
-            bindingResult.reject("error.registroUsuarioDTO", "Ocurrió un error inesperado al registrar: " + e.getMessage());
-            e.printStackTrace(); // Imprime la traza de la pila para depuración
+            model.addAttribute("error", "Ocurrió un error inesperado durante el registro. Por favor, inténtalo de nuevo más tarde.");
             model.addAttribute("sexos", Sexo.values());
             model.addAttribute("estadosCiviles", EstadoCivil.values());
-            model.addAttribute("gruposSanguineos", GrupoSanguineo.values());
-            return "registrousuario";
+            model.addAttribute("parentescos", new String[]{"Conyuge", "Padre", "Madre", "Hijo", "Hermano", "Amigo", "Otro"});
+            return "pages/paciente/registrousuario";
         }
     }
     // --- FIN MÉTODOS DE REGISTRO DE PACIENTES ---

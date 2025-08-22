@@ -1,9 +1,8 @@
 package com.sisol.sys_citas.enums;
 
 public enum Sexo {
-    MASCULINO("Masculino"),
-    FEMENINO("Femenino"),
-    OTRO("Otro");
+    MASCULINO("MASCULINO"),
+    FEMENINO("FEMENINO");
 
     private final String displayName;
 

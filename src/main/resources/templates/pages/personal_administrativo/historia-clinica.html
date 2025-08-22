@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historia Clínica - SISOL</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+            <!-- Main Content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">
+                        <i class="fas fa-notes-medical"></i> Historia Clínica
+                    </h1>
+                    <button class="btn btn-primary" onclick="nuevaHistoriaClinica()">
+                        <i class="fas fa-plus"></i> Nueva Historia Clínica
+                    </button>
+                </div>
+
+                <!-- Filtros -->
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <label for="filtroPaciente" class="form-label">Buscar Paciente</label>
+                        <input type="text" class="form-control" id="filtroPaciente" placeholder="Nombre o DNI del paciente...">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="filtroGrupoSanguineo" class="form-label">Grupo Sanguíneo</label>
+                        <select class="form-select" id="filtroGrupoSanguineo">
+                            <option value="">Todos</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 d-flex align-items-end">
+                        <button class="btn btn-primary me-2" onclick="aplicarFiltros()">
+                            <i class="fas fa-search"></i> Buscar
+                        </button>
+                        <button class="btn btn-secondary" onclick="limpiarFiltros()">
+                            <i class="fas fa-times"></i> Limpiar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tabla de Historias Clínicas -->
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Paciente</th>
+                                <th>Grupo Sanguíneo</th>
+                                <th>Alergias</th>
+                                <th>Enfermedades Crónicas</th>
+                                <th>Fecha Creación</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaHistorias">
+                            <!-- Los datos se cargarán dinámicamente -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Paginación -->
+                <nav aria-label="Navegación de páginas">
+                    <ul class="pagination justify-content-center" id="paginacion">
+                        <!-- La paginación se generará dinámicamente -->
+                    </ul>
+                </nav>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal para Historia Clínica -->
+    <div class="modal fade" id="modalHistoriaClinica" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Historia Clínica</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formHistoriaClinica">
+                        <input type="hidden" id="historiaId">
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="pacienteId" class="form-label">Paciente</label>
+                                    <select class="form-select" id="pacienteId" required>
+                                        <option value="">Seleccionar paciente...</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="grupoSanguineo" class="form-label">Grupo Sanguíneo</label>
+                                    <select class="form-select" id="grupoSanguineo" required>
+                                        <option value="">Seleccionar grupo sanguíneo...</option>
+                                        <option value="A+">A+</option>
+                                        <option value="A-">A-</option>
+                                        <option value="B+">B+</option>
+                                        <option value="B-">B-</option>
+                                        <option value="AB+">AB+</option>
+                                        <option value="AB-">AB-</option>
+                                        <option value="O+">O+</option>
+                                        <option value="O-">O-</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="alergias" class="form-label">Alergias</label>
+                                    <textarea class="form-control" id="alergias" rows="3" placeholder="Describa las alergias del paciente..." required></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="enfermedadesCronicas" class="form-label">Enfermedades Crónicas</label>
+                                    <textarea class="form-control" id="enfermedadesCronicas" rows="3" placeholder="Describa las enfermedades crónicas..." required></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="antecedentesPersonales" class="form-label">Antecedentes Personales</label>
+                                    <textarea class="form-control" id="antecedentesPersonales" rows="3" placeholder="Antecedentes personales del paciente..." required></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="antecedentesFamiliares" class="form-label">Antecedentes Familiares</label>
+                                    <textarea class="form-control" id="antecedentesFamiliares" rows="3" placeholder="Antecedentes familiares..." required></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="medicacionActual" class="form-label">Medicación Actual</label>
+                                    <textarea class="form-control" id="medicacionActual" rows="3" placeholder="Medicación que toma actualmente..." required></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="discapacidad" class="form-label">Discapacidad</label>
+                                    <textarea class="form-control" id="discapacidad" rows="3" placeholder="Describa si tiene alguna discapacidad..." required></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="vacunacion" class="form-label">Vacunación</label>
+                            <textarea class="form-control" id="vacunacion" rows="3" placeholder="Historial de vacunación..." required></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="guardarHistoriaClinica()">
+                        <i class="fas fa-save"></i> Guardar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Ver Detalles -->
+    <div class="modal fade" id="modalDetalles" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detalles de Historia Clínica</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="detallesHistoria">
+                    <!-- Los detalles se cargarán dinámicamente -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="editarHistoria()">
+                        <i class="fas fa-edit"></i> Editar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script th:src="@{/js/sidebar.js}"></script>
+    
+    <script>
+        let historias = [];
+        let pacientes = [];
+        let currentPage = 1;
+        const itemsPerPage = 10;
+        let historiaSeleccionada = null;
+
+        // Cargar datos al iniciar la página
+        $(document).ready(function() {
+            cargarHistoriasClinicas();
+            cargarPacientes();
+        });
+
+        function cargarHistoriasClinicas() {
+            $.ajax({
+                url: '/api/historia-clinica',
+                method: 'GET',
+                success: function(data) {
+                    historias = data;
+                    mostrarHistorias();
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error al cargar historias clínicas:', error);
+                    mostrarAlerta('Error al cargar las historias clínicas', 'danger');
+                }
+            });
+        }
+
+        function cargarPacientes() {
+            $.ajax({
+                url: '/api/pacientes',
+                method: 'GET',
+                success: function(data) {
+                    pacientes = data;
+                    llenarSelectPacientes();
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error al cargar pacientes:', error);
+                }
+            });
+        }
+
+        function llenarSelectPacientes() {
+            const select = $('#pacienteId');
+            select.empty();
+            select.append('<option value="">Seleccionar paciente...</option>');
+            
+            pacientes.forEach(paciente => {
+                select.append(`<option value="${paciente.id}">${paciente.nombres} ${paciente.apellidos} - ${paciente.dni}</option>`);
+            });
+        }
+
+        function mostrarHistorias() {
+            const tbody = $('#tablaHistorias');
+            tbody.empty();
+
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const historiasPaginadas = historias.slice(startIndex, endIndex);
+
+            historiasPaginadas.forEach(historia => {
+                const row = `
+                    <tr>
+                        <td>${historia.id}</td>
+                        <td>${historia.nombrePaciente}</td>
+                        <td><span class="badge bg-info">${historia.grupoSanguineo}</span></td>
+                        <td>${historia.alergias ? historia.alergias.substring(0, 50) + '...' : 'Sin alergias'}</td>
+                        <td>${historia.enfermedadesCronicas ? historia.enfermedadesCronicas.substring(0, 50) + '...' : 'Sin enfermedades'}</td>
+                        <td>${formatearFecha(historia.fechaCreacion)}</td>
+                        <td>
+                            <button class="btn btn-sm btn-info" onclick="verDetalles(${historia.id})">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-sm btn-primary" onclick="editarHistoria(${historia.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="eliminarHistoria(${historia.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                tbody.append(row);
+            });
+
+            generarPaginacion();
+        }
+
+        function nuevaHistoriaClinica() {
+            limpiarFormulario();
+            $('#modalHistoriaClinica').modal('show');
+        }
+
+        function editarHistoria(id) {
+            const historia = historias.find(h => h.id === id);
+            if (historia) {
+                llenarFormulario(historia);
+                $('#modalHistoriaClinica').modal('show');
+            }
+        }
+
+        function llenarFormulario(historia) {
+            $('#historiaId').val(historia.id);
+            $('#pacienteId').val(historia.pacienteId);
+            $('#grupoSanguineo').val(historia.grupoSanguineo);
+            $('#alergias').val(historia.alergias);
+            $('#enfermedadesCronicas').val(historia.enfermedadesCronicas);
+            $('#antecedentesPersonales').val(historia.antecedentesPersonales);
+            $('#antecedentesFamiliares').val(historia.antecedentesFamiliares);
+            $('#medicacionActual').val(historia.medicacionActual);
+            $('#discapacidad').val(historia.discapacidad);
+            $('#vacunacion').val(historia.vacunacion);
+        }
+
+        function limpiarFormulario() {
+            $('#historiaId').val('');
+            $('#pacienteId').val('');
+            $('#grupoSanguineo').val('');
+            $('#alergias').val('');
+            $('#enfermedadesCronicas').val('');
+            $('#antecedentesPersonales').val('');
+            $('#antecedentesFamiliares').val('');
+            $('#medicacionActual').val('');
+            $('#discapacidad').val('');
+            $('#vacunacion').val('');
+        }
+
+        function guardarHistoriaClinica() {
+            const historiaId = $('#historiaId').val();
+            
+            const datos = {
+                pacienteId: parseInt($('#pacienteId').val()),
+                grupoSanguineo: $('#grupoSanguineo').val(),
+                alergias: $('#alergias').val(),
+                enfermedadesCronicas: $('#enfermedadesCronicas').val(),
+                antecedentesPersonales: $('#antecedentesPersonales').val(),
+                antecedentesFamiliares: $('#antecedentesFamiliares').val(),
+                medicacionActual: $('#medicacionActual').val(),
+                discapacidad: $('#discapacidad').val(),
+                vacunacion: $('#vacunacion').val()
+            };
+
+            const url = historiaId ? `/api/historia-clinica/${historiaId}` : '/api/historia-clinica';
+            const method = historiaId ? 'PUT' : 'POST';
+
+            $.ajax({
+                url: url,
+                method: method,
+                contentType: 'application/json',
+                data: JSON.stringify(datos),
+                success: function(data) {
+                    $('#modalHistoriaClinica').modal('hide');
+                    mostrarAlerta('Historia clínica guardada exitosamente', 'success');
+                    cargarHistoriasClinicas();
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error al guardar:', error);
+                    mostrarAlerta('Error al guardar la historia clínica', 'danger');
+                }
+            });
+        }
+
+        function verDetalles(id) {
+            const historia = historias.find(h => h.id === id);
+            if (historia) {
+                historiaSeleccionada = historia;
+                const detalles = `
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Información del Paciente</h6>
+                            <p><strong>Nombre:</strong> ${historia.nombrePaciente}</p>
+                            <p><strong>Grupo Sanguíneo:</strong> <span class="badge bg-info">${historia.grupoSanguineo}</span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Información General</h6>
+                            <p><strong>Fecha Creación:</strong> ${formatearFecha(historia.fechaCreacion)}</p>
+                            <p><strong>Última Actualización:</strong> ${formatearFecha(historia.fechaActualizacion)}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Alergias</h6>
+                            <p>${historia.alergias || 'Sin alergias registradas'}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Enfermedades Crónicas</h6>
+                            <p>${historia.enfermedadesCronicas || 'Sin enfermedades crónicas registradas'}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Antecedentes Personales</h6>
+                            <p>${historia.antecedentesPersonales || 'Sin antecedentes personales registrados'}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Antecedentes Familiares</h6>
+                            <p>${historia.antecedentesFamiliares || 'Sin antecedentes familiares registrados'}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Medicación Actual</h6>
+                            <p>${historia.medicacionActual || 'Sin medicación actual registrada'}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Discapacidad</h6>
+                            <p>${historia.discapacidad || 'Sin discapacidad registrada'}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-12">
+                            <h6>Vacunación</h6>
+                            <p>${historia.vacunacion || 'Sin historial de vacunación registrado'}</p>
+                        </div>
+                    </div>
+                `;
+                
+                $('#detallesHistoria').html(detalles);
+                $('#modalDetalles').modal('show');
+            }
+        }
+
+        function eliminarHistoria(id) {
+            if (confirm('¿Está seguro de eliminar esta historia clínica? Esta acción no se puede deshacer.')) {
+                $.ajax({
+                    url: `/api/historia-clinica/${id}`,
+                    method: 'DELETE',
+                    success: function() {
+                        mostrarAlerta('Historia clínica eliminada exitosamente', 'success');
+                        cargarHistoriasClinicas();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error al eliminar:', error);
+                        mostrarAlerta('Error al eliminar la historia clínica', 'danger');
+                    }
+                });
+            }
+        }
+
+        function aplicarFiltros() {
+            const paciente = $('#filtroPaciente').val().toLowerCase();
+            const grupoSanguineo = $('#filtroGrupoSanguineo').val();
+
+            // Implementar lógica de filtrado
+            // Por ahora, recargamos todas las historias
+            cargarHistoriasClinicas();
+        }
+
+        function limpiarFiltros() {
+            $('#filtroPaciente').val('');
+            $('#filtroGrupoSanguineo').val('');
+            cargarHistoriasClinicas();
+        }
+
+        function generarPaginacion() {
+            const totalPages = Math.ceil(historias.length / itemsPerPage);
+            const paginacion = $('#paginacion');
+            paginacion.empty();
+
+            for (let i = 1; i <= totalPages; i++) {
+                const li = `<li class="page-item ${i === currentPage ? 'active' : ''}">
+                    <a class="page-link" href="#" onclick="cambiarPagina(${i})">${i}</a>
+                </li>`;
+                paginacion.append(li);
+            }
+        }
+
+        function cambiarPagina(pagina) {
+            currentPage = pagina;
+            mostrarHistorias();
+        }
+
+        function formatearFecha(fecha) {
+            return new Date(fecha).toLocaleDateString('es-ES');
+        }
+
+        function mostrarAlerta(mensaje, tipo) {
+            const alerta = `
+                <div class="alert alert-${tipo} alert-dismissible fade show" role="alert">
+                    ${mensaje}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            `;
+            $('main').prepend(alerta);
+            
+            // Auto-ocultar después de 5 segundos
+            setTimeout(() => {
+                $('.alert').alert('close');
+            }, 5000);
+        }
+    </script>
+</body>
+</html> 

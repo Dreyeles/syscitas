@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: head"></head>
+
+<body data-bs-spy="scroll" data-bs-target="#header-nav" tabindex="0">
+
+  <!-- Header -->
+  <div th:replace="fragments/header :: header"></div>
+  
+  <!-- Navbar -->
+  <div th:replace="fragments/header :: navbar"></div>
+
+  <!-- Main Content -->
+  <main class="padding-large">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="display-header mb-5">
+            <h1 class="display-4 fw-bold text-center text-dark">Gestión de Pagos</h1>
+            <p class="lead text-center text-muted">Realiza y gestiona tus pagos de forma segura y rápida</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resumen de Pagos -->
+      <div class="row mb-5">
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card border-0 shadow-sm text-center">
+            <div class="card-body">
+              <i class="bi bi-credit-card text-primary display-4 mb-3"></i>
+              <h4 class="card-title">S/. 1,250.00</h4>
+              <p class="card-text">Total Pagado</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card border-0 shadow-sm text-center">
+            <div class="card-body">
+              <i class="bi bi-clock text-warning display-4 mb-3"></i>
+              <h4 class="card-title">S/. 180.00</h4>
+              <p class="card-text">Pendiente de Pago</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card border-0 shadow-sm text-center">
+            <div class="card-body">
+              <i class="bi bi-check-circle text-success display-4 mb-3"></i>
+              <h4 class="card-title">15</h4>
+              <p class="card-text">Pagos Realizados</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card border-0 shadow-sm text-center">
+            <div class="card-body">
+              <i class="bi bi-calendar text-info display-4 mb-3"></i>
+              <h4 class="card-title">2</h4>
+              <p class="card-text">Pagos Pendientes</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pagos Pendientes -->
+      <div class="row mb-5">
+        <div class="col-12">
+          <h3 class="mb-4">Pagos Pendientes</h3>
+          <div class="card border-0 shadow-sm">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead class="table-light">
+                    <tr>
+                      <th>Servicio</th>
+                      <th>Fecha</th>
+                      <th>Monto</th>
+                      <th>Estado</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <i class="bi bi-heart-pulse text-primary me-3"></i>
+                          <div>
+                            <strong>Consulta General</strong><br>
+                            <small class="text-muted">Dr. Juan Pérez - 15/01/2024</small>
+                          </div>
+                        </div>
+                      </td>
+                      <td>15/01/2024</td>
+                      <td><strong>S/. 80.00</strong></td>
+                      <td><span class="badge bg-warning text-dark">Pendiente</span></td>
+                      <td>
+                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#pagoModal">
+                          <i class="bi bi-credit-card me-1"></i>Pagar
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <i class="bi bi-clipboard-pulse text-primary me-3"></i>
+                          <div>
+                            <strong>Examen de Laboratorio</strong><br>
+                            <small class="text-muted">Análisis de sangre completo</small>
+                          </div>
+                        </div>
+                      </td>
+                      <td>20/01/2024</td>
+                      <td><strong>S/. 100.00</strong></td>
+                      <td><span class="badge bg-warning text-dark">Pendiente</span></td>
+                      <td>
+                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#pagoModal">
+                          <i class="bi bi-credit-card me-1"></i>Pagar
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Historial de Pagos -->
+      <div class="row mb-5">
+        <div class="col-12">
+          <h3 class="mb-4">Historial de Pagos</h3>
+          <div class="card border-0 shadow-sm">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead class="table-light">
+                    <tr>
+                      <th>Servicio</th>
+                      <th>Fecha de Pago</th>
+                      <th>Método</th>
+                      <th>Monto</th>
+                      <th>Estado</th>
+                      <th>Comprobante</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <i class="bi bi-people text-primary me-3"></i>
+                          <div>
+                            <strong>Examen Ocupacional</strong><br>
+                            <small class="text-muted">Dra. María García</small>
+                          </div>
+                        </div>
+                      </td>
+                      <td>10/01/2024</td>
+                      <td><i class="bi bi-credit-card text-success me-1"></i>Tarjeta</td>
+                      <td><strong>S/. 120.00</strong></td>
+                      <td><span class="badge bg-success">Completado</span></td>
+                      <td>
+                        <button class="btn btn-sm btn-outline-secondary">
+                          <i class="bi bi-download me-1"></i>Descargar
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <i class="bi bi-apple text-primary me-3"></i>
+                          <div>
+                            <strong>Consulta Nutricional</strong><br>
+                            <small class="text-muted">Lic. Ana López</small>
+                          </div>
+                        </div>
+                      </td>
+                      <td>05/01/2024</td>
+                      <td><i class="bi bi-cash text-success me-1"></i>Efectivo</td>
+                      <td><strong>S/. 90.00</strong></td>
+                      <td><span class="badge bg-success">Completado</span></td>
+                      <td>
+                        <button class="btn btn-sm btn-outline-secondary">
+                          <i class="bi bi-download me-1"></i>Descargar
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <i class="bi bi-capsule text-primary me-3"></i>
+                          <div>
+                            <strong>Atención Farmacéutica</strong><br>
+                            <small class="text-muted">Medicamentos recetados</small>
+                          </div>
+                        </div>
+                      </td>
+                      <td>03/01/2024</td>
+                      <td><i class="bi bi-credit-card text-success me-1"></i>Tarjeta</td>
+                      <td><strong>S/. 45.00</strong></td>
+                      <td><span class="badge bg-success">Completado</span></td>
+                      <td>
+                        <button class="btn btn-sm btn-outline-secondary">
+                          <i class="bi bi-download me-1"></i>Descargar
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Métodos de Pago -->
+      <div class="row">
+        <div class="col-12">
+          <h3 class="mb-4">Métodos de Pago Aceptados</h3>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card border-0 shadow-sm text-center">
+            <div class="card-body">
+              <i class="bi bi-credit-card text-primary display-4 mb-3"></i>
+              <h5 class="card-title">Tarjetas de Crédito/Débito</h5>
+              <p class="card-text">Visa, MasterCard, American Express</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card border-0 shadow-sm text-center">
+            <div class="card-body">
+              <i class="bi bi-cash text-success display-4 mb-3"></i>
+              <h5 class="card-title">Efectivo</h5>
+              <p class="card-text">Pago en efectivo en nuestras sucursales</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card border-0 shadow-sm text-center">
+            <div class="card-body">
+              <i class="bi bi-phone text-info display-4 mb-3"></i>
+              <h5 class="card-title">Transferencia Bancaria</h5>
+              <p class="card-text">Transferencia desde tu cuenta bancaria</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card border-0 shadow-sm text-center">
+            <div class="card-body">
+              <i class="bi bi-wallet2 text-warning display-4 mb-3"></i>
+              <h5 class="card-title">Billeteras Digitales</h5>
+              <p class="card-text">Yape, Plin, Mercado Pago</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal de Pago -->
+  <div class="modal fade" id="pagoModal" tabindex="-1" aria-labelledby="pagoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="pagoModalLabel">Realizar Pago</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <h6>Detalles del Servicio</h6>
+              <div class="card bg-light">
+                <div class="card-body">
+                  <p><strong>Servicio:</strong> Consulta General</p>
+                  <p><strong>Médico:</strong> Dr. Juan Pérez</p>
+                  <p><strong>Fecha:</strong> 15/01/2024</p>
+                  <p><strong>Monto:</strong> S/. 80.00</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <h6>Método de Pago</h6>
+              <div class="form-check mb-3">
+                <input class="form-check-input" type="radio" name="metodoPago" id="tarjeta" checked>
+                <label class="form-check-label" for="tarjeta">
+                  <i class="bi bi-credit-card me-2"></i>Tarjeta de Crédito/Débito
+                </label>
+              </div>
+              <div class="form-check mb-3">
+                <input class="form-check-input" type="radio" name="metodoPago" id="efectivo">
+                <label class="form-check-label" for="efectivo">
+                  <i class="bi bi-cash me-2"></i>Efectivo
+                </label>
+              </div>
+              <div class="form-check mb-3">
+                <input class="form-check-input" type="radio" name="metodoPago" id="transferencia">
+                <label class="form-check-label" for="transferencia">
+                  <i class="bi bi-phone me-2"></i>Transferencia Bancaria
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary">Confirmar Pago</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div th:replace="fragments/footer :: footer"></div>
+
+  <!-- Login Modal -->
+  <div th:replace="fragments/login :: loginModal"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script th:src="@{/js/navbar.js}"></script>
+</body>
+</html> 

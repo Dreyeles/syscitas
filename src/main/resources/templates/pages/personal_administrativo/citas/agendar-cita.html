@@ -1,0 +1,453 @@
+<!-- Fragmento para Agendar Nueva Cita -->
+<div th:fragment="agendar-cita">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="mb-0">
+                        <i class="bi bi-calendar-plus text-primary"></i>
+                        Agendar Nueva Cita
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="form-container">
+                    <form id="appointmentForm">
+                        <!-- Sección: Selección de Paciente -->
+                        <div class="form-section">
+                            <h5 class="section-title">
+                                <i class="bi bi-person"></i>
+                                Seleccionar Paciente
+                            </h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="patientSearch" class="form-label">Buscar Paciente</label>
+                                    <select class="form-select" id="patientSearch" required>
+                                        <option value="">Seleccionar paciente...</option>
+                                        <option value="1">Juan Pérez - DNI: 12345678</option>
+                                        <option value="2">María García - DNI: 87654321</option>
+                                        <option value="3">Carlos López - DNI: 11223344</option>
+                                        <option value="4">Ana Martínez - DNI: 55667788</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">&nbsp;</label>
+                                    <button type="button" class="btn btn-outline-primary w-100">
+                                        <i class="bi bi-person-plus"></i>
+                                        Registrar Nuevo Paciente
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Información del Paciente Seleccionado -->
+                            <div id="patientInfo" class="patient-info" style="display: none;">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <strong>Nombre:</strong> <span id="patientName">Juan Pérez</span><br>
+                                        <strong>DNI:</strong> <span id="patientDni">12345678</span><br>
+                                        <strong>Edad:</strong> <span id="patientAge">35 años</span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>Teléfono:</strong> <span id="patientPhone">999-888-777</span><br>
+                                        <strong>Email:</strong> <span id="patientEmail">juan.perez@email.com</span><br>
+                                        <strong>Historial:</strong> <span id="patientHistory">3 citas previas</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sección: Selección de Especialidad y Servicio -->
+                        <div class="form-section">
+                            <h5 class="section-title">
+                                <i class="bi bi-hospital"></i>
+                                Especialidad y Servicio
+                            </h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="specialty" class="form-label">Especialidad</label>
+                                    <select class="form-select" id="specialty" required>
+                                        <option value="">Seleccionar especialidad...</option>
+                                        <option value="1">Medicina General</option>
+                                        <option value="2">Cardiología</option>
+                                        <option value="3">Dermatología</option>
+                                        <option value="4">Ginecología</option>
+                                        <option value="5">Pediatría</option>
+                                        <option value="6">Ortopedia</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="service" class="form-label">Servicio</label>
+                                    <select class="form-select" id="service" required>
+                                        <option value="">Seleccionar servicio...</option>
+                                        <option value="1">Consulta General</option>
+                                        <option value="2">Consulta Especializada</option>
+                                        <option value="3">Control de Rutina</option>
+                                        <option value="4">Emergencia</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sección: Selección de Médico -->
+                        <div class="form-section">
+                            <h5 class="section-title">
+                                <i class="bi bi-person-badge"></i>
+                                Seleccionar Médico
+                            </h5>
+                            <div id="doctorsList">
+                                <div class="doctor-card" data-doctor-id="1">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-8">
+                                            <h6 class="mb-1">Dr. Carlos Mendoza</h6>
+                                            <p class="mb-1 text-muted">Medicina General - CMP: 12345</p>
+                                            <small class="text-success">Disponible hoy</small>
+                                        </div>
+                                        <div class="col-md-4 text-end">
+                                            <button type="button" class="btn btn-outline-primary btn-sm">Seleccionar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="doctor-card" data-doctor-id="2">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-8">
+                                            <h6 class="mb-1">Dra. Ana Silva</h6>
+                                            <p class="mb-1 text-muted">Medicina General - CMP: 12346</p>
+                                            <small class="text-warning">Disponible mañana</small>
+                                        </div>
+                                        <div class="col-md-4 text-end">
+                                            <button type="button" class="btn btn-outline-primary btn-sm">Seleccionar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="doctor-card unavailable" data-doctor-id="3">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-8">
+                                            <h6 class="mb-1">Dr. Roberto Torres</h6>
+                                            <p class="mb-1 text-muted">Medicina General - CMP: 12347</p>
+                                            <small class="text-danger">No disponible</small>
+                                        </div>
+                                        <div class="col-md-4 text-end">
+                                            <button type="button" class="btn btn-outline-secondary btn-sm" disabled>No disponible</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sección: Fecha y Hora -->
+                        <div class="form-section">
+                            <h5 class="section-title">
+                                <i class="bi bi-calendar-event"></i>
+                                Fecha y Hora de la Cita
+                            </h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="appointmentDate" class="form-label">Fecha</label>
+                                    <input type="text" class="form-control" id="appointmentDate" placeholder="Seleccionar fecha" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="appointmentTime" class="form-label">Hora</label>
+                                    <select class="form-select" id="appointmentTime" required>
+                                        <option value="">Seleccionar hora...</option>
+                                        <option value="08:00">08:00 AM</option>
+                                        <option value="09:00">09:00 AM</option>
+                                        <option value="10:00">10:00 AM</option>
+                                        <option value="11:00">11:00 AM</option>
+                                        <option value="14:00">02:00 PM</option>
+                                        <option value="15:00">03:00 PM</option>
+                                        <option value="16:00">04:00 PM</option>
+                                        <option value="17:00">05:00 PM</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <!-- Horarios Disponibles -->
+                            <div class="mt-3">
+                                <label class="form-label">Horarios Disponibles</label>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="time-slot">
+                                            <div class="text-center">
+                                                <strong>08:00</strong><br>
+                                                <small class="text-success">Disponible</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="time-slot">
+                                            <div class="text-center">
+                                                <strong>09:00</strong><br>
+                                                <small class="text-success">Disponible</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="time-slot unavailable">
+                                            <div class="text-center">
+                                                <strong>10:00</strong><br>
+                                                <small class="text-danger">Ocupado</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="time-slot">
+                                            <div class="text-center">
+                                                <strong>11:00</strong><br>
+                                                <small class="text-success">Disponible</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sección: Observaciones -->
+                        <div class="form-section">
+                            <h5 class="section-title">
+                                <i class="bi bi-chat-text"></i>
+                                Observaciones
+                            </h5>
+                            <div class="mb-3">
+                                <label for="observations" class="form-label">Motivo de la consulta</label>
+                                <textarea class="form-control" id="observations" rows="3" placeholder="Describa el motivo de la consulta..."></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="priority" class="form-label">Prioridad</label>
+                                <select class="form-select" id="priority">
+                                    <option value="normal">Normal</option>
+                                    <option value="urgent">Urgente</option>
+                                    <option value="emergency">Emergencia</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Botones de Acción -->
+                        <div class="d-flex justify-content-between">
+                            <button type="button" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left"></i>
+                                Cancelar
+                            </button>
+                            <button type="submit" class="btn btn-schedule text-white">
+                                <i class="bi bi-calendar-check"></i>
+                                Agendar Cita
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Panel Lateral: Resumen de la Cita -->
+            <div class="col-lg-4">
+                <div class="form-container">
+                    <h5 class="section-title">
+                        <i class="bi bi-clipboard-check"></i>
+                        Resumen de la Cita
+                    </h5>
+                    
+                    <div id="appointmentSummary">
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle"></i>
+                            Complete el formulario para ver el resumen de la cita
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <h6 class="text-muted">Citas Recientes del Paciente</h6>
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h6 class="mb-1">Consulta General</h6>
+                                    <small class="text-muted">Dr. Carlos Mendoza - 15/01/2024</small>
+                                </div>
+                                <span class="badge bg-success rounded-pill">Completada</span>
+                            </div>
+                            <div class="list-group-item d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h6 class="mb-1">Control de Rutina</h6>
+                                    <small class="text-muted">Dra. Ana Silva - 10/12/2023</small>
+                                </div>
+                                <span class="badge bg-success rounded-pill">Completada</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-container {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        padding: 30px;
+        margin: 20px 0;
+    }
+    
+    .form-section {
+        border-bottom: 1px solid #e9ecef;
+        padding-bottom: 25px;
+        margin-bottom: 25px;
+    }
+    
+    .form-section:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+        margin-bottom: 0;
+    }
+    
+    .section-title {
+        color: #495057;
+        font-weight: 600;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .section-title i {
+        margin-right: 10px;
+        color: #007bff;
+    }
+    
+    .time-slot {
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        padding: 15px;
+        margin: 10px 0;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    .time-slot:hover {
+        border-color: #007bff;
+        background-color: #f8f9fa;
+    }
+    
+    .time-slot.selected {
+        border-color: #007bff;
+        background-color: #e3f2fd;
+    }
+    
+    .time-slot.unavailable {
+        border-color: #dc3545;
+        background-color: #f8d7da;
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+    
+    .patient-info {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 15px;
+        margin: 10px 0;
+    }
+    
+    .doctor-card {
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        padding: 15px;
+        margin: 10px 0;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    .doctor-card:hover {
+        border-color: #007bff;
+        background-color: #f8f9fa;
+    }
+    
+    .doctor-card.selected {
+        border-color: #007bff;
+        background-color: #e3f2fd;
+    }
+    
+    .btn-schedule {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        border: none;
+        padding: 12px 30px;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: all 0.3s;
+    }
+    
+    .btn-schedule:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,123,255,0.3);
+    }
+</style>
+
+<script>
+    // Inicializar date picker cuando se muestre el tab
+    function initAgendarCitaTab() {
+        if (typeof flatpickr !== 'undefined') {
+            flatpickr("#appointmentDate", {
+                dateFormat: "Y-m-d",
+                minDate: "today",
+                locale: "es"
+            });
+        }
+
+        // Inicializar select2 para búsquedas
+        if (typeof $ !== 'undefined') {
+            $('#patientSearch').select2({
+                placeholder: "Seleccionar paciente...",
+                allowClear: true
+            });
+            
+            $('#specialty').select2({
+                placeholder: "Seleccionar especialidad..."
+            });
+            
+            $('#service').select2({
+                placeholder: "Seleccionar servicio..."
+            });
+        }
+
+        // Mostrar información del paciente seleccionado
+        $('#patientSearch').change(function() {
+            if ($(this).val()) {
+                $('#patientInfo').show();
+            } else {
+                $('#patientInfo').hide();
+            }
+        });
+
+        // Selección de médico
+        $('.doctor-card').click(function() {
+            if (!$(this).hasClass('unavailable')) {
+                $('.doctor-card').removeClass('selected');
+                $(this).addClass('selected');
+            }
+        });
+
+        // Selección de horario
+        $('.time-slot').click(function() {
+            if (!$(this).hasClass('unavailable')) {
+                $('.time-slot').removeClass('selected');
+                $(this).addClass('selected');
+                $('#appointmentTime').val($(this).find('strong').text());
+            }
+        });
+
+        // Manejo del formulario
+        $('#appointmentForm').submit(function(e) {
+            e.preventDefault();
+            
+            // Aquí iría la lógica para enviar los datos al servidor
+            alert('Cita agendada exitosamente');
+        });
+    }
+
+    // Ejecutar cuando se muestre el tab
+    $(document).ready(function() {
+        $('#agendar-cita-tab').on('shown.bs.tab', function() {
+            setTimeout(initAgendarCitaTab, 100);
+        });
+    });
+</script>

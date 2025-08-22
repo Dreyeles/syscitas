@@ -1,0 +1,270 @@
+<!-- Fragmento para Agregar Personal Administrativo -->
+<div th:fragment="agregar-personal" class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="bi bi-person-plus me-2"></i>Registrar Personal Administrativo
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form id="registroPersonalForm" class="needs-validation" novalidate>
+                        <!-- Información Personal -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="text-primary mb-3">
+                                    <i class="bi bi-person-circle me-2"></i>Información Personal
+                                </h5>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="dni" class="form-label">DNI *</label>
+                                <input type="text" class="form-control" id="dni" name="dni" required maxlength="8" minlength="8" pattern="[0-9]{8}">
+                                <div class="invalid-feedback">El DNI debe tener exactamente 8 dígitos numéricos.</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento *</label>
+                                <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" required>
+                                <div class="invalid-feedback">Debe seleccionar una fecha válida.</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="nombres" class="form-label">Nombres *</label>
+                                <input type="text" class="form-control" id="nombres" name="nombres" required>
+                                <div class="invalid-feedback">Debe ingresar los nombres.</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="apellidos" class="form-label">Apellidos *</label>
+                                <input type="text" class="form-control" id="apellidos" name="apellidos" required>
+                                <div class="invalid-feedback">Debe ingresar los apellidos.</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="genero" class="form-label">Género *</label>
+                                <select class="form-select" id="genero" name="genero" required>
+                                    <option value="">Seleccione...</option>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Femenino</option>
+                                </select>
+                                <div class="invalid-feedback">Debe seleccionar el género.</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="estadoCivil" class="form-label">Estado Civil</label>
+                                <select class="form-select" id="estadoCivil" name="estadoCivil">
+                                    <option value="">Seleccione...</option>
+                                    <option value="S">Soltero/a</option>
+                                    <option value="C">Casado/a</option>
+                                    <option value="D">Divorciado/a</option>
+                                    <option value="V">Viudo/a</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Información de Contacto -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="text-primary mb-3">
+                                    <i class="bi bi-telephone me-2"></i>Información de Contacto
+                                </h5>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="telefono" class="form-label">Teléfono *</label>
+                                <input type="tel" class="form-control" id="telefono" name="telefono" required>
+                                <div class="invalid-feedback">Debe ingresar un número de teléfono válido.</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">Correo Electrónico *</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                                <div class="invalid-feedback">Debe ingresar un correo electrónico válido.</div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label for="direccion" class="form-label">Dirección</label>
+                                <textarea class="form-control" id="direccion" name="direccion" rows="2"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Información Laboral -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="text-primary mb-3">
+                                    <i class="bi bi-briefcase me-2"></i>Información Laboral
+                                </h5>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="cargo" class="form-label">Cargo *</label>
+                                <select class="form-select" id="cargo" name="cargo" required>
+                                    <option value="">Seleccione...</option>
+                                    <option value="RECEPCIONISTA">Recepcionista</option>
+                                    <option value="SECRETARIA">Secretaria</option>
+                                    <option value="ADMINISTRATIVO">Administrativo</option>
+                                    <option value="COORDINADOR">Coordinador</option>
+                                    <option value="SUPERVISOR">Supervisor</option>
+                                </select>
+                                <div class="invalid-feedback">Debe seleccionar un cargo.</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="departamento" class="form-label">Departamento *</label>
+                                <select class="form-select" id="departamento" name="departamento" required>
+                                    <option value="">Seleccione...</option>
+                                    <option value="ADMINISTRACION">Administración</option>
+                                    <option value="RECURSOS_HUMANOS">Recursos Humanos</option>
+                                    <option value="CONTABILIDAD">Contabilidad</option>
+                                    <option value="ATENCION_PACIENTES">Atención a Pacientes</option>
+                                    <option value="SISTEMAS">Sistemas</option>
+                                </select>
+                                <div class="invalid-feedback">Debe seleccionar un departamento.</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="fechaContratacion" class="form-label">Fecha de Contratación *</label>
+                                <input type="date" class="form-control" id="fechaContratacion" name="fechaContratacion" required>
+                                <div class="invalid-feedback">Debe seleccionar la fecha de contratación.</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="tipoContrato" class="form-label">Tipo de Contrato *</label>
+                                <select class="form-select" id="tipoContrato" name="tipoContrato" required>
+                                    <option value="">Seleccione...</option>
+                                    <option value="PLAZO_FIJO">Plazo Fijo</option>
+                                    <option value="PLAZO_INDEFINIDO">Plazo Indefinido</option>
+                                    <option value="PRACTICAS">Prácticas</option>
+                                    <option value="TEMPORAL">Temporal</option>
+                                </select>
+                                <div class="invalid-feedback">Debe seleccionar el tipo de contrato.</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="salario" class="form-label">Salario Base *</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">S/.</span>
+                                    <input type="number" class="form-control" id="salario" name="salario" required min="0" step="0.01">
+                                </div>
+                                <div class="invalid-feedback">Debe ingresar un salario válido.</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="estado" class="form-label">Estado *</label>
+                                <select class="form-select" id="estado" name="estado" required>
+                                    <option value="">Seleccione...</option>
+                                    <option value="ACTIVO">Activo</option>
+                                    <option value="INACTIVO">Inactivo</option>
+                                    <option value="SUSPENDIDO">Suspendido</option>
+                                </select>
+                                <div class="invalid-feedback">Debe seleccionar el estado.</div>
+                            </div>
+                        </div>
+
+                        <!-- Información de Acceso -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="text-primary mb-3">
+                                    <i class="bi bi-shield-lock me-2"></i>Información de Acceso
+                                </h5>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="username" class="form-label">Nombre de Usuario *</label>
+                                <input type="text" class="form-control" id="username" name="username" required>
+                                <div class="invalid-feedback">Debe ingresar un nombre de usuario.</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="password" class="form-label">Contraseña *</label>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="password" name="password" required minlength="8">
+                                    <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="invalid-feedback">La contraseña debe tener al menos 8 caracteres.</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="confirmPassword" class="form-label">Confirmar Contraseña *</label>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                                    <button class="btn btn-outline-secondary" type="button" id="toggleConfirmPassword">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="invalid-feedback">Las contraseñas no coinciden.</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="nivelAcceso" class="form-label">Nivel de Acceso *</label>
+                                <select class="form-select" id="nivelAcceso" name="nivelAcceso" required>
+                                    <option value="">Seleccione...</option>
+                                    <option value="ADMIN">Administrador</option>
+                                    <option value="SUPERVISOR">Supervisor</option>
+                                    <option value="OPERADOR">Operador</option>
+                                    <option value="CONSULTA">Solo Consulta</option>
+                                </select>
+                                <div class="invalid-feedback">Debe seleccionar el nivel de acceso.</div>
+                            </div>
+                        </div>
+
+                        <!-- Botones de Acción -->
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <button type="submit" class="btn btn-primary me-2">
+                                    <i class="bi bi-check-circle me-2"></i>Registrar Personal
+                                </button>
+                                <button type="button" class="btn btn-secondary me-2" id="btnLimpiar">
+                                    <i class="bi bi-arrow-clockwise me-2"></i>Limpiar
+                                </button>
+                                <button type="button" class="btn btn-warning" id="btnCancelar">
+                                    <i class="bi bi-x-circle me-2"></i>Cancelar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmación -->
+    <div class="modal fade" id="confirmacionModal" tabindex="-1" aria-labelledby="confirmacionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="confirmacionModalLabel">
+                        <i class="bi bi-question-circle me-2"></i>Confirmar Registro
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="resumenDatos"></div>
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-2"></i>
+                        ¿Está seguro que desea registrar este personal administrativo con los datos mostrados?
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-2"></i>Cancelar
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btnConfirmarRegistro">
+                        <i class="bi bi-check-circle me-2"></i>Confirmar Registro
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Éxito -->
+    <div class="modal fade" id="exitoModal" tabindex="-1" aria-labelledby="exitoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="exitoModalLabel">
+                        <i class="bi bi-check-circle me-2"></i>Registro Exitoso
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center">
+                        <i class="bi bi-check-circle text-success" style="font-size: 3rem;"></i>
+                        <h5 class="mt-3">¡Personal Administrativo Registrado!</h5>
+                        <p class="text-muted">El personal administrativo ha sido registrado exitosamente en el sistema.</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+                        <i class="bi bi-check-circle me-2"></i>Aceptar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

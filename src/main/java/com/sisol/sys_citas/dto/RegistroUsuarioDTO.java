@@ -1,7 +1,6 @@
 package com.sisol.sys_citas.dto;
 
 import com.sisol.sys_citas.enums.EstadoCivil;
-import com.sisol.sys_citas.enums.GrupoSanguineo;
 import com.sisol.sys_citas.enums.Sexo;
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
@@ -48,25 +47,26 @@ public class RegistroUsuarioDTO {
     @Size(max = 255, message = "La dirección no puede exceder los 255 caracteres")
     private String direccion;
 
+    @NotBlank(message = "El distrito es obligatorio")
+    @Size(max = 100, message = "El distrito no puede exceder los 100 caracteres")
+    private String distrito;
+
     @NotBlank(message = "El teléfono es obligatorio")
     @Pattern(regexp = "\\d{9}", message = "El teléfono debe tener 9 dígitos numéricos")
     private String telefono;
 
-    @Size(max = 500, message = "Las alergias no pueden exceder los 500 caracteres")
-    private String alergias; // Este campo podría ser opcional
-
-    @NotNull(message = "El grupo sanguíneo es obligatorio")
-    private GrupoSanguineo grupoSanguineo;
-
-    // --- NUEVOS CAMPOS AÑADIDOS para `paciente` ---
+    // --- CAMPOS para `paciente` ---
     @NotBlank(message = "El nombre de contacto de emergencia es obligatorio")
     @Size(max = 100, message = "El nombre de contacto de emergencia no puede exceder los 100 caracteres")
     private String contactoEmergenciaNombre;
 
     @NotBlank(message = "El teléfono de contacto de emergencia es obligatorio")
-    @Pattern(regexp = "\\d{11}", message = "El teléfono de contacto de emergencia debe tener 11 dígitos numéricos")
+    @Pattern(regexp = "\\d{9,11}", message = "El teléfono de contacto de emergencia debe tener entre 9 y 11 dígitos numéricos")
     private String contactoEmergenciaTelefono;
-    // --- FIN NUEVOS CAMPOS ---
+
+    @NotBlank(message = "El parentesco del contacto de emergencia es obligatorio")
+    @Size(max = 20, message = "El parentesco no puede exceder los 20 caracteres")
+    private String contactoEmergenciaParentesco;
 
     // --- Getters y Setters ---
     public String getCorreo() { return correo; }
@@ -89,19 +89,18 @@ public class RegistroUsuarioDTO {
     public void setEstadoCivil(EstadoCivil estadoCivil) { this.estadoCivil = estadoCivil; }
     public String getDireccion() { return direccion; }
     public void setDireccion(String direccion) { this.direccion = direccion; }
+    public String getDistrito() { return distrito; }
+    public void setDistrito(String distrito) { this.distrito = distrito; }
     public String getTelefono() { return telefono; }
     public void setTelefono(String telefono) { this.telefono = telefono; }
-    public String getAlergias() { return alergias; }
-    public void setAlergias(String alergias) { this.alergias = alergias; }
-    public GrupoSanguineo getGrupoSanguineo() { return grupoSanguineo; }
-    public void setGrupoSanguineo(GrupoSanguineo grupoSanguineo) { this.grupoSanguineo = grupoSanguineo; }
 
-    // --- Getters y Setters para los nuevos campos ---
+    // --- Getters y Setters para los campos de contacto de emergencia ---
     public String getContactoEmergenciaNombre() { return contactoEmergenciaNombre; }
     public void setContactoEmergenciaNombre(String contactoEmergenciaNombre) { this.contactoEmergenciaNombre = contactoEmergenciaNombre; }
     public String getContactoEmergenciaTelefono() { return contactoEmergenciaTelefono; }
     public void setContactoEmergenciaTelefono(String contactoEmergenciaTelefono) { this.contactoEmergenciaTelefono = contactoEmergenciaTelefono; }
-    // --- FIN Getters y Setters para los nuevos campos ---
+    public String getContactoEmergenciaParentesco() { return contactoEmergenciaParentesco; }
+    public void setContactoEmergenciaParentesco(String contactoEmergenciaParentesco) { this.contactoEmergenciaParentesco = contactoEmergenciaParentesco; }
 
     // Método de validación de contraseñas
     public boolean contraseniasCoinciden() {

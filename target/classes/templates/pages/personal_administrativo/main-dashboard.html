@@ -1,0 +1,220 @@
+<!-- Fragmento del Contenido Principal del Dashboard -->
+<div th:fragment="main-dashboard" class="main-content" style="padding: 20px;">
+    <!-- Solo mostrar estadísticas si hay datos disponibles -->
+    <div th:if="${medicos != null and especialidades != null}" class="row">
+        <div class="col-md-3 mb-4">
+            <div class="stats-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 10px; padding: 20px; text-align: center; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: transform 0.3s;">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-person-badge me-2"></i>Médicos
+                    </h5>
+                    <h2 th:text="${medicos != null ? medicos.size() : '0'}">0</h2>
+                    <p class="mb-0">Activos</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="stats-card bg-success" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; border-radius: 10px; padding: 20px; text-align: center; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: transform 0.3s;">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-people me-2"></i>Pacientes
+                    </h5>
+                    <h2>156</h2>
+                    <p class="mb-0">Registrados</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="stats-card bg-warning" style="background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%); color: white; border-radius: 10px; padding: 20px; text-align: center; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: transform 0.3s;">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-hospital me-2"></i>Especialidades
+                    </h5>
+                    <h2 th:text="${especialidades != null ? especialidades.size() : '0'}">0</h2>
+                    <p class="mb-0">Disponibles</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="stats-card bg-danger" style="background: linear-gradient(135deg, #dc3545 0%, #e83e8c 100%); color: white; border-radius: 10px; padding: 20px; text-align: center; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: transform 0.3s;">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-calendar-check me-2"></i>Citas
+                    </h5>
+                    <h2>89</h2>
+                    <p class="mb-0">Hoy</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Solo mostrar actividad reciente si hay datos administrativos -->
+    <div th:if="${medicos != null and especialidades != null}" class="row">
+        <div class="col-lg-8 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-clock-history me-2"></i>Actividad Reciente
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Acción</th>
+                                    <th>Usuario</th>
+                                    <th>Fecha</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Registro de médico</td>
+                                    <td>Dr. García López</td>
+                                    <td>Hace 2 horas</td>
+                                    <td><span class="badge bg-success">Completado</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Actualización de especialidad</td>
+                                    <td>Cardiología</td>
+                                    <td>Hace 4 horas</td>
+                                    <td><span class="badge bg-info">En proceso</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Nuevo servicio agregado</td>
+                                    <td>Consulta General</td>
+                                    <td>Hace 6 horas</td>
+                                    <td><span class="badge bg-success">Completado</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Reporte de pacientes</td>
+                                    <td>Administrador</td>
+                                    <td>Hace 1 día</td>
+                                    <td><span class="badge bg-success">Completado</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-graph-up me-2"></i>Estadísticas del Mes
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted">Nuevos Pacientes</span>
+                            <span class="fw-bold">23</span>
+                        </div>
+                        <div class="progress" style="height: 8px; border-radius: 4px;">
+                            <div class="progress-bar" style="background: linear-gradient(90deg, #007bff, #0056b3); width: 75%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted">Citas Programadas</span>
+                            <span class="fw-bold">156</span>
+                        </div>
+                        <div class="progress" style="height: 8px; border-radius: 4px;">
+                            <div class="progress-bar" style="background: linear-gradient(90deg, #007bff, #0056b3); width: 85%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted">Citas Completadas</span>
+                            <span class="fw-bold">142</span>
+                        </div>
+                        <div class="progress" style="height: 8px; border-radius: 4px;">
+                            <div class="progress-bar" style="background: linear-gradient(90deg, #007bff, #0056b3); width: 90%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted">Tasa de Asistencia</span>
+                            <span class="fw-bold">91%</span>
+                        </div>
+                        <div class="progress" style="height: 8px; border-radius: 4px;">
+                            <div class="progress-bar" style="background: linear-gradient(90deg, #007bff, #0056b3); width: 91%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Solo mostrar acceso rápido si hay datos administrativos -->
+    <div th:if="${medicos != null and especialidades != null}" class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-lightning me-2"></i>Acceso Rápido
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <a href="/dashboard-administrativo/medicos/registrar" class="text-decoration-none">
+                                <div class="quick-access-card" style="background: white; border: 1px solid #dee2e6; border-radius: 10px; padding: 20px; text-align: center; transition: all 0.3s; color: #495057;">
+                                    <i class="bi bi-person-plus" style="font-size: 2rem; color: #007bff; margin-bottom: 10px;"></i>
+                                    <h6 style="margin: 10px 0; font-weight: 600;">Registrar Médico</h6>
+                                    <p style="font-size: 0.8rem; color: #6c757d; margin: 0;">Agregar nuevo médico al sistema</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <a href="/admin/especialidades/agregar" class="text-decoration-none">
+                                <div class="quick-access-card" style="background: white; border: 1px solid #dee2e6; border-radius: 10px; padding: 20px; text-align: center; transition: all 0.3s; color: #495057;">
+                                    <i class="bi bi-plus-circle" style="font-size: 2rem; color: #007bff; margin-bottom: 10px;"></i>
+                                    <h6 style="margin: 10px 0; font-weight: 600;">Nueva Especialidad</h6>
+                                    <p style="font-size: 0.8rem; color: #6c757d; margin: 0;">Crear nueva especialidad médica</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <a href="/admin/servicios/agregar" class="text-decoration-none">
+                                <div class="quick-access-card" style="background: white; border: 1px solid #dee2e6; border-radius: 10px; padding: 20px; text-align: center; transition: all 0.3s; color: #495057;">
+                                    <i class="bi bi-gear" style="font-size: 2rem; color: #007bff; margin-bottom: 10px;"></i>
+                                    <h6 style="margin: 10px 0; font-weight: 600;">Nuevo Servicio</h6>
+                                    <p style="font-size: 0.8rem; color: #6c757d; margin: 0;">Agregar nuevo servicio médico</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <a href="/admin/pacientes/reporte" class="text-decoration-none">
+                                <div class="quick-access-card" style="background: white; border: 1px solid #dee2e6; border-radius: 10px; padding: 20px; text-align: center; transition: all 0.3s; color: #495057;">
+                                    <i class="bi bi-file-earmark-text" style="font-size: 2rem; color: #007bff; margin-bottom: 10px;"></i>
+                                    <h6 style="margin: 10px 0; font-weight: 600;">Reporte Pacientes</h6>
+                                    <p style="font-size: 0.8rem; color: #6c757d; margin: 0;">Ver reporte de pacientes</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .stats-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .quick-access-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        border-color: #007bff;
+    }
+    
+
+</style> 

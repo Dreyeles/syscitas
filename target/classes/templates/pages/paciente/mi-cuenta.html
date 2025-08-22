@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: head"></head>
+
+<body data-bs-spy="scroll" data-bs-target="#header-nav" tabindex="0">
+
+  <!-- Header -->
+  <div th:replace="fragments/header :: header"></div>
+  
+  <!-- Navbar -->
+  <div th:replace="fragments/header :: navbar"></div>
+
+  <!-- Main Content -->
+  <main class="padding-large">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="display-header mb-5">
+            <h1 class="display-4 fw-bold text-center" style="color: var(--dark-color);">Mi Cuenta</h1>
+            <p class="lead text-center" style="color: var(--dark-color);">Gestiona tu información personal y preferencias</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mensajes de éxito y error -->
+      <div th:if="${mensajeExito}" class="alert alert-success alert-dismissible fade show" role="alert" id="mensajeExito">
+        <i class="bi bi-check-circle me-2"></i>
+        <span th:text="${mensajeExito}">Mensaje de éxito</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      
+      <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle me-2"></i>
+        <span th:text="${error}">Mensaje de error</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+
+      <div class="row">
+        <!-- Información del Perfil -->
+        <div class="col-lg-8">
+          <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header" style="background-color: #0A7A8A; color: var(--light-color);">
+              <h5 class="mb-0" style="color: var(--light-color);">
+                <i class="bi bi-person-circle me-2" style="color: var(--light-color);"></i>Información Personal
+              </h5>
+            </div>
+            <div class="card-body">
+              <form th:action="@{/mi-cuenta/actualizar}" th:object="${actualizarPacienteDTO}" method="post">
+                <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger mb-3" role="alert">
+                  <ul class="mb-0">
+                    <li th:each="err : ${#fields.globalErrors()}" th:text="${err}"></li>
+                  </ul>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="nombres" class="form-label" style="color: var(--dark-color);">Nombres</label>
+                    <input type="text" class="form-control" id="nombres" th:field="*{nombres}" 
+                           th:classappend="${#fields.hasErrors('nombres')} ? 'is-invalid' : ''" required>
+                    <div class="invalid-feedback" th:each="err : ${#fields.errors('nombres')}" th:text="${err}"></div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="apellidos" class="form-label" style="color: var(--dark-color);">Apellidos</label>
+                    <input type="text" class="form-control" id="apellidos" th:field="*{apellidos}" 
+                           th:classappend="${#fields.hasErrors('apellidos')} ? 'is-invalid' : ''" required>
+                    <div class="invalid-feedback" th:each="err : ${#fields.errors('apellidos')}" th:text="${err}"></div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="dni" class="form-label" style="color: var(--dark-color);">DNI</label>
+                    <input type="text" class="form-control" id="dni" th:value="${paciente.dni}" readonly style="background-color: #f8f9fa; color: #6c757d; cursor: not-allowed;">
+                    <small class="text-muted">El DNI no se puede modificar</small>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="fechaNacimiento" class="form-label" style="color: var(--dark-color);">Fecha de Nacimiento</label>
+                    <input type="date" class="form-control" id="fechaNacimiento" th:value="${paciente.fechaNacimiento}" readonly style="background-color: #f8f9fa; color: #6c757d; cursor: not-allowed;">
+                    <small class="text-muted">La fecha de nacimiento no se puede modificar</small>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="telefono" class="form-label" style="color: var(--dark-color);">Teléfono</label>
+                    <input type="tel" class="form-control" id="telefono" th:field="*{telefono}" 
+                           th:classappend="${#fields.hasErrors('telefono')} ? 'is-invalid' : ''"
+                           maxlength="9" minlength="9" placeholder="Ej: 999888777">
+                    <div class="invalid-feedback" th:each="err : ${#fields.errors('telefono')}" th:text="${err}"></div>
+                    <small class="form-text text-muted">Ingrese 9 dígitos sin espacios ni guiones</small>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="correo" class="form-label" style="color: var(--dark-color);">Correo Electrónico</label>
+                    <input type="email" class="form-control" id="correo" th:field="*{correo}" 
+                           th:classappend="${#fields.hasErrors('correo')} ? 'is-invalid' : ''" required>
+                    <div class="invalid-feedback" th:each="err : ${#fields.errors('correo')}" th:text="${err}"></div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="direccion" class="form-label" style="color: var(--dark-color);">Dirección</label>
+                    <input type="text" class="form-control" id="direccion" th:field="*{direccion}" 
+                           th:classappend="${#fields.hasErrors('direccion')} ? 'is-invalid' : ''">
+                    <div class="invalid-feedback" th:each="err : ${#fields.errors('direccion')}" th:text="${err}"></div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="distrito" class="form-label" style="color: var(--dark-color);">Distrito</label>
+                    <input type="text" class="form-control" id="distrito" th:field="*{distrito}" 
+                           th:classappend="${#fields.hasErrors('distrito')} ? 'is-invalid' : ''"
+                           placeholder="Lima, San Isidro, Miraflores, etc.">
+                    <div class="invalid-feedback" th:each="err : ${#fields.errors('distrito')}" th:text="${err}"></div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="estadoCivil" class="form-label" style="color: var(--dark-color);">Estado Civil</label>
+                    <select class="form-select" id="estadoCivil" th:field="*{estadoCivil}" 
+                           th:classappend="${#fields.hasErrors('estadoCivil')} ? 'is-invalid' : ''">
+                      <option value="">Seleccione...</option>
+                      <option th:each="ec : ${estadosCiviles}" th:value="${ec}" th:text="${ec.displayName}"></option>
+                    </select>
+                    <div class="invalid-feedback" th:each="err : ${#fields.errors('estadoCivil')}" th:text="${err}"></div>
+                  </div>
+                </div>
+                <!-- Información de Contacto de Emergencia -->
+                <div class="row">
+                  <div class="col-12">
+                    <h6 class="mt-4 mb-3" style="color: var(--dark-color); border-bottom: 2px solid #5A6268; padding-bottom: 0.5rem;">
+                      <i class="bi bi-telephone me-2"></i>Contacto de Emergencia
+                    </h6>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="contactoEmergenciaNombre" class="form-label" style="color: var(--dark-color);">Nombre del Contacto</label>
+                    <input type="text" class="form-control" id="contactoEmergenciaNombre" th:field="*{contactoEmergenciaNombre}" 
+                           th:classappend="${#fields.hasErrors('contactoEmergenciaNombre')} ? 'is-invalid' : ''"
+                           placeholder="Nombre completo del contacto de emergencia">
+                    <div class="invalid-feedback" th:each="err : ${#fields.errors('contactoEmergenciaNombre')}" th:text="${err}"></div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="contactoEmergenciaTelefono" class="form-label" style="color: var(--dark-color);">Teléfono del Contacto</label>
+                    <input type="tel" class="form-control" id="contactoEmergenciaTelefono" th:field="*{contactoEmergenciaTelefono}" 
+                           th:classappend="${#fields.hasErrors('contactoEmergenciaTelefono')} ? 'is-invalid' : ''"
+                           maxlength="9" minlength="9" placeholder="Ej: 999888777">
+                    <div class="invalid-feedback" th:each="err : ${#fields.errors('contactoEmergenciaTelefono')}" th:text="${err}"></div>
+                    <small class="form-text text-muted">Ingrese 9 dígitos sin espacios ni guiones</small>
+                  </div>
+                </div>
+                <div class="text-end">
+                  <button type="submit" class="btn" style="background-color: #0A7A8A; color: var(--light-color); border: none;">
+                    <i class="bi bi-check-circle me-2"></i>Guardar Cambios
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+          <!-- Foto de Perfil -->
+          <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body text-center">
+              <div class="position-relative d-inline-block mb-3">
+                <span class="circle-iniciales" style="width: 150px; height: 150px; font-size: 3.5rem;">
+                  <span th:text="${#strings.toUpperCase(paciente.nombres.substring(0,1)) + (paciente.apellidos != null and paciente.apellidos.length() > 0 ? #strings.toUpperCase(paciente.apellidos.substring(0,1)) : '')}"></span>
+                </span>
+              </div>
+              <h5 class="card-title" style="color: var(--dark-color);" th:text="${paciente.nombres + ' ' + paciente.apellidos}"></h5>
+              <p style="color: var(--dark-color);" th:with="mes=${#temporals.format(usuarioCompleto.fechaRegistro, 'MMMM')}, anio=${#temporals.format(usuarioCompleto.fechaRegistro, 'yyyy')}">
+                Paciente desde <span th:text="${#strings.capitalize(mes)} + ' ' + ${anio}"></span>
+              </p>
+            </div>
+          </div>
+
+          <!-- Acciones Rápidas -->
+          <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header" style="background-color: #0A7A8A; color: var(--light-color);">
+              <h6 class="mb-0" style="color: var(--light-color);">
+                <i class="bi bi-lightning me-2" style="color: var(--light-color);"></i>Acciones Rápidas
+              </h6>
+            </div>
+            <div class="card-body">
+              <div class="d-grid gap-2">
+                <a th:href="@{/citas/nueva}" class="btn btn-outline-primary" style="border-color: #0A7A8A; color: #0A7A8A;">
+                  <i class="bi bi-calendar-plus me-2"></i>Agendar Nueva Cita
+                </a>
+                <a th:href="@{/agenda-citas}" class="btn btn-outline-primary" style="border-color: #0A7A8A; color: #0A7A8A;">
+                  <i class="bi bi-calendar-check me-2"></i>Ver Mis Citas
+                </a>
+
+                <button class="btn btn-outline-primary" style="border-color: #0A7A8A; color: #0A7A8A;">
+                  <i class="bi bi-download me-2"></i>Descargar Historial
+                </button>
+              </div>
+            </div>
+          </div>
+
+
+
+          <!-- Cambiar Contraseña -->
+          <div class="card border-0 shadow-sm">
+            <div class="card-header" style="background-color: var(--dark-color); color: var(--light-color);">
+              <h6 class="mb-0" style="color: var(--light-color);">
+                <i class="bi bi-shield-lock me-2" style="color: var(--light-color);"></i>Seguridad
+              </h6>
+            </div>
+            <div class="card-body">
+              <button class="btn w-100" data-bs-toggle="modal" data-bs-target="#cambiarPasswordModal" style="background-color: var(--dark-color); color: var(--light-color); border: none;">
+                <i class="bi bi-key me-2"></i>Cambiar Contraseña
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal Cambiar Contraseña -->
+  <div class="modal fade" id="cambiarPasswordModal" tabindex="-1" aria-labelledby="cambiarPasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: #0A7A8A; color: white;">
+          <h5 class="modal-title" id="cambiarPasswordModalLabel" style="color: white;">Cambiar Contraseña</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form th:action="@{/mi-cuenta/cambiar-password}" th:object="${cambiarPasswordDTO}" method="post">
+
+            <!-- Errores Globales -->
+            <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger mb-3" role="alert">
+              <ul class="mb-0">
+                <li th:each="err : ${#fields.globalErrors()}" th:text="${err}"></li>
+              </ul>
+            </div>
+
+            <!-- Contraseña Actual -->
+            <div class="mb-3">
+              <label for="passwordActual" class="form-label" style="color: var(--dark-color);">Contraseña Actual</label>
+              <div class="input-group">
+                <input type="password" class="form-control" id="passwordActual" th:field="*{passwordActual}" 
+                       th:classappend="${#fields.hasErrors('passwordActual')} ? 'is-invalid' : ''" required>
+                <span class="input-group-text toggle-password" data-target="passwordActual" style="cursor: pointer;">
+                  <i class="bi bi-eye-slash"></i>
+                </span>
+              </div>
+              <div class="invalid-feedback" th:each="err : ${#fields.errors('passwordActual')}" th:text="${err}"></div>
+            </div>
+
+            <!-- Nueva Contraseña -->
+            <div class="mb-3">
+              <label for="passwordNueva" class="form-label" style="color: var(--dark-color);">Nueva Contraseña</label>
+              <div class="input-group">
+                <input type="password" class="form-control" id="passwordNueva" th:field="*{passwordNueva}" 
+                       th:classappend="${#fields.hasErrors('passwordNueva')} ? 'is-invalid' : ''" required>
+                <span class="input-group-text toggle-password" data-target="passwordNueva" style="cursor: pointer;">
+                  <i class="bi bi-eye-slash"></i>
+                </span>
+              </div>
+              <div class="invalid-feedback" th:each="err : ${#fields.errors('passwordNueva')}" th:text="${err}"></div>
+              <small class="form-text text-muted">La contraseña debe tener al menos 8 caracteres</small>
+            </div>
+
+            <!-- Confirmar Nueva Contraseña -->
+            <div class="mb-3">
+              <label for="passwordConfirmar" class="form-label" style="color: var(--dark-color);">Confirmar Nueva Contraseña</label>
+              <div class="input-group">
+                <input type="password" class="form-control" id="passwordConfirmar" th:field="*{passwordConfirmar}" 
+                       th:classappend="${#fields.hasErrors('passwordConfirmar')} ? 'is-invalid' : ''" required>
+                <span class="input-group-text toggle-password" data-target="passwordConfirmar" style="cursor: pointer;">
+                  <i class="bi bi-eye-slash"></i>
+                </span>
+              </div>
+              <div class="invalid-feedback" th:each="err : ${#fields.errors('passwordConfirmar')}" th:text="${err}"></div>
+            </div>
+
+            <!-- Botones -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color: #5A6268; color: var(--light-color); border: none;">Cancelar</button>
+              <button type="submit" class="btn" style="background-color: #0A7A8A; color: var(--light-color); border: none;">
+                <i class="bi bi-check-circle me-2"></i>Cambiar Contraseña
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div th:replace="fragments/footer :: footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script th:src="@{/js/navbar.js}"></script>
+  <script src="/js/password-toggle.js"></script>
+  
+  <script>
+      // Validación para campos de teléfono - solo permitir números
+      document.addEventListener('DOMContentLoaded', function() {
+          const telefonoInputs = document.querySelectorAll('#telefono, #contactoEmergenciaTelefono');
+          
+          telefonoInputs.forEach(function(input) {
+              input.addEventListener('input', function(e) {
+                  // Remover cualquier carácter que no sea número
+                  this.value = this.value.replace(/[^0-9]/g, '');
+                  
+                  // Limitar a 9 dígitos
+                  if (this.value.length > 9) {
+                      this.value = this.value.slice(0, 9);
+                  }
+              });
+              
+              // Prevenir pegar texto que no sean números
+              input.addEventListener('paste', function(e) {
+                  e.preventDefault();
+                  const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+                  const numbersOnly = pastedText.replace(/[^0-9]/g, '').slice(0, 9);
+                  this.value = numbersOnly;
+              });
+          });
+          
+          // Validación del formulario antes de enviar
+          const form = document.querySelector('form[th\\:action*="mi-cuenta/actualizar"]');
+          if (form) {
+              form.addEventListener('submit', function(e) {
+                  const nombres = document.getElementById('nombres').value.trim();
+                  const apellidos = document.getElementById('apellidos').value.trim();
+                  const telefono = document.getElementById('telefono').value.trim();
+                  const email = document.getElementById('email').value.trim();
+                  
+                  if (!nombres || !apellidos || !telefono || !email) {
+                      e.preventDefault();
+                      alert('Por favor complete todos los campos obligatorios.');
+                      return false;
+                  }
+                  
+                  if (telefono.length !== 9) {
+                      e.preventDefault();
+                      alert('El teléfono debe tener 9 dígitos.');
+                      return false;
+                  }
+                  
+                  if (!email.includes('@')) {
+                      e.preventDefault();
+                      alert('Por favor ingrese un email válido.');
+                      return false;
+                  }
+              });
+          }
+          
+          // Auto-ocultar mensaje de éxito después de 5 segundos
+          const mensajeExito = document.getElementById('mensajeExito');
+          if (mensajeExito) {
+              setTimeout(function() {
+                  const alert = new bootstrap.Alert(mensajeExito);
+                  alert.close();
+              }, 5000); // 5 segundos
+          }
+          
+          // Validación del formulario de cambio de contraseña
+          const formPassword = document.querySelector('form[th\\:action*="cambiar-password"]');
+          if (formPassword) {
+              formPassword.addEventListener('submit', function(e) {
+                  const passwordActual = document.getElementById('passwordActual').value.trim();
+                  const passwordNueva = document.getElementById('passwordNueva').value.trim();
+                  const passwordConfirmar = document.getElementById('passwordConfirmar').value.trim();
+                  
+                  if (!passwordActual || !passwordNueva || !passwordConfirmar) {
+                      e.preventDefault();
+                      alert('Por favor complete todos los campos.');
+                      return false;
+                  }
+                  
+                  if (passwordNueva.length < 8) {
+                      e.preventDefault();
+                      alert('La nueva contraseña debe tener al menos 8 caracteres.');
+                      return false;
+                  }
+                  
+                  if (passwordNueva !== passwordConfirmar) {
+                      e.preventDefault();
+                      alert('Las contraseñas no coinciden.');
+                      return false;
+                  }
+                  
+                  if (passwordActual === passwordNueva) {
+                      e.preventDefault();
+                      alert('La nueva contraseña debe ser diferente a la actual.');
+                      return false;
+                  }
+              });
+          }
+      });
+  </script>
+</body>
+</html> 

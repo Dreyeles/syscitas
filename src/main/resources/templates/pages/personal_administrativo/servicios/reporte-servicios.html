@@ -1,0 +1,467 @@
+<!-- Fragmento para Reporte de Servicios -->
+<div th:fragment="reporte-servicios" class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h4 class="mb-0">
+                        <i class="bi bi-file-earmark-text me-2"></i>Reporte de Servicios
+                    </h4>
+                </div>
+                <div class="card-body">
+                    
+                    <!-- Filtros de Búsqueda -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="mb-0">
+                                        <i class="bi bi-funnel me-2"></i>Filtros de Búsqueda
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label for="servicio_filtroNombre" class="form-label">Nombre del Servicio</label>
+                                            <input type="text" class="form-control" id="servicio_filtroNombre" placeholder="Buscar por nombre...">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="servicio_filtroEspecialidad" class="form-label">Especialidad</label>
+                                            <select class="form-select" id="servicio_filtroEspecialidad">
+                                                <option value="">Todas las especialidades</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="servicio_filtroDescripcion" class="form-label">Descripción</label>
+                                            <input type="text" class="form-control" id="servicio_filtroDescripcion" placeholder="Buscar por descripción...">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="d-flex gap-2">
+                                                <button type="button" class="btn btn-secondary" id="servicio_btnLimpiarFiltros">
+                                                    <i class="bi bi-arrow-clockwise me-2"></i>Limpiar Filtros
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Botones de Exportación -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">
+                                    <i class="bi bi-list-ul me-2"></i>Lista de Servicios
+                                </h6>
+                                <div class="d-flex gap-2">
+                                    <button type="button" class="btn btn-success btn-sm" id="servicio_btnExportarExcel">
+                                        <i class="bi bi-file-earmark-excel me-2"></i>Exportar Excel
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-sm" id="servicio_btnExportarPDF">
+                                        <i class="bi bi-file-earmark-pdf me-2"></i>Exportar PDF
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tabla de Servicios -->
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped" id="servicio_tablaServicio">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th>Especialidad</th>
+                                    <th>Precio</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="servicio_tablaServicioBody">
+                                <!-- Las filas se cargarán dinámicamente con JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Información de paginación -->
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <p class="text-muted" id="servicio_infoPaginacion">
+                                Mostrando <span id="servicio_inicioRegistros">0</span> a <span id="servicio_finRegistros">0</span> de <span id="servicio_totalRegistros">0</span> servicios
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Paginación -->
+                    <div class="row">
+                        <div class="col-12">
+                            <nav aria-label="Navegación de páginas">
+                                <ul class="pagination justify-content-center" id="servicio_paginacion">
+                                    <!-- Los botones de paginación se generarán dinámicamente -->
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Detalles del Servicio -->
+    <div class="modal fade" id="servicio_detallesModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title">
+                        <i class="bi bi-info-circle me-2"></i>Detalles del Servicio
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="text-primary">Información General</h6>
+                            <div class="table-responsive">
+                                <table class="table table-borderless">
+                                    <tr>
+                                        <td><strong>ID:</strong></td>
+                                        <td><span id="servicio_detalleId">-</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Nombre:</strong></td>
+                                        <td><span id="servicio_detalleNombre">-</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Descripción:</strong></td>
+                                        <td><span id="servicio_detalleDescripcion">-</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Especialidad:</strong></td>
+                                        <td><span id="servicio_detalleEspecialidad">-</span></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-primary">Información Económica</h6>
+                            <div class="table-responsive">
+                                <table class="table table-borderless">
+                                    <tr>
+                                        <td><strong>Precio:</strong></td>
+                                        <td><span id="servicio_detallePrecio">-</span></td>
+                                    </tr>
+                                    
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-warning">
+                        <i class="bi bi-pencil me-2"></i>Editar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmación de Eliminación -->
+    <div class="modal fade" id="servicio_eliminarModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">
+                        <i class="bi bi-exclamation-triangle me-2"></i>Confirmar Eliminación
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Está seguro que desea eliminar el servicio <strong id="servicio_nombreServicioEliminar"></strong>?</p>
+                    <p class="text-danger"><small>Esta acción no se puede deshacer.</small></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="servicio_btnConfirmarEliminar">
+                        <i class="bi bi-trash me-2"></i>Eliminar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script para manejar servicios con namespace -->
+    <script>
+    // Namespace para gestión de servicios
+    const ServicioManager = {
+        // Variables globales para la paginación
+        serviciosData: [],
+        serviciosFiltrados: [],
+        paginaActual: 1,
+        registrosPorPagina: 5,
+        
+        // Función para inicializar el módulo
+        init() {
+            this.cargarEspecialidades();
+            this.cargarDatosIniciales();
+            this.bindEvents();
+        },
+        
+        // Función para cargar especialidades en el filtro
+        cargarEspecialidades() {
+            fetch('/especialidad/api/listar')
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById('servicio_filtroEspecialidad');
+                    data.forEach(especialidad => {
+                        const option = document.createElement('option');
+                        option.value = especialidad.id;
+                        option.textContent = especialidad.nombre;
+                        select.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    // Error silencioso al cargar especialidades
+                });
+        },
+        
+        // Función para cargar los datos iniciales
+        cargarDatosIniciales() {
+            fetch('/servicio/api/listar')
+                .then(response => {
+                    if (!response.ok) {
+                        if (response.status === 401) {
+                            throw new Error('No autenticado. Por favor, inicie sesión.');
+                        } else if (response.status === 403) {
+                            throw new Error('Sin permisos para acceder a esta información.');
+                        } else {
+                            throw new Error(`Error del servidor: ${response.status}`);
+                        }
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    this.serviciosData = data;
+                    this.serviciosFiltrados = [...this.serviciosData];
+                    this.mostrarPagina(1);
+                    this.actualizarPaginacion();
+                })
+                .catch(error => {
+                    this.mostrarMensajeError('Error al cargar los servicios: ' + error.message);
+                });
+        },
+        
+        // Función para mostrar una página específica
+        mostrarPagina(pagina) {
+            this.paginaActual = pagina;
+            const inicio = (pagina - 1) * this.registrosPorPagina;
+            const fin = inicio + this.registrosPorPagina;
+            const registrosPagina = this.serviciosFiltrados.slice(inicio, fin);
+            
+            const tbody = document.getElementById('servicio_tablaServicioBody');
+            tbody.innerHTML = '';
+            
+            if (registrosPagina.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted">No hay servicios registrados.</td></tr>';
+            } else {
+                registrosPagina.forEach(servicio => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${servicio.id}</td>
+                        <td>${servicio.nombre}</td>
+                        <td>${servicio.descripcion || 'Sin descripción'}</td>
+                        <td>${servicio.especialidad ? servicio.especialidad.nombre : 'Sin especialidad'}</td>
+                        <td>S/. ${parseFloat(servicio.precioServicio).toFixed(2)}</td>
+                        <td>
+                            <div class="btn-group btn-group-sm" role="group">
+                                <button type="button" 
+                                        class="btn btn-info btn-detalles-servicio" 
+                                        title="Ver Detalles"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#servicio_detallesModal"
+                                        data-id="${servicio.id}"
+                                        data-nombre="${servicio.nombre}"
+                                        data-descripcion="${servicio.descripcion || 'Sin descripción'}"
+                                        data-especialidad="${servicio.especialidad ? servicio.especialidad.nombre : 'Sin especialidad'}"
+                                                                             data-precio="${parseFloat(servicio.precioServicio).toFixed(2)}">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button type="button" class="btn btn-warning" title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button type="button" class="btn btn-danger" title="Eliminar">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            }
+            
+            this.actualizarInfoPaginacion();
+        },
+        
+        // Función para actualizar la información de paginación
+        actualizarInfoPaginacion() {
+            const inicio = (this.paginaActual - 1) * this.registrosPorPagina + 1;
+            const fin = Math.min(this.paginaActual * this.registrosPorPagina, this.serviciosFiltrados.length);
+            const total = this.serviciosFiltrados.length;
+            
+            document.getElementById('servicio_inicioRegistros').textContent = total > 0 ? inicio : 0;
+            document.getElementById('servicio_finRegistros').textContent = fin;
+            document.getElementById('servicio_totalRegistros').textContent = total;
+        },
+        
+        // Función para actualizar los controles de paginación
+        actualizarPaginacion() {
+            const totalPaginas = Math.ceil(this.serviciosFiltrados.length / this.registrosPorPagina);
+            const paginacion = document.getElementById('servicio_paginacion');
+            paginacion.innerHTML = '';
+            
+            if (totalPaginas <= 1) return;
+            
+            // Botón Anterior
+            const liAnterior = document.createElement('li');
+            liAnterior.className = `page-item ${this.paginaActual === 1 ? 'disabled' : ''}`;
+            liAnterior.innerHTML = `<a class="page-link" href="#" data-pagina="${this.paginaActual - 1}">Anterior</a>`;
+            paginacion.appendChild(liAnterior);
+            
+            // Números de página
+            const inicioPagina = Math.max(1, this.paginaActual - 2);
+            const finPagina = Math.min(totalPaginas, this.paginaActual + 2);
+            
+            for (let i = inicioPagina; i <= finPagina; i++) {
+                const li = document.createElement('li');
+                li.className = `page-item ${i === this.paginaActual ? 'active' : ''}`;
+                li.innerHTML = `<a class="page-link" href="#" data-pagina="${i}">${i}</a>`;
+                paginacion.appendChild(li);
+            }
+            
+            // Botón Siguiente
+            const liSiguiente = document.createElement('li');
+            liSiguiente.className = `page-item ${this.paginaActual === totalPaginas ? 'disabled' : ''}`;
+            liSiguiente.innerHTML = `<a class="page-link" href="#" data-pagina="${this.paginaActual + 1}">Siguiente</a>`;
+            paginacion.appendChild(liSiguiente);
+        },
+        
+        // Función para filtrar servicios
+        filtrarServicios() {
+            const filtroNombre = document.getElementById('servicio_filtroNombre').value.toLowerCase();
+            const filtroEspecialidad = document.getElementById('servicio_filtroEspecialidad').value;
+            const filtroDescripcion = document.getElementById('servicio_filtroDescripcion').value.toLowerCase();
+            
+            this.serviciosFiltrados = this.serviciosData.filter(servicio => {
+                const nombreMatch = servicio.nombre.toLowerCase().includes(filtroNombre);
+                const especialidadMatch = !filtroEspecialidad || (servicio.especialidad && servicio.especialidad.id == filtroEspecialidad);
+                const descripcionMatch = (servicio.descripcion || '').toLowerCase().includes(filtroDescripcion);
+                
+                return nombreMatch && especialidadMatch && descripcionMatch;
+            });
+            
+            this.paginaActual = 1;
+            this.mostrarPagina(1);
+            this.actualizarPaginacion();
+        },
+        
+        // Función para limpiar filtros
+        limpiarFiltros() {
+            document.getElementById('servicio_filtroNombre').value = '';
+            document.getElementById('servicio_filtroEspecialidad').value = '';
+            document.getElementById('servicio_filtroDescripcion').value = '';
+            this.serviciosFiltrados = [...this.serviciosData];
+            this.paginaActual = 1;
+            this.mostrarPagina(1);
+            this.actualizarPaginacion();
+        },
+        
+        // Función para formatear fecha
+        formatearFecha(fecha) {
+            if (!fecha) return '-';
+            const date = new Date(fecha);
+            return date.toLocaleDateString('es-ES') + ' ' + date.toLocaleTimeString('es-ES', {hour: '2-digit', minute: '2-digit'});
+        },
+        
+        // Función para mostrar mensaje de error
+        mostrarMensajeError(mensaje) {
+            const tbody = document.getElementById('servicio_tablaServicioBody');
+            tbody.innerHTML = `<tr><td colspan="6" class="text-center text-danger">${mensaje}</td></tr>`;
+        },
+        
+        // Función para configurar event listeners
+        bindEvents() {
+            // Event listener para paginación
+            document.addEventListener('click', (event) => {
+                if (event.target.classList.contains('page-link') && event.target.closest('#servicio_paginacion')) {
+                    event.preventDefault();
+                    const pagina = parseInt(event.target.getAttribute('data-pagina'));
+                    if (pagina && pagina !== this.paginaActual) {
+                        this.mostrarPagina(pagina);
+                        this.actualizarPaginacion();
+                    }
+                }
+            });
+            
+            // Event listeners para filtros
+            document.getElementById('servicio_btnLimpiarFiltros').addEventListener('click', () => this.limpiarFiltros());
+            
+            // Filtros en tiempo real
+            document.getElementById('servicio_filtroNombre').addEventListener('input', () => this.filtrarServicios());
+            document.getElementById('servicio_filtroDescripcion').addEventListener('input', () => this.filtrarServicios());
+            document.getElementById('servicio_filtroEspecialidad').addEventListener('change', () => this.filtrarServicios());
+            
+            // Event listener para detalles de servicio
+            document.addEventListener('click', (event) => {
+                const trigger = event.target.closest('.btn-detalles-servicio');
+                if (!trigger) return;
+                
+                const get = (attr) => trigger.getAttribute(attr) || '-';
+                const set = (id, value) => { 
+                    const el = document.getElementById(id); 
+                    if (el) el.textContent = value ?? '-'; 
+                };
+
+                set('servicio_detalleId', get('data-id'));
+                set('servicio_detalleNombre', get('data-nombre'));
+                set('servicio_detalleDescripcion', get('data-descripcion'));
+                set('servicio_detalleEspecialidad', get('data-especialidad'));
+                set('servicio_detallePrecio', 'S/. ' + get('data-precio'));
+            });
+        }
+    };
+    
+    // Inicializar cuando el DOM esté listo
+    document.addEventListener('DOMContentLoaded', function() {
+        ServicioManager.init();
+        
+        // Asegurar que al cerrar el modal se elimine cualquier backdrop residual
+        const modalEl = document.getElementById('servicio_detallesModal');
+        if (modalEl) {
+            modalEl.addEventListener('hidden.bs.modal', function () {
+                document.body.classList.remove('modal-open');
+                document.body.style.removeProperty('overflow');
+                document.body.style.removeProperty('padding-right');
+                document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+            });
+        }
+        
+        // También para el modal de eliminación
+        const modalEliminarEl = document.getElementById('servicio_eliminarModal');
+        if (modalEliminarEl) {
+            modalEliminarEl.addEventListener('hidden.bs.modal', function () {
+                document.body.classList.remove('modal-open');
+                document.body.style.removeProperty('overflow');
+                document.body.style.removeProperty('padding-right');
+                document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+            });
+        }
+    });
+    </script>
+</div>

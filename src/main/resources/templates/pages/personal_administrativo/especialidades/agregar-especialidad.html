@@ -1,0 +1,119 @@
+<!-- Fragmento para Agregar Especialidad -->
+<div th:fragment="agregar-especialidad" class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">
+                        <i class="bi bi-plus-circle me-2"></i>Agregar Nueva Especialidad
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <!-- Mensajes de éxito y error -->
+                    <div th:if="${mensajeExito}" class="alert alert-success mb-3" role="alert" th:text="${mensajeExito}">
+                        Especialidad agregada exitosamente.
+                    </div>
+                    
+                    <div th:if="${mensajeError}" class="alert alert-danger mb-3" role="alert" th:text="${mensajeError}">
+                        Error al agregar especialidad.
+                    </div>
+                    
+                    <form th:action="@{/especialidad/agregar}" th:object="${agregarEspecialidadDTO}" method="post" id="agregarEspecialidadForm" class="needs-validation" novalidate>
+                        
+                        <!-- Información Básica -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="text-success border-bottom pb-2">
+                                    <i class="bi bi-info-circle me-2"></i>Información Básica
+                                </h5>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="nombre" class="form-label">Nombre de la Especialidad *</label>
+                                <input type="text" class="form-control" id="nombre" th:field="*{nombre}" required
+                                       th:classappend="${#fields.hasErrors('nombre')} ? 'is-invalid' : ''"
+                                       placeholder="Ej: Cardiología">
+                                <div class="invalid-feedback" th:each="err : ${#fields.errors('nombre')}" th:text="${err}">
+                                    Por favor ingrese el nombre de la especialidad.
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="descripcion" class="form-label">Descripción</label>
+                                <textarea class="form-control" id="descripcion" th:field="*{descripcion}" rows="3"
+                                          th:classappend="${#fields.hasErrors('descripcion')} ? 'is-invalid' : ''"
+                                          placeholder="Descripción de la especialidad..."></textarea>
+                                <div class="invalid-feedback" th:each="err : ${#fields.errors('descripcion')}" th:text="${err}">
+                                    Por favor ingrese una descripción válida.
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <!-- Botones de Acción -->
+                        <div class="row">
+                            <div class="col-12">
+                                <hr class="my-4">
+                                <div class="d-flex justify-content-end gap-2">
+                                    <button type="button" class="btn btn-secondary" id="btnCancelar">
+                                        <i class="bi bi-x-circle me-2"></i>Cancelar
+                                    </button>
+                                    <button type="button" class="btn btn-warning" id="btnLimpiar">
+                                        <i class="bi bi-arrow-clockwise me-2"></i>Limpiar
+                                    </button>
+                                    <button type="submit" class="btn btn-success" id="btnAgregar">
+                                        <i class="bi bi-check-circle me-2"></i>Agregar Especialidad
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmación -->
+    <div class="modal fade" id="confirmacionModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmar Registro</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Está seguro que desea agregar la especialidad con los datos ingresados?</p>
+                    <div id="resumenDatos" class="mt-3">
+                        <!-- Aquí se mostrará el resumen de datos -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" id="btnConfirmarRegistro">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Éxito -->
+    <div class="modal fade" id="exitoModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">
+                        <i class="bi bi-check-circle me-2"></i>Especialidad Agregada
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>La especialidad ha sido agregada exitosamente al sistema.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

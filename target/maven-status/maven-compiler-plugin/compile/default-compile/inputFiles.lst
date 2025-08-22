@@ -1,49 +1,111 @@
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\clients\reciec\config\ClientReniecApiConfig.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\clients\reciec\dto\ResponseClientReniecDTO.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\clients\reciec\exception\ClientReniecApiException.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\clients\reciec\exception\RegistroException.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\clients\reciec\service\ClientReniecApiService.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\config\SecurityConfig.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\controller\AutenticacionController.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\controller\CitasController.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\controller\InicioController.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\controller\PacienteController.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\controllerAdvices\GlobalExceptionHandler.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\controllerAdvices\UsuarioSesionAdvice.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\dto\RegistroUsuarioDTO.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\dto\UsuarioSesionDTO.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\enums\Comprobante.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\enums\EstadoAtencion.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\enums\EstadoCita.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\enums\EstadoCivil.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\enums\EstadoPago.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\enums\GrupoSanguineo.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\enums\Rol.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\enums\Sexo.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\enums\TurnoMedico.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\exceptions\AutenticacionException.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\exceptions\PacienteException.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\forms\LoginForm.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\forms\RegistroForm.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\mapper\AuthMapper.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\model\Cita.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\model\Especialidad.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\model\Medico.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\model\Paciente.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\model\PersonalAdministrativo.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\model\Servicio.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\model\Usuario.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\repository\CitaRepository.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\repository\EspecialidadRepository.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\repository\MedicoRepository.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\repository\PacienteRepository.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\repository\PersonalAdministrativoRepository.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\repository\ServicioRepository.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\repository\UsuarioRepository.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\security\AutenticacionService.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\security\AutorizacionInterceptor.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\security\config\WebMvcConfig.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\service\impl\PacienteServiceImpl.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\service\PacienteService.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\service\RegistroService.java
-C:\Users\User\Desktop\TAREAS\P_SISOL_GENERAL\sisol sin luis\proyecto-sisol\src\main\java\com\sisol\sys_citas\SysCitasApplication.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\clients\reciec\config\ClientReniecApiConfig.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\clients\reciec\dto\ResponseClientReniecDTO.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\clients\reciec\exception\ClientReniecApiException.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\clients\reciec\exception\RegistroException.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\clients\reciec\service\ClientReniecApiService.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\controller\AgendaCitasController.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\controller\AgendarCitaRestController.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\controller\AtencionMedicaController.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\controller\AutenticacionController.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\controller\CitasController.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\controller\CitasRestController.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\controller\CustomErrorController.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\controller\DashboardAdministrativoController.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\controller\DashboardController.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\controller\DashboardMedicoController.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\controller\ErrorController.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\controller\EspecialidadController.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\controller\HistoriaClinicaController.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\controller\InicioController.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\controller\MedicosController.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\controller\NosotrosController.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\controller\PacienteController.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\controller\PagarController.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\controller\PaginasController.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\controller\PaginasPacienteController.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\controller\PagosController.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\controller\RegistroMedicoController.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\controller\ServicioAdminController.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\controller\ServicioRestController.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\controller\ServiciosController.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\controllerAdvices\GlobalExceptionHandler.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\controllerAdvices\UsuarioSesionAdvice.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\converter\EstadoCivilConverter.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\converter\SexoConverter.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\dto\ActualizarPacienteDTO.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\dto\AgendarCitaDTO.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\dto\AgendarCitaResponseDTO.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\dto\AgregarEspecialidadDTO.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\dto\AgregarServicioDTO.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\dto\AtencionMedicaDTO.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\dto\CambiarPasswordDTO.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\dto\CancelarCitaDTO.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\dto\CancelarCitaResponseDTO.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\dto\DisponibilidadDTO.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\dto\EspecialidadDTO.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\dto\HistoriaClinicaDTO.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\dto\MedicoDTO.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\dto\PacienteListaDTO.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\dto\ReagendarCitaDTO.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\dto\ReagendarCitaResponseDTO.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\dto\RegistroMedicoDTO.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\dto\RegistroPacienteDTO.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\dto\RegistroUsuarioDTO.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\dto\ServicioDTO.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\dto\ServicioListaDTO.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\dto\UsuarioSesionDTO.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\enums\Comprobante.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\enums\EstadoAtencion.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\enums\EstadoCita.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\enums\EstadoCivil.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\enums\EstadoPago.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\enums\GrupoSanguineo.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\enums\Rol.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\enums\Sexo.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\enums\TurnoMedico.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\exceptions\AutenticacionException.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\exceptions\PacienteException.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\forms\LoginForm.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\forms\RegistroForm.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\mapper\AuthMapper.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\model\AtencionMedica.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\model\Cita.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\model\Disponibilidad.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\model\Especialidad.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\model\HistoriaClinica.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\model\Medico.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\model\Paciente.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\model\Pago.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\model\PersonalAdministrativo.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\model\Servicio.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\model\Usuario.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\persistence\converter\EstadoCivilConverter.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\repository\AtencionMedicaRepository.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\repository\CitaRepository.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\repository\DisponibilidadRepository.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\repository\EspecialidadRepository.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\repository\HistoriaClinicaRepository.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\repository\MedicoRepository.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\repository\PacienteRepository.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\repository\PagoRepository.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\repository\PersonalAdministrativoRepository.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\repository\ServicioRepository.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\repository\UsuarioRepository.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\security\AutenticacionService.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\security\config\SecurityConfig.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\security\CustomAuthenticationSuccessHandler.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\security\UserDetailsServiceImpl.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\service\ActualizarPacienteService.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\service\AgendarCitaService.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\service\AgregarEspecialidadService.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\service\AgregarServicioService.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\service\AtencionMedicaService.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\service\CambiarPasswordService.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\service\CitasService.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\service\HistoriaClinicaService.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\service\impl\PacienteServiceImpl.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\service\PacienteService.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\service\RegistroMedicoService.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\service\RegistroService.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\service\ReservaTemporalService.java
+C:\Users\User\Downloads\sys citas final final\syscitass\src\main\java\com\sisol\sys_citas\SysCitasApplication.java

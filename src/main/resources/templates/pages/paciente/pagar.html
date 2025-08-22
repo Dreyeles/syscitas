@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body class="bg-light">
+  <!-- Header -->
+  <div th:replace="fragments/header :: header"></div>
+  
+  <!-- Navbar -->
+  <div th:replace="fragments/header :: navbar"></div>
+
+  <!-- Main Content -->
+  <main class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card shadow border-0 p-4">
+          <h1 class="mb-4 text-center" style="font-family:'Poppins',Arial,sans-serif;font-weight:700;color:#0A7A8A;font-size:2rem;">Procesar Pago y Agendar Cita</h1>
+          
+          <!-- Resumen de la Cita -->
+          <div class="card mb-4" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+            <div class="card-header" style="background-color: #0A7A8A; color: var(--light-color);">
+              <h5 class="mb-0" style="color: var(--light-color);">
+                <i class="bi bi-calendar-check me-2" style="color: var(--light-color);"></i>Resumen de la Cita
+              </h5>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <p><strong style="color: var(--dark-color);">Especialidad:</strong> <span id="resumenEspecialidad" style="color: var(--dark-color);">-</span></p>
+                  <p><strong style="color: var(--dark-color);">Servicio:</strong> <span id="resumenServicio" style="color: var(--dark-color);">-</span></p>
+                  <p><strong style="color: var(--dark-color);">Médico:</strong> <span id="resumenMedico" style="color: var(--dark-color);">-</span></p>
+                </div>
+                <div class="col-md-6">
+                  <p><strong style="color: var(--dark-color);">Fecha:</strong> <span id="resumenFecha" style="color: var(--dark-color);">-</span></p>
+                  <p><strong style="color: var(--dark-color);">Horario:</strong> <span id="resumenHorario" style="color: var(--dark-color);">-</span></p>
+                  <p><strong style="color: var(--dark-color);">Paciente:</strong> <span id="resumenPaciente" style="color: var(--dark-color);">-</span></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <div class="alert alert-info" style="background-color: #fff; color: var(--light-color); border: none;">
+                    <h5 class="mb-0">Total a Pagar: S/ <span id="resumenPrecio">0.00</span></h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Formulario de Pago -->
+          <form id="pagoForm">
+            <div class="row">
+              <div class="col-md-6">
+                <h4 class="mb-3" style="color: var(--dark-color); border-bottom: 2px solid #0A7A8A; padding-bottom: 0.5rem;">
+                  <i class="bi bi-credit-card me-2"></i>Información de Pago
+                </h4>
+                
+                <div class="mb-3">
+                  <label for="numeroTarjeta" class="form-label" style="color: var(--dark-color);">Número de Tarjeta *</label>
+                  <input type="text" class="form-control" id="numeroTarjeta" required maxlength="16" placeholder="1234 5678 9012 3456">
+                  <div class="invalid-feedback">Ingrese un número de tarjeta válido.</div>
+                </div>
+                
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="fechaVencimiento" class="form-label" style="color: var(--dark-color);">Fecha de Vencimiento *</label>
+                    <input type="text" class="form-control" id="fechaVencimiento" required placeholder="MM/AA" maxlength="5">
+                    <div class="invalid-feedback">Formato: MM/AA</div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="cvv" class="form-label" style="color: var(--dark-color);">CVV *</label>
+                    <input type="text" class="form-control" id="cvv" required maxlength="4" placeholder="123">
+                    <div class="invalid-feedback">Ingrese el código de seguridad.</div>
+                  </div>
+                </div>
+                
+                <div class="mb-3">
+                  <label for="nombreTarjeta" class="form-label" style="color: var(--dark-color);">Nombre en la Tarjeta *</label>
+                  <input type="text" class="form-control" id="nombreTarjeta" required placeholder="JUAN PEREZ GARCIA">
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <h4 class="mb-3" style="color: var(--dark-color); border-bottom: 2px solid #0A7A8A; padding-bottom: 0.5rem;">
+                  <i class="bi bi-person me-2"></i>Información de Facturación
+                </h4>
+                
+                <div class="mb-3">
+                  <label for="emailFacturacion" class="form-label" style="color: var(--dark-color);">Email para Comprobante *</label>
+                  <input type="email" class="form-control" id="emailFacturacion" required placeholder="juan.perez@email.com">
+                </div>
+                
+                <div class="mb-3">
+                  <label for="telefonoFacturacion" class="form-label" style="color: var(--dark-color);">Teléfono *</label>
+                  <input type="tel" class="form-control" id="telefonoFacturacion" required placeholder="+51 999 888 777">
+                </div>
+                
+                <div class="mb-3">
+                  <label for="direccionFacturacion" class="form-label" style="color: var(--dark-color);">Dirección de Facturación *</label>
+                  <textarea class="form-control" id="direccionFacturacion" rows="3" required placeholder="Av. Arequipa 123, Lima"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Botón de Pago -->
+            <div class="row mt-4">
+              <div class="col-12 text-center">
+                <button type="submit" class="btn btn-primary btn-lg px-5" style="background-color: #0A7A8A; border-color: #0A7A8A;">
+                  <i class="bi bi-credit-card me-2"></i>Procesar Pago y Agendar Cita
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <div th:replace="fragments/footer :: footer"></div>
+
+  <!-- Login Modal -->
+  <div th:replace="fragments/login :: loginModal"></div>
+
+  <!-- Success Modal -->
+  <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: #0A7A8A;">
+          <h5 class="modal-title" id="successModalLabel" style="color: var(--light-color);">
+            <i class="bi bi-check-circle-fill me-2"></i>Operación exitosa
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p id="successModalMessage">¡Cita agendada y pago procesado exitosamente!</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="btnSuccessGo" class="btn btn-primary" style="background-color: #0A7A8A; border-color: #0A7A8A;" data-bs-dismiss="modal">Volver al Inicio</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script th:src="@{/js/navbar.js}"></script>
+  
+  <script>
+    // Datos de la cita (normalmente vendrían de la página anterior)
+    let citaData = {
+      especialidad: 'Medicina General',
+      servicio: 'Consulta General',
+      medico: 'Dr. Juan García',
+      fecha: '2024-01-15',
+      horario: '09:00',
+      paciente: 'Juan Pérez',
+      precio: 50.00
+    };
+
+    // Cargar datos en el resumen al cargar la página
+    document.addEventListener('DOMContentLoaded', function() {
+      // Intentar obtener datos del sessionStorage
+      const storedData = sessionStorage.getItem('citaData');
+      if (storedData) {
+        citaData = JSON.parse(storedData);
+        console.log('Datos cargados desde sessionStorage:', citaData); // Para debugging
+      } else {
+        // Si no hay datos, redirigir a la página de citas nueva
+        alert('No se encontraron datos de cita. Por favor, seleccione una cita nuevamente.');
+        window.location.href = '/citas/nueva';
+        return;
+      }
+
+      // Actualizar resumen
+      document.getElementById('resumenEspecialidad').textContent = citaData.especialidad || '-';
+      document.getElementById('resumenServicio').textContent = citaData.servicio || '-';
+      document.getElementById('resumenMedico').textContent = citaData.medico || '-';
+      document.getElementById('resumenFecha').textContent = citaData.fecha || '-';
+      document.getElementById('resumenHorario').textContent = citaData.horario || '-';
+      document.getElementById('resumenPaciente').textContent = citaData.paciente || '-';
+      
+      // Manejar el precio correctamente
+      let precio = 0;
+      if (citaData.precio) {
+        // Si el precio es un string, convertirlo a número
+        if (typeof citaData.precio === 'string') {
+          precio = parseFloat(citaData.precio.replace(/[^\d.-]/g, '')) || 0;
+        } else {
+          precio = parseFloat(citaData.precio) || 0;
+        }
+      }
+      document.getElementById('resumenPrecio').textContent = precio.toFixed(2);
+      
+      console.log('Precio cargado:', precio, 'Tipo:', typeof citaData.precio); // Para debugging
+
+      // Validaciones de formulario
+      const numeroTarjeta = document.getElementById('numeroTarjeta');
+      const fechaVencimiento = document.getElementById('fechaVencimiento');
+      const cvv = document.getElementById('cvv');
+
+      // Validación de número de tarjeta
+      numeroTarjeta.addEventListener('input', function() {
+        let valor = this.value.replace(/\D/g, '');
+        if (valor.length > 16) valor = valor.substring(0, 16);
+        this.value = valor;
+        
+        if (valor.length === 16) {
+          this.classList.remove('is-invalid');
+          this.classList.add('is-valid');
+        } else {
+          this.classList.remove('is-valid');
+          if (valor.length > 0) {
+            this.classList.add('is-invalid');
+          }
+        }
+      });
+
+      // Validación de fecha de vencimiento
+      fechaVencimiento.addEventListener('input', function() {
+        let valor = this.value.replace(/\D/g, '');
+        if (valor.length >= 2) {
+          valor = valor.substring(0, 2) + '/' + valor.substring(2, 4);
+        }
+        this.value = valor;
+        
+        if (valor.length === 5) {
+          this.classList.remove('is-invalid');
+          this.classList.add('is-valid');
+        } else {
+          this.classList.remove('is-valid');
+          if (valor.length > 0) {
+            this.classList.add('is-invalid');
+          }
+        }
+      });
+
+      // Validación de CVV
+      cvv.addEventListener('input', function() {
+        let valor = this.value.replace(/\D/g, '');
+        if (valor.length > 4) valor = valor.substring(0, 4);
+        this.value = valor;
+        
+        if (valor.length >= 3 && valor.length <= 4) {
+          this.classList.remove('is-invalid');
+          this.classList.add('is-valid');
+        } else {
+          this.classList.remove('is-valid');
+          if (valor.length > 0) {
+            this.classList.add('is-invalid');
+          }
+        }
+      });
+      
+      // Manejo del formulario de pago
+      document.getElementById('pagoForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Validaciones básicas
+        const numeroTarjeta = document.getElementById('numeroTarjeta').value;
+        const fechaVencimiento = document.getElementById('fechaVencimiento').value;
+        const cvv = document.getElementById('cvv').value;
+        const nombreTarjeta = document.getElementById('nombreTarjeta').value;
+        const emailFacturacion = document.getElementById('emailFacturacion').value;
+        const telefonoFacturacion = document.getElementById('telefonoFacturacion').value;
+        const direccionFacturacion = document.getElementById('direccionFacturacion').value;
+        
+        if (!numeroTarjeta || !fechaVencimiento || !cvv || !nombreTarjeta || !emailFacturacion || !telefonoFacturacion || !direccionFacturacion) {
+          alert('Por favor complete todos los campos obligatorios.');
+          return;
+        }
+        
+        if (numeroTarjeta.length !== 16) {
+          alert('El número de tarjeta debe tener 16 dígitos.');
+          return;
+        }
+        
+        if (fechaVencimiento.length !== 5) {
+          alert('La fecha de vencimiento debe tener el formato MM/AA.');
+          return;
+        }
+        
+        if (cvv.length < 3 || cvv.length > 4) {
+          alert('El CVV debe tener entre 3 y 4 dígitos.');
+          return;
+        }
+        
+        // Enviar datos al backend
+        enviarDatosAlBackend(citaData, generarCodigoTransaccion(), emailFacturacion);
+      });
+    });
+
+    // Función para liberar reserva temporal cuando el usuario abandona la página
+    async function liberarReservaTemporal() {
+      if (citaData && citaData.disponibilidadId) {
+        try {
+          await fetch(`/api/agendar-cita/liberar-reserva/${citaData.disponibilidadId}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          });
+        } catch (error) {
+          console.error('Error al liberar reserva:', error);
+        }
+      }
+    }
+
+    // Event listeners para detectar cuando el usuario abandona la página
+    window.addEventListener('beforeunload', liberarReservaTemporal);
+    window.addEventListener('pagehide', liberarReservaTemporal);
+    
+    // Función para generar código de transacción
+    function generarCodigoTransaccion() {
+      const timestamp = Date.now().toString();
+      const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+      return timestamp.substring(timestamp.length - 6) + random;
+    }
+    
+    // Función para enviar datos al backend
+    function enviarDatosAlBackend(citaData, codigoTransaccion, emailFacturacion) {
+      // Mostrar loading
+      const submitButton = document.querySelector('button[type="submit"]');
+      const originalText = submitButton.innerHTML;
+      submitButton.innerHTML = '<i class="bi bi-hourglass-split me-2"></i>Procesando...';
+      submitButton.disabled = true;
+      
+      // Validar que todos los datos necesarios estén presentes
+      if (!citaData.especialidadId || !citaData.servicioId || !citaData.medicoId || !citaData.disponibilidadId) {
+        alert('Datos de cita incompletos. Por favor, seleccione todos los datos de la cita nuevamente.');
+        window.location.href = '/citas/nueva';
+        return;
+      }
+      
+      // Preparar datos para la API
+      const citaDataForAPI = {
+        especialidadId: citaData.especialidadId,
+        servicioId: citaData.servicioId,
+        medicoId: citaData.medicoId,
+        disponibilidadId: citaData.disponibilidadId,
+        precio: citaData.precio
+      };
+      
+      console.log('Enviando datos de cita:', citaDataForAPI);
+      
+      // Enviar solicitud para agendar cita (el servicio ya maneja el pago)
+      fetch('/api/agendar-cita/agendar', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(citaDataForAPI)
+      })
+      .then(response => {
+        if (!response.ok) {
+          return response.text().then(text => {
+            // Intentar parsear el JSON del error para obtener mensaje más específico
+            try {
+              const errorData = JSON.parse(text);
+              if (errorData.mensaje) {
+                throw new Error(errorData.mensaje);
+              }
+            } catch (e) {
+              // Si no es JSON, usar el texto tal como viene
+            }
+            throw new Error('Error del servidor: ' + text);
+          });
+        }
+        return response.json();
+      })
+      .then(result => {
+        console.log('Cita agendada exitosamente:', result);
+        
+        // Limpiar sessionStorage
+        sessionStorage.removeItem('citaData');
+        
+        // Mostrar modal de éxito y redirigir al cerrar
+        const successModalEl = document.getElementById('successModal');
+        const successModal = new bootstrap.Modal(successModalEl);
+        const messageEl = document.getElementById('successModalMessage');
+        if (messageEl) {
+          messageEl.textContent = '¡Cita agendada y pago procesado exitosamente!';
+        }
+        // Redirigir al inicio cuando se cierre el modal (por botón o por X)
+        successModalEl.addEventListener('hidden.bs.modal', function() {
+          window.location.href = '/inicio?citaAgendada=true';
+        }, { once: true });
+        // Asegurar que el botón también cierre y dispare el redirect
+        const btnGo = document.getElementById('btnSuccessGo');
+        if (btnGo) {
+          btnGo.addEventListener('click', function() {
+            // El data-bs-dismiss cierra el modal, el redirect ocurre en hidden.bs.modal
+          }, { once: true });
+        }
+        successModal.show();
+      })
+      .catch(error => {
+        console.error('Error en el proceso:', error);
+        
+        // Manejar errores específicos
+        if (error.message.includes('disponibilidad') || error.message.includes('no está disponible')) {
+          alert('El horario seleccionado ya no está disponible. Por favor, seleccione otro horario.');
+          // Redirigir de vuelta a la página de selección de cita
+          window.location.href = '/citas/nueva';
+        } else if (error.message.includes('Paciente no encontrado')) {
+          alert('Error de autenticación. Por favor, inicie sesión nuevamente.');
+          window.location.href = '/inicio?showLoginModal=true';
+        } else {
+          alert('Error al procesar la cita y el pago: ' + error.message);
+        }
+        
+        submitButton.innerHTML = originalText;
+        submitButton.disabled = false;
+      });
+    }
+  </script>
+</body>
+</html> 

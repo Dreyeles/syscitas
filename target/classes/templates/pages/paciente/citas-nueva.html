@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body class="bg-light">
+  <!-- Header -->
+  <div class="header-image-container" style="width: 100%; height: 200px; overflow: hidden; position: relative;">
+    <img src="/img/citas-header.jpg" alt="Header Citas" style="width: 100%; height: 100%; object-fit: cover;">
+  </div>
+  
+  <!-- Navbar -->
+  <div th:replace="fragments/header :: navbar"></div>
+
+  <!-- Main Content -->
+  <main class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <div class="card shadow border-0 p-4">
+          <h1 class="mb-4 text-center" style="font-family:'Poppins',Arial,sans-serif;font-weight:700;color:#0A7A8A;font-size:2rem;">Agendar Nueva Cita</h1>
+          
+          <form id="citaForm">
+            <!-- Especialidad -->
+            <div class="mb-3">
+              <label for="especialidad" class="form-label" style="color: var(--dark-color);">Especialidad *</label>
+              <select class="form-select" id="especialidad" required>
+                <option value="">Cargando especialidades...</option>
+              </select>
+            </div>
+
+            <!-- Servicio -->
+            <div class="mb-3">
+              <label for="servicio" class="form-label" style="color: var(--dark-color);">Servicio *</label>
+              <select class="form-select" id="servicio" required disabled>
+                <option value="">Primero seleccione una especialidad...</option>
+              </select>
+            </div>
+
+            <!-- Turno-->
+            <div class="mb-3">
+              <label for="turno" class="form-label" style="color: var(--dark-color);">Turno *</label>
+              <select class="form-select" id="turno" required disabled>
+                <option value="">Primero seleccione una especialidad...</option>
+              </select>
+            </div>
+
+            <!-- Médico -->
+            <div class="mb-3">
+              <label for="medico" class="form-label" style="color: var(--dark-color);">Médico *</label>
+              <select class="form-select" id="medico" required disabled>
+                <option value="">Primero seleccione una especialidad...</option>
+              </select>
+            </div>
+
+            <!-- Fecha -->
+            <div class="mb-3">
+              <label for="fecha" class="form-label" style="color: var(--dark-color);">Fecha *</label>
+              <input type="date" class="form-control" id="fecha" required disabled>
+              <div class="form-text" style="color: var(--dark-color);">No se pueden agendar citas en domingos</div>
+            </div>
+
+            <!-- Horario -->
+            <div class="mb-3">
+              <label for="horario" class="form-label" style="color: var(--dark-color);">Horario *</label>
+              <select class="form-select" id="horario" required disabled>
+                <option value="">Primero seleccione fecha y médico...</option>
+              </select>
+            </div>
+
+            <!-- Precio -->
+            <div class="mb-4">
+              <label class="form-label" style="color: var(--dark-color);">Precio</label>
+              <div class="input-group">
+                <span class="input-group-text" style="background-color: #0A7A8A; color: var(--light-color);">S/</span>
+                <input type="text" class="form-control" id="precio" readonly value="0.00" style="background-color: var(--light-color);">
+              </div>
+            </div>
+
+            <!-- Botones -->
+            <div class="d-grid gap-2">
+              <!-- <button type="submit" class="btn" style="background-color: #0A7A8A; color: var(--light-color); border: none;">Continuar al Pago</button> -->
+              <button type="button" id="btnAgendarCita" class="btn" style="background-color: #0A7A8A; color: var(--light-color); border: none;">Continuar al Pago</button>
+              <a href="/inicio" class="btn" style="background-color: #5A6268; color: var(--light-color); border: none;">Volver al inicio</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <div th:replace="fragments/footer :: footer"></div>
+
+  <!-- Scripts -->
+  <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/js/navbar.js}"></script>
+  
+  <script th:inline="javascript">
+    // Variables globales para almacenar datos seleccionados
+    let especialidadSeleccionada = null;
+    let servicioSeleccionado = null;
+    let turnoSeleccionado = null;
+    let medicoSeleccionado = null;
+    
+    // Obtener datos del usuario desde Thymeleaf
+    const usuarioData = /*[[${usuario}]]*/ {};
+    const nombrePaciente = usuarioData.nombres || 'Paciente';
+    let fechaSeleccionada = null;
+    let disponibilidadSeleccionada = null;
+
+    // Elementos del formulario
+    const especialidadSelect = document.getElementById('especialidad');
+    const servicioSelect = document.getElementById('servicio');
+    const turnoSelect = document.getElementById('turno');
+    const medicoSelect = document.getElementById('medico');
+    const fechaInput = document.getElementById('fecha');
+    const horarioSelect = document.getElementById('horario');
+    const precioInput = document.getElementById('precio');
+
+    // Configurar restricciones de fecha al cargar la página
+    configurarRestriccionesFecha();
+
+    // Event listeners
+    especialidadSelect.addEventListener('change', function() {
+      const especialidadId = this.value;
+      especialidadSeleccionada = especialidadId;
+      
+      if (!especialidadId) {
+        // Limpiar todos los campos si no hay especialidad seleccionada
+        limpiarCampos();
+        return;
+      }
+      
+      // Cargar servicios por especialidad
+      cargarServiciosPorEspecialidad(especialidadId);
+      
+      // Cargar turnos disponibles
+      cargarTurnos();
+      
+      // Limpiar otros campos
+      limpiarCamposDespuesDeEspecialidad();
+    });
+
+    servicioSelect.addEventListener('change', function() {
+      const servicioId = this.value;
+      servicioSeleccionado = servicioId;
+      
+      if (servicioId) {
+        const selectedOption = this.options[this.selectedIndex];
+        if (selectedOption.dataset.precio) {
+          precioInput.value = parseFloat(selectedOption.dataset.precio).toFixed(2);
+        }
+      } else {
+        precioInput.value = '0.00';
+      }
+    });
+
+    turnoSelect.addEventListener('change', function() {
+      const turno = this.value;
+      turnoSeleccionado = turno;
+      
+      if (!turno) {
+        medicoSelect.innerHTML = '<option value="">Primero seleccione un turno...</option>';
+        medicoSelect.disabled = true;
+        return;
+      }
+      
+      // Cargar médicos por especialidad y turno
+      if (especialidadSeleccionada) {
+        cargarMedicosPorEspecialidadYTurno(especialidadSeleccionada, turno);
+      }
+    });
+
+    medicoSelect.addEventListener('change', function() {
+      const medicoId = this.value;
+      medicoSeleccionado = medicoId;
+      
+      if (medicoId) {
+        // Cargar fechas disponibles para el médico
+        cargarFechasDisponibles(medicoId);
+        fechaInput.disabled = false;
+      } else {
+        fechaInput.disabled = true;
+        fechaInput.value = '';
+        horarioSelect.innerHTML = '<option value="">Primero seleccione fecha y médico...</option>';
+        horarioSelect.disabled = true;
+      }
+    });
+
+    fechaInput.addEventListener('change', function() {
+      const fecha = this.value;
+      fechaSeleccionada = fecha;
+      
+      if (!fecha) {
+        horarioSelect.innerHTML = '<option value="">Primero seleccione fecha y médico...</option>';
+        horarioSelect.disabled = true;
+        return;
+      }
+      
+      // Cargar horarios disponibles para la fecha y médico seleccionados
+      if (medicoSeleccionado) {
+        cargarHorariosDisponibles(medicoSeleccionado, fecha);
+      }
+    });
+
+    horarioSelect.addEventListener('change', function() {
+      const disponibilidadId = this.value;
+      disponibilidadSeleccionada = disponibilidadId;
+      
+      // Si se selecciona un horario, intentar reservarlo temporalmente - COMENTADO PARA DEBUG
+      /*
+      if (disponibilidadId) {
+        reservarTemporalmente(disponibilidadId);
+      }
+      */
+    });
+
+    // Manejo del formulario - COMENTADO PARA DEBUG
+    /*
+    document.getElementById('citaForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      // Validaciones básicas
+      if (!especialidadSeleccionada || !servicioSeleccionado || !turnoSeleccionado || !medicoSeleccionado || !fechaSeleccionada || !disponibilidadSeleccionada) {
+        alert('Por favor complete todos los campos obligatorios.');
+        return;
+      }
+      
+      // Crear objeto con los datos de la cita
+      const citaData = {
+        especialidadId: especialidadSeleccionada,
+        servicioId: servicioSeleccionado,
+        medicoId: medicoSeleccionado,
+        disponibilidadId: disponibilidadSeleccionada,
+        precio: parseFloat(precioInput.value)
+      };
+      
+      // Guardar datos para la página de pago
+      guardarDatosParaPago(citaData);
+    });
+    */
+
+    // Botón de debug para agendar cita directamente
+    document.getElementById('btnAgendarCita').addEventListener('click', async function() {
+      // Validaciones básicas
+      if (!especialidadSeleccionada || !servicioSeleccionado || !turnoSeleccionado || !medicoSeleccionado || !fechaSeleccionada || !disponibilidadSeleccionada) {
+        alert('Por favor complete todos los campos obligatorios.');
+        return;
+      }
+      
+      // Validar disponibilidad antes de agendar - COMENTADO PARA DEBUG
+      /*
+      const disponible = await validarDisponibilidadAntesDeEnviar(disponibilidadSeleccionada);
+      if (!disponible) {
+        alert('El horario seleccionado ya no está disponible. Por favor seleccione otro horario.');
+        return;
+      }
+      */
+      
+      // Crear objeto con los datos de la cita
+      const citaData = {
+        especialidadId: especialidadSeleccionada,
+        servicioId: servicioSeleccionado,
+        medicoId: medicoSeleccionado,
+        disponibilidadId: disponibilidadSeleccionada,
+        precio: parseFloat(precioInput.value)
+      };
+      
+      // Agendar cita directamente
+      await agendarCitaDirectamente(citaData);
+    });
+
+    // Funciones para cargar datos desde la API
+    async function cargarServiciosPorEspecialidad(especialidadId) {
+      try {
+        const response = await fetch(`/api/agendar-cita/servicios/${especialidadId}`);
+        const servicios = await response.json();
+        
+        // Limpiar el select
+        servicioSelect.innerHTML = '';
+        
+        // Verificar si hay servicios disponibles
+        if (servicios && servicios.length > 0) {
+          servicioSelect.innerHTML = '<option value="">Seleccione un servicio...</option>';
+          servicioSelect.disabled = false;
+          
+          servicios.forEach(servicio => {
+            const option = document.createElement('option');
+            option.value = servicio.id;
+            option.textContent = servicio.nombre;
+            option.dataset.precio = servicio.precioServicio;
+            servicioSelect.appendChild(option);
+          });
+        } else {
+          // No hay servicios disponibles
+          servicioSelect.innerHTML = '<option value="">No hay servicios disponibles</option>';
+          servicioSelect.disabled = true;
+          precioInput.value = '0.00';
+        }
+      } catch (error) {
+        console.error('Error al cargar servicios:', error);
+        servicioSelect.innerHTML = '<option value="">Error al cargar servicios</option>';
+        servicioSelect.disabled = true;
+        precioInput.value = '0.00';
+      }
+    }
+
+    async function cargarTurnos() {
+      try {
+        // Cargar turnos disponibles
+        turnoSelect.innerHTML = '<option value="">Seleccione un turno...</option>';
+        turnoSelect.disabled = false;
+        
+        // Agregar opciones de turno
+        const turnos = [
+          { value: 'TODOS', text: 'Todos los turnos' },
+          { value: 'Mañana', text: 'MAÑANA' },
+          { value: 'Tarde', text: 'TARDE' }
+        ];
+        
+        turnos.forEach(turno => {
+          const option = document.createElement('option');
+          option.value = turno.value;
+          option.textContent = turno.text;
+          turnoSelect.appendChild(option);
+        });
+      } catch (error) {
+        console.error('Error al cargar turnos:', error);
+        alert('Error al cargar los turnos. Por favor intente nuevamente.');
+      }
+    }
+
+    async function cargarMedicosPorEspecialidad(especialidadId) {
+      try {
+        const response = await fetch(`/api/agendar-cita/medicos/${especialidadId}`);
+        const medicos = await response.json();
+        
+        medicoSelect.innerHTML = '<option value="">Seleccione un médico...</option>';
+        medicoSelect.disabled = false;
+        
+        medicos.forEach(medico => {
+          const option = document.createElement('option');
+          option.value = medico.id;
+          option.textContent = medico.nombreCompleto;
+          medicoSelect.appendChild(option);
+        });
+      } catch (error) {
+        console.error('Error al cargar médicos:', error);
+        alert('Error al cargar los médicos. Por favor intente nuevamente.');
+      }
+    }
+
+    async function cargarMedicosPorEspecialidadYTurno(especialidadId, turno) {
+      try {
+        const response = await fetch(`/api/agendar-cita/medicos/${especialidadId}/${turno}`);
+        const medicos = await response.json();
+        
+        // Limpiar el select
+        medicoSelect.innerHTML = '';
+        
+        // Verificar si hay médicos disponibles
+        if (medicos && medicos.length > 0) {
+          medicoSelect.innerHTML = '<option value="">Seleccione un médico...</option>';
+          medicoSelect.disabled = false;
+          
+          medicos.forEach(medico => {
+            const option = document.createElement('option');
+            option.value = medico.id;
+            option.textContent = medico.nombreCompleto;
+            medicoSelect.appendChild(option);
+          });
+        } else {
+          // No hay médicos disponibles
+          medicoSelect.innerHTML = '<option value="">No hay médicos disponibles</option>';
+          medicoSelect.disabled = true;
+          fechaInput.disabled = true;
+          fechaInput.value = '';
+          horarioSelect.innerHTML = '<option value="">No hay citas disponibles</option>';
+          horarioSelect.disabled = true;
+        }
+      } catch (error) {
+        console.error('Error al cargar médicos por turno:', error);
+        medicoSelect.innerHTML = '<option value="">Error al cargar médicos</option>';
+        medicoSelect.disabled = true;
+        fechaInput.disabled = true;
+        fechaInput.value = '';
+        horarioSelect.innerHTML = '<option value="">Error al cargar médicos</option>';
+        horarioSelect.disabled = true;
+      }
+    }
+
+    async function cargarFechasDisponibles(medicoId) {
+      try {
+        const response = await fetch(`/api/agendar-cita/fechas/${medicoId}`);
+        const fechas = await response.json();
+        
+        // Verificar si hay fechas disponibles
+        if (fechas && fechas.length > 0) {
+          // Configurar el input de fecha para mostrar solo las fechas disponibles
+          fechaInput.min = new Date().toISOString().split('T')[0];
+          fechaInput.disabled = false;
+          fechaInput.placeholder = "Seleccione una fecha disponible";
+        } else {
+          // No hay fechas disponibles
+          fechaInput.disabled = true;
+          fechaInput.value = '';
+          fechaInput.placeholder = "No hay fechas disponibles";
+          horarioSelect.innerHTML = '<option value="">No hay citas disponibles</option>';
+          horarioSelect.disabled = true;
+        }
+      } catch (error) {
+        console.error('Error al cargar fechas:', error);
+        fechaInput.disabled = true;
+        fechaInput.value = '';
+        fechaInput.placeholder = "Error al cargar fechas";
+        horarioSelect.innerHTML = '<option value="">Error al cargar fechas</option>';
+        horarioSelect.disabled = true;
+      }
+    }
+
+    async function cargarHorariosDisponibles(medicoId, fecha) {
+      try {
+        // Mostrar estado de carga
+        horarioSelect.innerHTML = '<option value="">Cargando horarios...</option>';
+        horarioSelect.disabled = true;
+        
+        const response = await fetch(`/api/agendar-cita/horarios/${medicoId}/${fecha}`);
+        
+        if (!response.ok) {
+          throw new Error(`Error HTTP! estado: ${response.status}`);
+        }
+        
+        const horarios = await response.json();
+        
+        // Limpiar el select
+        horarioSelect.innerHTML = '';
+        
+        // Verificar si hay horarios disponibles
+        if (horarios && horarios.length > 0) {
+          horarioSelect.innerHTML = '<option value="">Seleccione un horario...</option>';
+          horarioSelect.disabled = false;
+          
+          horarios.forEach(horario => {
+            const option = document.createElement('option');
+            option.value = horario.id;
+            
+            // Formatear la hora para mostrar solo HH:MM
+            let horaFormateada = horario.horaInicio;
+            if (horaFormateada) {
+              // Si la hora viene con segundos, los removemos
+              if (horaFormateada.includes(':')) {
+                const partes = horaFormateada.split(':');
+                if (partes.length >= 2) {
+                  horaFormateada = partes[0] + ':' + partes[1];
+                }
+              }
+            }
+            
+            option.textContent = horaFormateada;
+            horarioSelect.appendChild(option);
+          });
+        } else {
+          // No hay horarios disponibles
+          horarioSelect.innerHTML = '<option value="">No hay citas disponibles para esta fecha</option>';
+          horarioSelect.disabled = true;
+          disponibilidadSeleccionada = null;
+        }
+      } catch (error) {
+        console.error('Error al cargar horarios:', error);
+        horarioSelect.innerHTML = '<option value="">Error al cargar horarios. Intente nuevamente.</option>';
+        horarioSelect.disabled = true;
+        disponibilidadSeleccionada = null;
+      }
+    }
+
+    // Función comentada para debug - solo disponible para el botón de debug
+    /*
+    async function guardarDatosParaPago(citaData) {
+      try {
+        // Guardar datos de la cita en sessionStorage para la página de pago
+        sessionStorage.setItem('citaData', JSON.stringify({
+          especialidad: especialidadSelect.options[especialidadSelect.selectedIndex].text,
+          servicio: servicioSelect.options[servicioSelect.selectedIndex].text,
+          turno: turnoSelect.options[turnoSelect.selectedIndex].text,
+          medico: medicoSelect.options[medicoSelect.selectedIndex].text,
+          fecha: fechaSeleccionada,
+          horario: horarioSelect.options[horarioSelect.selectedIndex].text,
+          paciente: nombrePaciente,
+          precio: parseFloat(precioInput.value) || 0,
+          // Datos adicionales para el registro posterior
+          especialidadId: citaData.especialidadId,
+          servicioId: citaData.servicioId,
+          medicoId: citaData.medicoId,
+          disponibilidadId: citaData.disponibilidadId
+        }));
+        
+        // Redirigir a la página de pago
+        window.location.href = '/pagar';
+      } catch (error) {
+        console.error('Error al preparar datos para pago:', error);
+        alert('Error al preparar los datos. Por favor intente nuevamente.');
+      }
+    }
+    */
+
+    function limpiarCampos() {
+      servicioSelect.innerHTML = '<option value="">Primero seleccione una especialidad...</option>';
+      servicioSelect.disabled = true;
+      turnoSelect.innerHTML = '<option value="">Primero seleccione una especialidad...</option>';
+      turnoSelect.disabled = true;
+      medicoSelect.innerHTML = '<option value="">Primero seleccione una especialidad...</option>';
+      medicoSelect.disabled = true;
+      fechaInput.value = '';
+      fechaInput.disabled = true;
+      horarioSelect.innerHTML = '<option value="">Primero seleccione fecha y médico...</option>';
+      horarioSelect.disabled = true;
+      precioInput.value = '0.00';
+    }
+
+    function limpiarCamposDespuesDeEspecialidad() {
+      medicoSelect.innerHTML = '<option value="">Primero seleccione un turno...</option>';
+      medicoSelect.disabled = true;
+      fechaInput.value = '';
+      fechaInput.disabled = true;
+      horarioSelect.innerHTML = '<option value="">Primero seleccione fecha y médico...</option>';
+      horarioSelect.disabled = true;
+      precioInput.value = '0.00';
+    }
+
+    // Función para configurar restricciones de fecha
+    function configurarRestriccionesFecha() {
+      const fechaInput = document.getElementById('fecha');
+      
+      // Establecer fecha mínima como hoy
+      const today = new Date();
+      const todayString = today.toISOString().split('T')[0];
+      fechaInput.min = todayString;
+      
+      // Agregar event listener para prevenir selección de domingos
+      fechaInput.addEventListener('change', function() {
+        const fecha = this.value;
+        
+        if (!fecha) return;
+        
+        // Crear fecha en UTC para evitar problemas de zona horaria
+        const [year, month, day] = fecha.split('-').map(Number);
+        const fechaObj = new Date(Date.UTC(year, month - 1, day));
+        const diaSemana = fechaObj.getUTCDay();
+        
+        if (diaSemana === 0) { // Domingo
+          alert('No se pueden agendar citas en domingos. Por favor seleccione otra fecha.');
+          this.value = '';
+          return;
+        }
+      });
+    }
+
+    // Función para reservar temporalmente una disponibilidad - COMENTADA PARA DEBUG
+    /*
+    async function reservarTemporalmente(disponibilidadId) {
+      try {
+        console.log('Intentando reservar temporalmente disponibilidad:', disponibilidadId);
+        
+        const response = await fetch(`/api/agendar-cita/reservar-temporalmente/${disponibilidadId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+        
+        if (!response.ok) {
+          throw new Error(`Error HTTP! estado: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        
+        if (result.reservado) {
+          console.log('Disponibilidad reservada temporalmente:', result.mensaje);
+          // Mostrar indicador visual de que está reservada
+          mostrarIndicadorReserva();
+        } else {
+          console.log('No se pudo reservar:', result.mensaje);
+          alert('El horario seleccionado ya no está disponible. Por favor seleccione otro horario.');
+          // Limpiar selección
+          horarioSelect.value = '';
+          disponibilidadSeleccionada = null;
+          // Recargar horarios disponibles
+          if (medicoSeleccionado && fechaSeleccionada) {
+            await cargarHorariosDisponibles(medicoSeleccionado, fechaSeleccionada);
+          }
+        }
+      } catch (error) {
+        console.error('Error al reservar temporalmente:', error);
+        alert('Error al reservar el horario. Por favor intente nuevamente.');
+        // Limpiar selección
+        horarioSelect.value = '';
+        disponibilidadSeleccionada = null;
+      }
+    }
+    */
+
+    // Función para mostrar indicador de reserva temporal - COMENTADA PARA DEBUG
+    /*
+    function mostrarIndicadorReserva() {
+      // Crear o actualizar indicador visual
+      let indicador = document.getElementById('indicador-reserva');
+      if (!indicador) {
+        indicador = document.createElement('div');
+        indicador.id = 'indicador-reserva';
+        indicador.className = 'alert alert-info mt-2';
+        indicador.innerHTML = '<i class="bi bi-clock me-2"></i>Horario reservado temporalmente por 15 minutos';
+        horarioSelect.parentNode.appendChild(indicador);
+      }
+      
+      // Programar eliminación del indicador después de 15 minutos
+      setTimeout(() => {
+        if (indicador && indicador.parentNode) {
+          indicador.remove();
+        }
+      }, 15 * 60 * 1000); // 15 minutos
+    }
+    */
+
+    // Función para validar disponibilidad antes del envío
+    async function validarDisponibilidadAntesDeEnviar(disponibilidadId) {
+      try {
+        const response = await fetch(`/api/agendar-cita/validar-disponibilidad/${disponibilidadId}`);
+        if (!response.ok) {
+          throw new Error(`Error HTTP! estado: ${response.status}`);
+        }
+        const result = await response.json();
+        return result.disponible;
+      } catch (error) {
+        console.error('Error al validar disponibilidad:', error);
+        return false;
+      }
+    }
+
+    // Función para agendar cita directamente (debug)
+    async function agendarCitaDirectamente(citaData) {
+      // Validaciones básicas
+      if (!especialidadSeleccionada || !servicioSeleccionado || !turnoSeleccionado || !medicoSeleccionado || !fechaSeleccionada || !disponibilidadSeleccionada) {
+        alert('Por favor complete todos los campos obligatorios.');
+        return;
+      }
+      
+      // Crear objeto completo con IDs y textos
+      const citaDataCompleto = {
+        // IDs para la API (lo que ya tienes)
+        especialidadId: citaData.especialidadId,
+        servicioId: citaData.servicioId,
+        medicoId: citaData.medicoId,
+        disponibilidadId: citaData.disponibilidadId,
+        precio: citaData.precio,
+        
+        // Textos para el resumen (nuevo)
+        especialidad: especialidadSelect.options[especialidadSelect.selectedIndex].text,
+        servicio: servicioSelect.options[servicioSelect.selectedIndex].text,
+        medico: medicoSelect.options[medicoSelect.selectedIndex].text,
+        fecha: fechaSeleccionada,
+        horario: horarioSelect.options[horarioSelect.selectedIndex].text,
+        paciente: nombrePaciente
+      };
+      
+      // Guardar en sessionStorage
+      sessionStorage.setItem('citaData', JSON.stringify(citaDataCompleto));
+      
+      console.log('Datos guardados en sessionStorage:', citaDataCompleto);
+      
+      // Redirigir a la página de pago
+      window.location.href = '/citas/pagar';
+    }
+
+    // Función para limpiar el formulario después de agendar
+    function limpiarFormulario() {
+      especialidadSelect.value = '';
+      servicioSelect.value = '';
+      turnoSelect.value = '';
+      medicoSelect.value = '';
+      fechaInput.value = '';
+      horarioSelect.value = '';
+      precioInput.value = '0.00';
+      
+      // Limpiar variables globales
+      especialidadSeleccionada = null;
+      servicioSeleccionado = null;
+      turnoSeleccionado = null;
+      medicoSeleccionado = null;
+      fechaSeleccionada = null;
+      disponibilidadSeleccionada = null;
+      
+      // Deshabilitar campos
+      limpiarCampos();
+    }
+
+    // Cargar especialidades al cargar la página
+    async function cargarEspecialidades() {
+      try {
+        const response = await fetch('/api/agendar-cita/especialidades');
+        const especialidades = await response.json();
+        
+        especialidadSelect.innerHTML = '<option value="">Seleccione una especialidad...</option>';
+        
+        especialidades.forEach(especialidad => {
+          const option = document.createElement('option');
+          option.value = especialidad.id;
+          option.textContent = especialidad.nombre;
+          especialidadSelect.appendChild(option);
+        });
+      } catch (error) {
+        console.error('Error al cargar especialidades:', error);
+        alert('Error al cargar las especialidades. Por favor recargue la página.');
+      }
+    }
+
+    // Función para liberar reserva temporal cuando el usuario abandona la página - COMENTADA PARA DEBUG
+    /*
+    async function liberarReservaTemporal() {
+      if (disponibilidadSeleccionada) {
+        try {
+          await fetch(`/api/agendar-cita/liberar-reserva/${disponibilidadSeleccionada}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          });
+        } catch (error) {
+          console.error('Error al liberar reserva:', error);
+        }
+      }
+    }
+
+    // Event listeners para detectar cuando el usuario abandona la página
+    window.addEventListener('beforeunload', liberarReservaTemporal);
+    window.addEventListener('pagehide', liberarReservaTemporal);
+    */
+
+    // Inicializar la página
+    document.addEventListener('DOMContentLoaded', function() {
+      cargarEspecialidades();
+    });
+  </script>
+</body>
+</html> 

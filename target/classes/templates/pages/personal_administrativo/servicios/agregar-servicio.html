@@ -1,0 +1,171 @@
+<!-- Fragmento para Agregar Servicio -->
+<div th:fragment="agregar-servicio" class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-plus-circle me-2"></i>
+                        Agregar Nuevo Servicio
+                    </h5>
+                </div>
+                <div class="card-body">
+                    
+                    <!-- Formulario de registro -->
+                    <div th:if="${mensajeError}" class="alert alert-danger mb-3" role="alert" th:text="${mensajeError}"></div>
+                    <form id="agregarServicioForm" th:action="@{/admin/servicios/agregar}" th:object="${agregarServicioDTO}" method="post" class="needs-validation" novalidate>
+                        <div class="row">
+                            
+                            <!-- Información básica -->
+                            <div class="col-md-6">
+                                <h6 class="text-primary mb-3">
+                                    <i class="bi bi-info-circle me-2"></i>Información Básica
+                                </h6>
+                                
+                                <div class="mb-3">
+                                    <label for="nombre" class="form-label">Nombre del Servicio *</label>
+                                    <input type="text" class="form-control" id="nombre" th:field="*{nombre}" required>
+                                    <div class="invalid-feedback">
+                                        Por favor ingrese el nombre del servicio.
+                                    </div>
+                                     <div class="text-danger mt-1" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+                                </div>
+                                
+                                
+                                
+                                <div class="mb-3">
+                                    <label for="descripcion" class="form-label">Descripción</label>
+                                    <textarea class="form-control" id="descripcion" th:field="*{descripcion}" rows="3" placeholder="Descripción detallada del servicio..."></textarea>
+                                     <div class="text-danger mt-1" th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></div>
+                                </div>
+                                
+                                
+                            </div>
+                            
+                            <!-- Información económica y estado -->
+                            <div class="col-md-6">
+                                <h6 class="text-success mb-3">
+                                    <i class="bi bi-currency-dollar me-2"></i>Información Económica
+                                </h6>
+                                
+                                <div class="mb-3">
+                                    <label for="precio" class="form-label">Precio (S/.) *</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">S/.</span>
+                                        <input type="number" class="form-control" id="precio" th:field="*{precioServicio}" step="0.01" min="0.01" required>
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Por favor ingrese un precio válido.
+                                    </div>
+                                     <div class="text-danger mt-1" th:if="${#fields.hasErrors('precioServicio')}" th:errors="*{precioServicio}"></div>
+                                </div>
+                                
+                                
+                            </div>
+                        </div>
+                        
+                        <!-- Información adicional -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <h6 class="text-info mb-3">
+                                    <i class="bi bi-gear me-2"></i>Información Adicional
+                                </h6>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="especialidadId" class="form-label">Especialidad *</label>
+                                            <select class="form-select" id="especialidadId" th:field="*{especialidadId}" required>
+                                                <option value="">Seleccione una especialidad...</option>
+                                                <option th:each="e : ${especialidades}" th:value="${e.id}" th:text="${e.nombre}"></option>
+                                            </select>
+                                            <div class="invalid-feedback">Por favor seleccione una especialidad.</div>
+                                             <div class="text-danger mt-1" th:if="${#fields.hasErrors('especialidadId')}" th:errors="*{especialidadId}"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                </div>
+                                
+                                
+                            </div>
+                        </div>
+                        
+                        <!-- Botones de acción -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-end gap-2">
+                                    <button type="button" class="btn btn-secondary" id="btnLimpiar">
+                                        <i class="bi bi-arrow-clockwise me-2"></i>Limpiar
+                                    </button>
+                                    <button type="button" class="btn btn-warning" id="btnCancelar">
+                                        <i class="bi bi-x-circle me-2"></i>Cancelar
+                                    </button>
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="bi bi-check-circle me-2"></i>Registrar Servicio
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:if="${mensajeError}">
+    document.addEventListener('DOMContentLoaded', function() {
+        var trigger = document.getElementById('agregar-servicio-tab');
+        if (trigger && window.bootstrap && typeof bootstrap.Tab === 'function') {
+            new bootstrap.Tab(trigger).show();
+        }
+    });
+</script>
+
+<!-- Modal de confirmación -->
+<div class="modal fade" id="confirmacionModal" tabindex="-1" aria-labelledby="confirmacionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="confirmacionModalLabel">
+                    <i class="bi bi-question-circle me-2"></i>Confirmar Registro
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>¿Está seguro que desea registrar el siguiente servicio?</p>
+                <div id="resumenDatos">
+                    <!-- Aquí se mostrará el resumen de datos -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success" id="btnConfirmarRegistroServicio">
+                    <i class="bi bi-check-circle me-2"></i>Confirmar Registro
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de éxito -->
+<div class="modal fade" id="registroExitosoModal" tabindex="-1" aria-labelledby="registroExitosoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="registroExitosoModalLabel">
+                    <i class="bi bi-check-circle me-2"></i>Registro Exitoso
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>El servicio ha sido registrado exitosamente en el sistema.</p>
+                <p class="text-success"><i class="bi bi-info-circle me-2"></i>El servicio ya está disponible para ser asignado a médicos y pacientes.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div> 

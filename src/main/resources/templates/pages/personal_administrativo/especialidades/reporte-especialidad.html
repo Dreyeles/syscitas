@@ -1,0 +1,575 @@
+<!-- Fragmento para Reporte de Especialidades -->
+<div th:fragment="reporte-especialidad" class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h4 class="mb-0">
+                        <i class="bi bi-hospital me-2"></i>Reporte de Especialidades
+                    </h4>
+                </div>
+                <div class="card-body">
+                    
+                    <!-- Filtros de Búsqueda -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="mb-0">
+                                        <i class="bi bi-funnel me-2"></i>Filtros de Búsqueda
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="especialidad_filtroNombre" class="form-label">Nombre de Especialidad</label>
+                                            <input type="text" class="form-control" id="especialidad_filtroNombre" placeholder="Buscar por nombre...">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="especialidad_filtroDescripcion" class="form-label">Descripción</label>
+                                            <input type="text" class="form-control" id="especialidad_filtroDescripcion" placeholder="Buscar por descripción...">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="d-flex gap-2">
+                                                <button type="button" class="btn btn-secondary" id="especialidad_btnLimpiarFiltros">
+                                                    <i class="bi bi-arrow-clockwise me-2"></i>Limpiar Filtros
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botones de Exportación -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">
+                                    <i class="bi bi-list-ul me-2"></i>Lista de Especialidades
+                                </h6>
+                                <div class="d-flex gap-2">
+                                    <button type="button" class="btn btn-success btn-sm" id="especialidad_btnExportarExcel">
+                                        <i class="bi bi-file-earmark-excel me-2"></i>Exportar Excel
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-sm" id="especialidad_btnExportarPDF">
+                                        <i class="bi bi-file-earmark-pdf me-2"></i>Exportar PDF
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tabla de Especialidades -->
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped" id="especialidad_tablaEspecialidad">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th>Médicos Asignados</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="especialidad_tablaEspecialidadBody">
+                                <!-- Las filas se cargarán dinámicamente con JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Información de paginación -->
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <p class="text-muted" id="especialidad_infoPaginacion">
+                                Mostrando <span id="especialidad_inicioRegistros">0</span> a <span id="especialidad_finRegistros">0</span> de <span id="especialidad_totalRegistros">0</span> especialidades
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Paginación -->
+                    <div class="row">
+                        <div class="col-12">
+                            <nav aria-label="Navegación de páginas">
+                                <ul class="pagination justify-content-center" id="especialidad_paginacion">
+                                    <!-- Los botones de paginación se generarán dinámicamente -->
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Detalles de Especialidad -->
+    <div class="modal fade" id="especialidad_detallesModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title">
+                        <i class="bi bi-hospital me-2"></i>Detalles de Especialidad
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h6>Información General</h6>
+                            <div class="table-responsive">
+                                <table class="table table-borderless">
+                                    <tr>
+                                        <td><strong>ID:</strong></td>
+                                        <td><span id="especialidad_detalleId">-</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Nombre:</strong></td>
+                                        <td><span id="especialidad_detalleNombre">-</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Descripción:</strong></td>
+                                        <td><span id="especialidad_detalleDescripcion">-</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Fecha de Creación:</strong></td>
+                                        <td><span id="especialidad_detalleFechaCreacion">-</span></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Médicos por Especialidad -->
+    <div class="modal fade" id="especialidad_medicosModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">
+                        <i class="bi bi-people me-2"></i>Médicos de la Especialidad: <span id="especialidad_nombreEspecialidadModal"></span>
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="especialidad_loadingMedicos" class="text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                        <p class="mt-2">Cargando médicos...</p>
+                    </div>
+                    <div id="especialidad_contenidoMedicos" style="display: none;">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nombre Completo</th>
+                                        <th>Turno</th>
+                                        <th>Especialidad</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="especialidad_tablaMedicos">
+                                    <!-- Los médicos se cargarán aquí dinámicamente -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="especialidad_sinMedicos" class="text-center text-muted" style="display: none;">
+                            <i class="bi bi-info-circle fs-1"></i>
+                            <p class="mt-2">No hay médicos asignados a esta especialidad.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmación de Eliminación -->
+    <div class="modal fade" id="especialidad_eliminarModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">
+                        <i class="bi bi-exclamation-triangle me-2"></i>Confirmar Eliminación
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Está seguro que desea eliminar la especialidad <strong id="especialidad_nombreEspecialidadEliminar"></strong>?</p>
+                    <p class="text-danger"><small>Esta acción no se puede deshacer y eliminará todos los datos asociados.</small></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="especialidad_btnConfirmarEliminar">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Estilos para el enlace "Ver médicos" -->
+    <style>
+        .ver-medicos-link {
+            color: #007bff;
+            text-decoration: underline;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .ver-medicos-link:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+        
+        .ver-medicos-link:focus {
+            outline: none;
+            color: #0056b3;
+        }
+    </style>
+
+    <!-- Script para manejar especialidades con namespace -->
+    <script>
+    // Namespace para gestión de especialidades
+    const EspecialidadManager = {
+        // Variables globales para la paginación
+        especialidadesData: [],
+        especialidadesFiltradas: [],
+        paginaActual: 1,
+        registrosPorPagina: 5,
+        
+        // Función para inicializar el módulo
+        init() {
+            this.cargarDatosIniciales();
+            this.bindEvents();
+        },
+        
+        // Función para cargar los datos iniciales
+        cargarDatosIniciales() {
+            console.log('Iniciando carga de datos...');
+            
+            // Obtener los datos reales desde el servidor
+            fetch('/especialidad/api/listar')
+                .then(response => {
+                    console.log('Respuesta del servidor:', response.status, response.statusText);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Datos recibidos:', data);
+                    this.especialidadesData = data;
+                    this.especialidadesFiltradas = [...this.especialidadesData];
+                    this.mostrarPagina(1);
+                    this.actualizarPaginacion();
+                })
+                .catch(error => {
+                    console.error('Error al cargar especialidades:', error);
+                    this.mostrarMensajeError('Error al cargar las especialidades: ' + error.message);
+                });
+        },
+        
+        // Función para mostrar una página específica
+        mostrarPagina(pagina) {
+            this.paginaActual = pagina;
+            const inicio = (pagina - 1) * this.registrosPorPagina;
+            const fin = inicio + this.registrosPorPagina;
+            const registrosPagina = this.especialidadesFiltradas.slice(inicio, fin);
+            
+            const tbody = document.getElementById('especialidad_tablaEspecialidadBody');
+            tbody.innerHTML = '';
+            
+            if (registrosPagina.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">No hay especialidades registradas.</td></tr>';
+            } else {
+                registrosPagina.forEach(especialidad => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${especialidad.id}</td>
+                        <td>${especialidad.nombre}</td>
+                        <td>${especialidad.descripcion || 'Sin descripción'}</td>
+                        <td>
+                            <a href="#" 
+                               class="ver-medicos-link" 
+                               data-especialidad-id="${especialidad.id}" 
+                               data-especialidad-nombre="${especialidad.nombre}"
+                               data-bs-toggle="modal" 
+                               data-bs-target="#especialidad_medicosModal">
+                                Ver médicos
+                            </a>
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm" role="group">
+                                <button type="button" 
+                                        class="btn btn-info btn-detalles-especialidad" 
+                                        title="Ver Detalles"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#especialidad_detallesModal"
+                                        data-id="${especialidad.id}"
+                                        data-nombre="${especialidad.nombre}"
+                                        data-descripcion="${especialidad.descripcion || 'Sin descripción'}"
+                                        data-fecha-creacion="${this.formatearFecha(especialidad.fechaCreacion)}">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button type="button" class="btn btn-warning" title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button type="button" class="btn btn-danger" title="Eliminar">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            }
+            
+            this.actualizarInfoPaginacion();
+        },
+        
+        // Función para actualizar la información de paginación
+        actualizarInfoPaginacion() {
+            const inicio = (this.paginaActual - 1) * this.registrosPorPagina + 1;
+            const fin = Math.min(this.paginaActual * this.registrosPorPagina, this.especialidadesFiltradas.length);
+            const total = this.especialidadesFiltradas.length;
+            
+            document.getElementById('especialidad_inicioRegistros').textContent = total > 0 ? inicio : 0;
+            document.getElementById('especialidad_finRegistros').textContent = fin;
+            document.getElementById('especialidad_totalRegistros').textContent = total;
+        },
+        
+        // Función para actualizar los controles de paginación
+        actualizarPaginacion() {
+            const totalPaginas = Math.ceil(this.especialidadesFiltradas.length / this.registrosPorPagina);
+            const paginacion = document.getElementById('especialidad_paginacion');
+            paginacion.innerHTML = '';
+            
+            if (totalPaginas <= 1) return;
+            
+            // Botón Anterior
+            const liAnterior = document.createElement('li');
+            liAnterior.className = `page-item ${this.paginaActual === 1 ? 'disabled' : ''}`;
+            liAnterior.innerHTML = `<a class="page-link" href="#" data-pagina="${this.paginaActual - 1}">Anterior</a>`;
+            paginacion.appendChild(liAnterior);
+            
+            // Números de página
+            const inicioPagina = Math.max(1, this.paginaActual - 2);
+            const finPagina = Math.min(totalPaginas, this.paginaActual + 2);
+            
+            for (let i = inicioPagina; i <= finPagina; i++) {
+                const li = document.createElement('li');
+                li.className = `page-item ${i === this.paginaActual ? 'active' : ''}`;
+                li.innerHTML = `<a class="page-link" href="#" data-pagina="${i}">${i}</a>`;
+                paginacion.appendChild(li);
+            }
+            
+            // Botón Siguiente
+            const liSiguiente = document.createElement('li');
+            liSiguiente.className = `page-item ${this.paginaActual === totalPaginas ? 'disabled' : ''}`;
+            liSiguiente.innerHTML = `<a class="page-link" href="#" data-pagina="${this.paginaActual + 1}">Siguiente</a>`;
+            paginacion.appendChild(liSiguiente);
+        },
+        
+        // Función para filtrar especialidades
+        filtrarEspecialidades() {
+            const filtroNombre = document.getElementById('especialidad_filtroNombre').value.toLowerCase();
+            const filtroDescripcion = document.getElementById('especialidad_filtroDescripcion').value.toLowerCase();
+            
+            this.especialidadesFiltradas = this.especialidadesData.filter(especialidad => {
+                const nombreMatch = especialidad.nombre.toLowerCase().includes(filtroNombre);
+                const descripcionMatch = (especialidad.descripcion || '').toLowerCase().includes(filtroDescripcion);
+                return nombreMatch && descripcionMatch;
+            });
+            
+            this.paginaActual = 1;
+            this.mostrarPagina(1);
+            this.actualizarPaginacion();
+        },
+        
+        // Función para limpiar filtros
+        limpiarFiltros() {
+            document.getElementById('especialidad_filtroNombre').value = '';
+            document.getElementById('especialidad_filtroDescripcion').value = '';
+            this.especialidadesFiltradas = [...this.especialidadesData];
+            this.paginaActual = 1;
+            this.mostrarPagina(1);
+            this.actualizarPaginacion();
+        },
+        
+        // Función para formatear fecha
+        formatearFecha(fecha) {
+            if (!fecha) return '-';
+            const date = new Date(fecha);
+            return date.toLocaleDateString('es-ES') + ' ' + date.toLocaleTimeString('es-ES', {hour: '2-digit', minute: '2-digit'});
+        },
+        
+        // Función para mostrar mensaje de error
+        mostrarMensajeError(mensaje) {
+            const tbody = document.getElementById('especialidad_tablaEspecialidadBody');
+            tbody.innerHTML = `<tr><td colspan="5" class="text-center text-danger">${mensaje}</td></tr>`;
+        },
+        
+        // Función para configurar event listeners
+        bindEvents() {
+            // Event listener para paginación
+            document.addEventListener('click', (event) => {
+                if (event.target.classList.contains('page-link') && event.target.closest('#especialidad_paginacion')) {
+                    event.preventDefault();
+                    const pagina = parseInt(event.target.getAttribute('data-pagina'));
+                    if (pagina && pagina !== this.paginaActual) {
+                        this.mostrarPagina(pagina);
+                        this.actualizarPaginacion();
+                    }
+                }
+            });
+            
+            // Event listeners para filtros
+            document.getElementById('especialidad_btnLimpiarFiltros').addEventListener('click', () => this.limpiarFiltros());
+            
+            // Filtros en tiempo real
+            document.getElementById('especialidad_filtroNombre').addEventListener('input', () => this.filtrarEspecialidades());
+            document.getElementById('especialidad_filtroDescripcion').addEventListener('input', () => this.filtrarEspecialidades());
+            
+            // Event listener para detalles de especialidad
+            document.addEventListener('click', (event) => {
+                const trigger = event.target.closest('.btn-detalles-especialidad');
+                if (!trigger) return;
+                
+                const get = (attr) => trigger.getAttribute(attr) || '-';
+                const set = (id, value) => { 
+                    const el = document.getElementById(id); 
+                    if (el) el.textContent = value ?? '-'; 
+                };
+
+                set('especialidad_detalleId', get('data-id'));
+                set('especialidad_detalleNombre', get('data-nombre'));
+                set('especialidad_detalleDescripcion', get('data-descripcion'));
+                set('especialidad_detalleFechaCreacion', get('data-fecha-creacion'));
+            });
+
+            // Script para manejar la carga de médicos por especialidad
+            document.addEventListener('click', (event) => {
+                const verMedicosLink = event.target.closest('.ver-medicos-link');
+                if (!verMedicosLink) return;
+                
+                const especialidadId = verMedicosLink.getAttribute('data-especialidad-id');
+                const especialidadNombre = verMedicosLink.getAttribute('data-especialidad-nombre');
+                
+                // Actualizar el título del modal
+                document.getElementById('especialidad_nombreEspecialidadModal').textContent = especialidadNombre;
+                
+                // Mostrar loading y ocultar contenido
+                document.getElementById('especialidad_loadingMedicos').style.display = 'block';
+                document.getElementById('especialidad_contenidoMedicos').style.display = 'none';
+                document.getElementById('especialidad_sinMedicos').style.display = 'none';
+                
+                // Hacer la petición AJAX para obtener los médicos
+                fetch(`/especialidad/api/medicos-por-especialidad/${especialidadId}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Error al cargar los médicos');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Ocultar loading
+                        document.getElementById('especialidad_loadingMedicos').style.display = 'none';
+                        document.getElementById('especialidad_contenidoMedicos').style.display = 'block';
+                        
+                        const tablaMedicos = document.getElementById('especialidad_tablaMedicos');
+                        const sinMedicos = document.getElementById('especialidad_sinMedicos');
+                        
+                        if (data && data.length > 0) {
+                            tablaMedicos.innerHTML = '';
+                            data.forEach(medico => {
+                                const row = document.createElement('tr');
+                                row.innerHTML = `
+                                    <td>${medico[0]}</td> <!-- medico_id -->
+                                    <td>${medico[1]}</td> <!-- nombre_completo -->
+                                    <td>${medico[2]}</td> <!-- turno -->
+                                    <td>${medico[3]}</td> <!-- especialidad -->
+                                    <td><span class="badge bg-${this.getEstadoBadgeClass(medico[4])}">${medico[4]}</span></td> <!-- estado -->
+                                `;
+                                tablaMedicos.appendChild(row);
+                            });
+                            sinMedicos.style.display = 'none';
+                        } else {
+                            tablaMedicos.innerHTML = '';
+                            sinMedicos.style.display = 'block';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        document.getElementById('especialidad_loadingMedicos').style.display = 'none';
+                        document.getElementById('especialidad_contenidoMedicos').style.display = 'block';
+                        document.getElementById('especialidad_sinMedicos').style.display = 'block';
+                        document.getElementById('especialidad_sinMedicos').innerHTML = `
+                            <i class="bi bi-exclamation-triangle text-danger fs-1"></i>
+                            <p class="mt-2 text-danger">Error al cargar los médicos. Por favor, inténtalo de nuevo.</p>
+                        `;
+                    });
+            });
+        },
+        
+        // Función para determinar la clase del badge según el estado
+        getEstadoBadgeClass(estado) {
+            switch(estado) {
+                case 'ACTIVO': return 'success';
+                case 'INACTIVO': return 'secondary';
+                case 'LICENCIA': return 'warning';
+                case 'VACACIONES': return 'info';
+                default: return 'secondary';
+            }
+        }
+    };
+    
+    // Inicializar cuando el DOM esté listo
+    document.addEventListener('DOMContentLoaded', function() {
+        EspecialidadManager.init();
+        
+        // Asegurar que al cerrar el modal se elimine cualquier backdrop residual
+        const modalEl = document.getElementById('especialidad_detallesModal');
+        if (modalEl) {
+            modalEl.addEventListener('hidden.bs.modal', function () {
+                document.body.classList.remove('modal-open');
+                document.body.style.removeProperty('overflow');
+                document.body.style.removeProperty('padding-right');
+                document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+            });
+        }
+        
+        // También para el modal de médicos
+        const modalMedicosEl = document.getElementById('especialidad_medicosModal');
+        if (modalMedicosEl) {
+            modalMedicosEl.addEventListener('hidden.bs.modal', function () {
+                document.body.classList.remove('modal-open');
+                document.body.style.removeProperty('overflow');
+                document.body.style.removeProperty('padding-right');
+                document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+            });
+        }
+        
+        // También para el modal de eliminación
+        const modalEliminarEl = document.getElementById('especialidad_eliminarModal');
+        if (modalEliminarEl) {
+            modalEliminarEl.addEventListener('hidden.bs.modal', function () {
+                document.body.classList.remove('modal-open');
+                document.body.style.removeProperty('overflow');
+                document.body.style.removeProperty('padding-right');
+                document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+            });
+        }
+    });
+    </script>
+</div>

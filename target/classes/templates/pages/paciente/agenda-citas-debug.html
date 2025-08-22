@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: head"></head>
+
+<body data-bs-spy="scroll" data-bs-target="#header-nav" tabindex="0">
+
+  <!-- Header -->
+  <div th:replace="fragments/header :: header"></div>
+  
+  <!-- Navbar -->
+  <div th:replace="fragments/header :: navbar"></div>
+
+  <!-- Main Content -->
+  <main class="padding-large">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="display-header mb-5">
+            <h1 class="display-4 fw-bold text-center text-dark">Debug - Agenda de Citas</h1>
+            <p class="lead text-center text-muted">Información detallada para troubleshooting</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Información del Usuario -->
+      <div class="row mb-4">
+        <div class="col-12">
+          <div class="card border-0 shadow-sm">
+            <div class="card-header bg-info text-white">
+              <h5 class="mb-0">Información del Usuario</h5>
+            </div>
+            <div class="card-body">
+              <div th:if="${usuario != null}">
+                <p><strong>ID:</strong> <span th:text="${usuario.id}">-</span></p>
+                <p><strong>Correo:</strong> <span th:text="${usuario.correo}">-</span></p>
+                <p><strong>Nombres:</strong> <span th:text="${usuario.nombres}">-</span></p>
+                <p><strong>Apellidos:</strong> <span th:text="${usuario.apellidos}">-</span></p>
+                <p><strong>Rol:</strong> <span th:text="${usuario.rol}">-</span></p>
+              </div>
+              <div th:if="${usuario == null}">
+                <p class="text-danger">No hay usuario en sesión</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Error si existe -->
+      <div th:if="${error != null}" class="row mb-4">
+        <div class="col-12">
+          <div class="alert alert-danger" role="alert">
+            <h5>Error:</h5>
+            <p th:text="${error}">Error desconocido</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Estadísticas -->
+      <div class="row mb-4">
+        <div class="col-12">
+          <div class="card border-0 shadow-sm">
+            <div class="card-header bg-primary text-white">
+              <h5 class="mb-0">Estadísticas</h5>
+            </div>
+            <div class="card-body">
+              <p><strong>Total de citas:</strong> <span th:text="${totalCitas}">0</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lista de Citas -->
+      <div class="row">
+        <div class="col-12">
+          <div class="card border-0 shadow-sm">
+            <div class="card-header bg-success text-white">
+              <h5 class="mb-0">Citas Encontradas</h5>
+            </div>
+            <div class="card-body">
+              <div th:if="${#lists.isEmpty(citas)}" class="text-center py-3">
+                <p class="text-muted">No se encontraron citas para este usuario</p>
+              </div>
+              
+              <div th:each="cita : ${citas}" class="border-bottom pb-3 mb-3">
+                <h6>Cita ID: <span th:text="${cita.id}">-</span></h6>
+                <div class="row">
+                  <div class="col-md-6">
+                    <p><strong>Estado:</strong> <span th:text="${cita.estado}">-</span></p>
+                    <p><strong>Fecha y Hora:</strong> <span th:text="${cita.fechaHora}">-</span></p>
+                    <p><strong>Observaciones:</strong> <span th:text="${cita.observaciones}">-</span></p>
+                  </div>
+                  <div class="col-md-6">
+                    <p><strong>Servicio:</strong> <span th:text="${cita.servicio != null ? cita.servicio.nombre : 'NULL'}">-</span></p>
+                    <p><strong>Médico:</strong> <span th:text="${cita.medico != null ? cita.medico.nombres + ' ' + cita.medico.apellidos : 'NULL'}">-</span></p>
+                    <p><strong>Paciente:</strong> <span th:text="${cita.paciente != null ? cita.paciente.nombres + ' ' + cita.paciente.apellidos : 'NULL'}">-</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Enlaces de navegación -->
+      <div class="row mt-4">
+        <div class="col-12 text-center">
+          <a th:href="@{/agenda-citas}" class="btn btn-primary me-2">
+            <i class="bi bi-arrow-left me-2"></i>Volver a Agenda
+          </a>
+          <a th:href="@{/inicio}" class="btn btn-secondary">
+            <i class="bi bi-house me-2"></i>Inicio
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <div th:replace="fragments/footer :: footer"></div>
+
+  <!-- Login Modal -->
+  <div th:replace="fragments/login :: loginModal"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script th:src="@{/js/navbar.js}"></script>
+</body>
+</html> 

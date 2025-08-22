@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: head"></head>
+
+<body data-bs-spy="scroll" data-bs-target="#header-nav" tabindex="0">
+
+  <!-- Header -->
+  <div th:replace="fragments/header :: header"></div>
+  
+  <!-- Navbar -->
+  <div th:replace="fragments/header :: navbar"></div>
+
+  <!-- Main Content -->
+  <main class="padding-large">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="display-header mb-5">
+            <h1 class="display-4 fw-bold text-center text-dark">Nuestros Servicios</h1>
+            <p class="lead text-center text-muted">Descubre nuestra amplia gama de servicios médicos especializados</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Servicios Principales -->
+      <div class="row mb-5">
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center p-4">
+              <i class="bi bi-heart-pulse text-primary display-4 mb-3"></i>
+              <h4 class="card-title">Medicina General</h4>
+              <p class="card-text">Atención médica integral para la prevención, diagnóstico y tratamiento de enfermedades comunes, ideal como primer punto de contacto con el sistema de salud.</p>
+              <ul class="list-unstyled text-start">
+                <li><i class="bi bi-check-circle text-success me-2"></i>Consulta General</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Diagnóstico clínico</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Tratamiento de enfermedades</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Medicina preventiva</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center p-4">
+              <i class="bi bi-heart text-primary display-4 mb-3"></i>
+              <h4 class="card-title">Cardiología</h4>
+              <p class="card-text">Evaluación y cuidado del corazón, enfocada en la prevención y tratamiento de enfermedades cardiovasculares.</p>
+              <ul class="list-unstyled text-start">
+                <li><i class="bi bi-check-circle text-success me-2"></i>Consulta Cardiológica</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Electrocardiograma</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Ecocardiografía</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Pruebas de esfuerzo</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center p-4">
+              <i class="bi bi-droplet text-primary display-4 mb-3"></i>
+              <h4 class="card-title">Dermatología</h4>
+              <p class="card-text">Diagnóstico y tratamiento de enfermedades y condiciones de la piel, cabello y uñas.</p>
+              <ul class="list-unstyled text-start">
+                <li><i class="bi bi-check-circle text-success me-2"></i>Consulta Dermatológica</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Biopsias de piel</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Tratamiento de acné</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Detección de cáncer de piel</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center p-4">
+              <i class="bi bi-gender-female text-primary display-4 mb-3"></i>
+              <h4 class="card-title">Ginecología</h4>
+              <p class="card-text">Atención integral de la salud reproductiva y ginecológica de la mujer.</p>
+              <ul class="list-unstyled text-start">
+                <li><i class="bi bi-check-circle text-success me-2"></i>Consulta Ginecológica</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Papanicolaou</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Ecografía ginecológica</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Planificación familiar</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center p-4">
+              <i class="bi bi-emoji-smile text-primary display-4 mb-3"></i>
+              <h4 class="card-title">Pediatría</h4>
+              <p class="card-text">Prevención, control y tratamiento de la salud en niños y adolescentes.</p>
+              <ul class="list-unstyled text-start">
+                <li><i class="bi bi-check-circle text-success me-2"></i>Consulta Pediátrica</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Control de crecimiento</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Vacunación</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Desarrollo infantil</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center p-4">
+              <i class="bi bi-arrow-up-circle text-primary display-4 mb-3"></i>
+              <h4 class="card-title">Ortopedia</h4>
+              <p class="card-text">Diagnóstico y tratamiento de problemas del sistema musculoesquelético: huesos, músculos y articulaciones.</p>
+              <ul class="list-unstyled text-start">
+                <li><i class="bi bi-check-circle text-success me-2"></i>Consulta Ortopédica</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Radiografías</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Fisioterapia</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Tratamiento de lesiones</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center p-4">
+              <i class="bi bi-eye text-primary display-4 mb-3"></i>
+              <h4 class="card-title">Oftalmología</h4>
+              <p class="card-text">Prevención y tratamiento de enfermedades y problemas de la visión.</p>
+              <ul class="list-unstyled text-start">
+                <li><i class="bi bi-check-circle text-success me-2"></i>Consulta Oftalmológica</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Examen de la vista</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Prescripción de lentes</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Tratamiento de cataratas</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center p-4">
+              <i class="bi bi-lightbulb text-primary display-4 mb-3"></i>
+              <h4 class="card-title">Psicología</h4>
+              <p class="card-text">Evaluación y tratamiento de la salud mental, bienestar emocional y procesos de conducta.</p>
+              <ul class="list-unstyled text-start">
+                <li><i class="bi bi-check-circle text-success me-2"></i>Consulta Psicológica</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Terapia individual</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Terapia familiar</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Evaluación psicológica</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center p-4">
+              <i class="bi bi-activity text-primary display-4 mb-3"></i>
+              <h4 class="card-title">Neurología</h4>
+              <p class="card-text">Diagnóstico y tratamiento de enfermedades del sistema nervioso central y periférico.</p>
+              <ul class="list-unstyled text-start">
+                <li><i class="bi bi-check-circle text-success me-2"></i>Consulta Neurológica</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Electroencefalograma</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Resonancia magnética</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Tratamiento de migrañas</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center p-4">
+              <i class="bi bi-graph-up text-primary display-4 mb-3"></i>
+              <h4 class="card-title">Endocrinología</h4>
+              <p class="card-text">Tratamiento de enfermedades relacionadas con las hormonas y el metabolismo.</p>
+              <ul class="list-unstyled text-start">
+                <li><i class="bi bi-check-circle text-success me-2"></i>Consulta Endocrinológica</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Control de diabetes</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Trastornos tiroideos</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Trastornos hormonales</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center p-4">
+              <i class="bi bi-circle text-primary display-4 mb-3"></i>
+              <h4 class="card-title">Gastroenterología</h4>
+              <p class="card-text">Atención de enfermedades del aparato digestivo, como estómago, hígado e intestinos.</p>
+              <ul class="list-unstyled text-start">
+                <li><i class="bi bi-check-circle text-success me-2"></i>Consulta Gastroenterológica</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Endoscopía digestiva</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Colonoscopía</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Tratamiento de úlceras</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center p-4">
+              <i class="bi bi-wind text-primary display-4 mb-3"></i>
+              <h4 class="card-title">Neumología</h4>
+              <p class="card-text">Diagnóstico y tratamiento de enfermedades del sistema respiratorio.</p>
+              <ul class="list-unstyled text-start">
+                <li><i class="bi bi-check-circle text-success me-2"></i>Consulta Neumológica</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Espirometría</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Radiografía de tórax</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Tratamiento de asma</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center p-4">
+              <i class="bi bi-people text-primary display-4 mb-3"></i>
+              <h4 class="card-title">Medicina Ocupacional</h4>
+              <p class="card-text">Promoción de la salud y prevención de riesgos en el entorno laboral.</p>
+              <ul class="list-unstyled text-start">
+                <li><i class="bi bi-check-circle text-success me-2"></i>Examen ocupacional</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Evaluación pre-ocupacional</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Medicina del trabajo</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Prevención de riesgos</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center p-4">
+              <i class="bi bi-heart-fill text-primary display-4 mb-3"></i>
+              <h4 class="card-title">Atención Prenatal</h4>
+              <p class="card-text">Seguimiento integral de la salud de la madre y el bebé durante el embarazo.</p>
+              <ul class="list-unstyled text-start">
+                <li><i class="bi bi-check-circle text-success me-2"></i>Control prenatal básico</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Ecografía obstétrica</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Monitoreo fetal</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Educación prenatal</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center p-4">
+              <i class="bi bi-apple text-primary display-4 mb-3"></i>
+              <h4 class="card-title">Nutrición Clínica</h4>
+              <p class="card-text">Evaluación y tratamiento personalizado de la nutrición para promover la salud y prevenir enfermedades.</p>
+              <ul class="list-unstyled text-start">
+                <li><i class="bi bi-check-circle text-success me-2"></i>Evaluación nutricional</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Plan alimenticio personalizado</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Nutrición terapéutica</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Educación nutricional</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center p-4">
+              <i class="bi bi-capsule text-primary display-4 mb-3"></i>
+              <h4 class="card-title">Atención Farmacéutica</h4>
+              <p class="card-text">Servicios profesionales de farmacia orientados al uso seguro y responsable de medicamentos.</p>
+              <ul class="list-unstyled text-start">
+                <li><i class="bi bi-check-circle text-success me-2"></i>Dispensación de medicamentos</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Asesoramiento farmacéutico</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Control de interacciones</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Farmacovigilancia</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center p-4">
+              <i class="bi bi-clipboard-pulse text-primary display-4 mb-3"></i>
+              <h4 class="card-title">Laboratorio Clínico</h4>
+              <p class="card-text">Pruebas diagnósticas y análisis de laboratorio para la detección temprana de enfermedades.</p>
+              <ul class="list-unstyled text-start">
+                <li><i class="bi bi-check-circle text-success me-2"></i>Análisis de sangre básico</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Análisis de orina completo</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Pruebas especializadas</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Resultados rápidos</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Servicios Especializados -->
+      <div class="row mb-5">
+        <div class="col-12">
+          <h2 class="h3 mb-4 text-center">Servicios Especializados</h2>
+        </div>
+        <div class="col-lg-6 mb-4">
+          <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+              <div class="d-flex align-items-center mb-3">
+                <i class="bi bi-calendar-check text-primary display-5 me-3"></i>
+                <h5 class="card-title mb-0">Agenda de Citas</h5>
+              </div>
+              <p class="card-text">Sistema de agendamiento de citas médicas online, fácil y rápido. Reserva tu cita con el especialista que necesites.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 mb-4">
+          <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+              <div class="d-flex align-items-center mb-3">
+                <i class="bi bi-credit-card text-primary display-5 me-3"></i>
+                <h5 class="card-title mb-0">Pagos Online</h5>
+              </div>
+              <p class="card-text">Realiza el pago de tus consultas y servicios de forma segura a través de nuestra plataforma de pagos online.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Información de Contacto -->
+      <div class="row">
+        <div class="col-12">
+          <div class="card bg-primary text-white border-0">
+            <div class="card-body text-center p-5">
+              <h3 class="mb-3">¿Necesitas más información?</h3>
+              <p class="lead mb-4">Nuestro equipo está listo para ayudarte a encontrar el servicio que mejor se adapte a tus necesidades.</p>
+              <a href="#" class="btn btn-light btn-lg" data-bs-toggle="modal" data-bs-target="#loginModal">Contactar Ahora</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <div th:replace="fragments/footer :: footer"></div>
+
+  <!-- Login Modal -->
+  <div th:replace="fragments/login :: loginModal"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script th:src="@{/js/navbar.js}"></script>
+</body>
+</html> 

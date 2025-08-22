@@ -1,0 +1,668 @@
+<!-- Fragmento para Consultar Médicos -->
+<div th:fragment="consultar-medico" class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h4 class="mb-0">
+                        <i class="bi bi-search me-2"></i>Consultar Médicos
+                    </h4>
+                </div>
+                <div class="card-body">
+                    
+                    <!-- Filtros de Búsqueda -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="mb-0">
+                                        <i class="bi bi-funnel me-2"></i>Filtros de Búsqueda
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-3 mb-3">
+                                            <label for="medico_filtroNombre" class="form-label">Nombre o Apellido</label>
+                                            <input type="text" class="form-control" id="medico_filtroNombre" placeholder="Buscar por nombre...">
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="medico_filtroEspecialidad" class="form-label">Especialidad</label>
+                                            <select class="form-select" id="medico_filtroEspecialidad">
+                                                <option value="">Todas las especialidades</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="medico_filtroTurno" class="form-label">Turno</label>
+                                            <select class="form-select" id="medico_filtroTurno">
+                                                <option value="">Todos los turnos</option>
+                                                <option value="MAÑANA">Mañana</option>
+                                                <option value="TARDE">Tarde</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="medico_filtroDNI" class="form-label">DNI</label>
+                                            <input type="text" class="form-control" id="medico_filtroDNI" placeholder="Buscar por DNI..." maxlength="8">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="d-flex gap-2">
+                                                <button type="button" class="btn btn-secondary" id="medico_btnLimpiarFiltros">
+                                                    <i class="bi bi-arrow-clockwise me-2"></i>Limpiar Filtros
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botones de Exportación -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">
+                                    <i class="bi bi-list-ul me-2"></i>Lista de Médicos
+                                </h6>
+                                <div class="d-flex gap-2">
+                                    <button type="button" class="btn btn-success btn-sm" id="medico_btnExportarExcel">
+                                        <i class="bi bi-file-earmark-excel me-2"></i>Exportar Excel
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-sm" id="medico_btnExportarPDF">
+                                        <i class="bi bi-file-earmark-pdf me-2"></i>Exportar PDF
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tabla de Médicos -->
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped" id="medico_tablaMedico">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombres</th>
+                                    <th>Apellidos</th>
+                                    <th>DNI</th>
+                                    <th>Turno</th>
+                                    <th>Especialidad</th>
+                                    <th>Teléfono</th>
+                                    <th>Email</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="medico_tablaMedicoBody">
+                                <!-- Las filas se cargarán dinámicamente con JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Información de paginación -->
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <p class="text-muted" id="medico_infoPaginacion">
+                                Mostrando <span id="medico_inicioRegistros">0</span> a <span id="medico_finRegistros">0</span> de <span id="medico_totalRegistros">0</span> médicos
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Paginación -->
+                    <div class="row">
+                        <div class="col-12">
+                            <nav aria-label="Navegación de páginas">
+                                <ul class="pagination justify-content-center" id="medico_paginacion">
+                                    <!-- Los botones de paginación se generarán dinámicamente -->
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Detalles del Médico -->
+    <div class="modal fade" id="medico_detallesModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title">
+                        <i class="bi bi-person-badge me-2"></i>Detalles del Médico
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="text-primary">Información Personal</h6>
+                            <div class="table-responsive">
+                                <table class="table table-borderless">
+                                    <tr>
+                                        <td><strong>ID:</strong></td>
+                                        <td><span id="medico_detalleId">-</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Nombres:</strong></td>
+                                        <td><span id="medico_detalleNombres">-</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Apellidos:</strong></td>
+                                        <td><span id="medico_detalleApellidos">-</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>DNI:</strong></td>
+                                        <td><span id="medico_detalleDNI">-</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Fecha de Nacimiento:</strong></td>
+                                        <td><span id="medico_detalleFechaNac">-</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Sexo:</strong></td>
+                                        <td><span id="medico_detalleSexo">-</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Estado Civil:</strong></td>
+                                        <td><span id="medico_detalleEstadoCivil">-</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Teléfono:</strong></td>
+                                        <td><span id="medico_detalleTelefono">-</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Email:</strong></td>
+                                        <td><span id="medico_detalleEmail">-</span></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-primary">Información Profesional</h6>
+                            <div class="table-responsive">
+                                <table class="table table-borderless">
+                                    <tr>
+                                        <td><strong>Especialidad:</strong></td>
+                                        <td><span id="medico_detalleEspecialidad">-</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>N° Colegiatura:</strong></td>
+                                        <td><span id="medico_detalleColegiatura">-</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Turno:</strong></td>
+                                        <td><span id="medico_detalleTurno">-</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Hora Inicio Turno:</strong></td>
+                                        <td><span id="medico_detalleHoraInicioTurno">-</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Hora Fin Turno:</strong></td>
+                                        <td><span id="medico_detalleHoraFinTurno">-</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Hora Inicio Atención:</strong></td>
+                                        <td><span id="medico_detalleHoraInicioAtencion">-</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Hora Fin Atención:</strong></td>
+                                        <td><span id="medico_detalleHoraFinAtencion">-</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Estado:</strong></td>
+                                        <td><span id="medico_detalleEstado">-</span></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-warning">
+                        <i class="bi bi-pencil me-2"></i>Editar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmación de Eliminación -->
+    <div class="modal fade" id="medico_eliminarModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">
+                        <i class="bi bi-exclamation-triangle me-2"></i>Confirmar Eliminación
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Está seguro que desea eliminar al médico <strong id="medico_nombreMedicoEliminar"></strong>?</p>
+                    <p class="text-danger"><small>Esta acción no se puede deshacer.</small></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="medico_btnConfirmarEliminar">
+                        <i class="bi bi-trash me-2"></i>Eliminar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script para manejar médicos con namespace -->
+    <script>
+    // Namespace para gestión de médicos
+    const MedicoManager = {
+        // Variables globales para la paginación
+        medicosData: [],
+        medicosFiltrados: [],
+        paginaActual: 1,
+        registrosPorPagina: 5,
+        
+        // Función para inicializar el módulo
+        init() {
+            this.cargarEspecialidades();
+            this.cargarTurnos();
+            this.cargarDatosIniciales();
+            this.bindEvents();
+        },
+        
+        // Función para cargar especialidades en el filtro
+        cargarEspecialidades() {
+            fetch('/especialidad/api/listar')
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById('medico_filtroEspecialidad');
+                    data.forEach(especialidad => {
+                        const option = document.createElement('option');
+                        option.value = especialidad.id;
+                        option.textContent = especialidad.nombre;
+                        select.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    // Error silencioso al cargar especialidades
+                });
+        },
+        
+        // Función para cargar turnos en el filtro
+        cargarTurnos() {
+            fetch('/turno/api/listar')
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById('medico_filtroTurno');
+                    // Limpiar opciones existentes excepto la primera
+                    select.innerHTML = '<option value="">Todos los turnos</option>';
+                    
+                    data.forEach(turno => {
+                        const option = document.createElement('option');
+                        option.value = turno.id || turno.nombre; // Usar id si existe, sino nombre
+                        option.textContent = turno.nombre;
+                        select.appendChild(option);
+                    });
+                    
+                    console.log('Turnos cargados desde API:', data);
+                })
+                .catch(error => {
+                    console.log('Error al cargar turnos desde API:', error);
+                    // Si no existe el endpoint, no hacer nada - se cargarán desde los datos
+                });
+        },
+        
+        // Función para cargar turnos por defecto si no existe el endpoint
+        cargarTurnosPorDefecto() {
+            const select = document.getElementById('medico_filtroTurno');
+            select.innerHTML = '<option value="">Todos los turnos</option>';
+            
+            const turnosPorDefecto = [
+                { id: 'MAÑANA', nombre: 'Mañana' },
+                { id: 'TARDE', nombre: 'Tarde' }
+            ];
+            
+            turnosPorDefecto.forEach(turno => {
+                const option = document.createElement('option');
+                option.value = turno.id;
+                option.textContent = turno.nombre;
+                select.appendChild(option);
+            });
+        },
+        
+        // Función para cargar turnos desde los datos de médicos
+        cargarTurnosDesdeDatos(medicosData) {
+            const select = document.getElementById('medico_filtroTurno');
+            select.innerHTML = '<option value="">Todos los turnos</option>';
+            
+            // Extraer valores únicos de turno de los datos
+            const turnosUnicos = new Set();
+            
+            medicosData.forEach(medico => {
+                if (medico.turno) {
+                    if (typeof medico.turno === 'object') {
+                        // Si es un objeto, usar el nombre
+                        turnosUnicos.add(medico.turno.nombre);
+                    } else {
+                        // Si es un string, usar el valor directamente
+                        turnosUnicos.add(medico.turno);
+                    }
+                }
+            });
+            
+            // Convertir a array y ordenar
+            const turnosArray = Array.from(turnosUnicos).sort();
+            
+            // Agregar opciones al select
+            turnosArray.forEach(turno => {
+                const option = document.createElement('option');
+                option.value = turno;
+                option.textContent = turno;
+                select.appendChild(option);
+            });
+            
+            console.log('Turnos cargados dinámicamente:', turnosArray);
+        },
+        
+        // Función para cargar los datos iniciales
+        cargarDatosIniciales() {
+            fetch('/dashboard-administrativo/medicos/api/listar')
+                .then(response => {
+                    if (!response.ok) {
+                        if (response.status === 401) {
+                            throw new Error('No autenticado. Por favor, inicie sesión.');
+                        } else if (response.status === 403) {
+                            throw new Error('Sin permisos para acceder a esta información.');
+                        } else {
+                            throw new Error(`Error del servidor: ${response.status}`);
+                        }
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    this.medicosData = data;
+                    this.medicosFiltrados = [...this.medicosData];
+                    
+                    // Debug: mostrar valores de turno disponibles
+                    console.log('Datos cargados del servidor:', data);
+                    console.log('Valores únicos de turno:', data.map(m => m.turno).filter((v, i, arr) => arr.indexOf(v) === i));
+                    console.log('Ejemplo de médico con turno:', data.find(m => m.turno));
+                    
+                    // Cargar turnos dinámicamente basándose en los datos
+                    this.cargarTurnosDesdeDatos(data);
+                    
+                    this.mostrarPagina(1);
+                    this.actualizarPaginacion();
+                })
+                .catch(error => {
+                    this.mostrarMensajeError('Error al cargar los médicos: ' + error.message);
+                });
+        },
+        
+        // Función para mostrar una página específica
+        mostrarPagina(pagina) {
+            this.paginaActual = pagina;
+            const inicio = (pagina - 1) * this.registrosPorPagina;
+            const fin = inicio + this.registrosPorPagina;
+            const registrosPagina = this.medicosFiltrados.slice(inicio, fin);
+            
+            const tbody = document.getElementById('medico_tablaMedicoBody');
+            tbody.innerHTML = '';
+            
+            if (registrosPagina.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="10" class="text-center text-muted">No hay médicos registrados.</td></tr>';
+            } else {
+                registrosPagina.forEach(medico => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${medico.id}</td>
+                        <td>${medico.nombres}</td>
+                        <td>${medico.apellidos}</td>
+                        <td>${medico.dni}</td>
+                        <td>${medico.turno || '-'}</td>
+                        <td>${medico.especialidad ? medico.especialidad.nombre : 'Sin especialidad'}</td>
+                        <td>${medico.telefono || '-'}</td>
+                        <td>${medico.email || '-'}</td>
+                        <td>${medico.estado || '-'}</td>
+                        <td>
+                            <div class="btn-group btn-group-sm" role="group">
+                                <button type="button" 
+                                        class="btn btn-info btn-detalles-medico" 
+                                        title="Ver Detalles"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#medico_detallesModal"
+                                        data-id="${medico.id}"
+                                        data-nombres="${medico.nombres}"
+                                        data-apellidos="${medico.apellidos}"
+                                        data-dni="${medico.dni}"
+                                        data-email="${medico.email || ''}"
+                                        data-telefono="${medico.telefono || ''}"
+                                        data-estado="${medico.estado}"
+                                        data-numero-colegiado="${medico.numeroColegiado || ''}"
+                                        data-turno="${medico.turno}"
+                                        data-hora-inicio-turno="${medico.horaInicioTurno || ''}"
+                                        data-hora-fin-turno="${medico.horaFinTurno || ''}"
+                                        data-hora-inicio-atencion="${medico.horaInicioAtencion || ''}"
+                                        data-hora-fin-atencion="${medico.horaFinAtencion || ''}"
+                                        data-especialidad="${medico.especialidad ? medico.especialidad.nombre : 'Sin especialidad'}"
+                                        data-sexo="${medico.sexo || ''}"
+                                        data-estado-civil="${medico.estadoCivil || ''}"
+                                        data-fecha-nacimiento="${medico.fechaNacimiento || ''}">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button type="button" class="btn btn-warning" title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button type="button" class="btn btn-danger" title="Eliminar">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            }
+            
+            this.actualizarInfoPaginacion();
+        },
+        
+        // Función para actualizar la información de paginación
+        actualizarInfoPaginacion() {
+            const inicio = (this.paginaActual - 1) * this.registrosPorPagina + 1;
+            const fin = Math.min(this.paginaActual * this.registrosPorPagina, this.medicosFiltrados.length);
+            const total = this.medicosFiltrados.length;
+            
+            document.getElementById('medico_inicioRegistros').textContent = total > 0 ? inicio : 0;
+            document.getElementById('medico_finRegistros').textContent = fin;
+            document.getElementById('medico_totalRegistros').textContent = total;
+        },
+        
+        // Función para actualizar los controles de paginación
+        actualizarPaginacion() {
+            const totalPaginas = Math.ceil(this.medicosFiltrados.length / this.registrosPorPagina);
+            const paginacion = document.getElementById('medico_paginacion');
+            paginacion.innerHTML = '';
+            
+            if (totalPaginas <= 1) return;
+            
+            // Botón Anterior
+            const liAnterior = document.createElement('li');
+            liAnterior.className = `page-item ${this.paginaActual === 1 ? 'disabled' : ''}`;
+            liAnterior.innerHTML = `<a class="page-link" href="#" data-pagina="${this.paginaActual - 1}">Anterior</a>`;
+            paginacion.appendChild(liAnterior);
+            
+            // Números de página
+            const inicioPagina = Math.max(1, this.paginaActual - 2);
+            const finPagina = Math.min(totalPaginas, this.paginaActual + 2);
+            
+            for (let i = inicioPagina; i <= finPagina; i++) {
+                const li = document.createElement('li');
+                li.className = `page-item ${i === this.paginaActual ? 'active' : ''}`;
+                li.innerHTML = `<a class="page-link" href="#" data-pagina="${i}">${i}</a>`;
+                paginacion.appendChild(li);
+            }
+            
+            // Botón Siguiente
+            const liSiguiente = document.createElement('li');
+            liSiguiente.className = `page-item ${this.paginaActual === totalPaginas ? 'disabled' : ''}`;
+            liSiguiente.innerHTML = `<a class="page-link" href="#" data-pagina="${this.paginaActual + 1}">Siguiente</a>`;
+            paginacion.appendChild(liSiguiente);
+        },
+        
+        // Función para filtrar médicos
+        filtrarMedicos() {
+            const filtroNombre = document.getElementById('medico_filtroNombre').value.toLowerCase();
+            const filtroEspecialidad = document.getElementById('medico_filtroEspecialidad').value;
+            const filtroTurno = document.getElementById('medico_filtroTurno').value;
+            const filtroDNI = document.getElementById('medico_filtroDNI').value.toLowerCase();
+            
+            // Debug: mostrar valores de turno disponibles
+            if (filtroTurno) {
+                console.log('Filtro turno seleccionado:', filtroTurno);
+                console.log('Valores de turno en datos:', this.medicosData.map(m => m.turno).filter((v, i, arr) => arr.indexOf(v) === i));
+            }
+            
+            this.medicosFiltrados = this.medicosData.filter(medico => {
+                const nombreMatch = (medico.nombres + ' ' + medico.apellidos).toLowerCase().includes(filtroNombre);
+                const especialidadMatch = !filtroEspecialidad || (medico.especialidad && medico.especialidad.id == filtroEspecialidad);
+                
+                // Lógica mejorada para el filtro de turno
+                let turnoMatch = true;
+                if (filtroTurno) {
+                    // Si el médico tiene un objeto turno (como especialidad)
+                    if (medico.turno && typeof medico.turno === 'object') {
+                        turnoMatch = medico.turno.id == filtroTurno || medico.turno.nombre === filtroTurno;
+                    } else {
+                        // Si el médico tiene un string de turno
+                        turnoMatch = medico.turno === filtroTurno;
+                    }
+                }
+                
+                const dniMatch = !filtroDNI || medico.dni.toLowerCase().includes(filtroDNI);
+                
+                // Debug: mostrar comparación de turno
+                if (filtroTurno && medico.turno) {
+                    console.log(`Comparando turno: "${JSON.stringify(medico.turno)}" === "${filtroTurno}" = ${turnoMatch}`);
+                }
+                
+                return nombreMatch && especialidadMatch && turnoMatch && dniMatch;
+            });
+            
+            this.paginaActual = 1;
+            this.mostrarPagina(1);
+            this.actualizarPaginacion();
+        },
+        
+        // Función para limpiar filtros
+        limpiarFiltros() {
+            document.getElementById('medico_filtroNombre').value = '';
+            document.getElementById('medico_filtroEspecialidad').value = '';
+            document.getElementById('medico_filtroTurno').value = '';
+            document.getElementById('medico_filtroDNI').value = '';
+            this.medicosFiltrados = [...this.medicosData];
+            this.paginaActual = 1;
+            this.mostrarPagina(1);
+            this.actualizarPaginacion();
+        },
+        
+
+        
+        // Función para mostrar mensaje de error
+        mostrarMensajeError(mensaje) {
+            const tbody = document.getElementById('medico_tablaMedicoBody');
+            tbody.innerHTML = `<tr><td colspan="10" class="text-center text-danger">${mensaje}</td></tr>`;
+        },
+        
+
+        
+        // Función para configurar event listeners
+        bindEvents() {
+            // Event listener para paginación
+            document.addEventListener('click', (event) => {
+                if (event.target.classList.contains('page-link') && event.target.closest('#medico_paginacion')) {
+                    event.preventDefault();
+                    const pagina = parseInt(event.target.getAttribute('data-pagina'));
+                    if (pagina && pagina !== this.paginaActual) {
+                        this.mostrarPagina(pagina);
+                        this.actualizarPaginacion();
+                    }
+                }
+            });
+            
+            // Event listeners para filtros
+            document.getElementById('medico_btnLimpiarFiltros').addEventListener('click', () => this.limpiarFiltros());
+            
+            // Filtros en tiempo real
+            document.getElementById('medico_filtroNombre').addEventListener('input', () => this.filtrarMedicos());
+            document.getElementById('medico_filtroDNI').addEventListener('input', () => this.filtrarMedicos());
+            document.getElementById('medico_filtroEspecialidad').addEventListener('change', () => this.filtrarMedicos());
+            document.getElementById('medico_filtroTurno').addEventListener('change', () => this.filtrarMedicos());
+            
+            // Event listener para detalles de médico
+            document.addEventListener('click', (event) => {
+                const trigger = event.target.closest('.btn-detalles-medico');
+                if (!trigger) return;
+                
+                const get = (attr) => trigger.getAttribute(attr) || '-';
+                const set = (id, value) => { 
+                    const el = document.getElementById(id); 
+                    if (el) el.textContent = value ?? '-'; 
+                };
+
+                set('medico_detalleId', get('data-id'));
+                set('medico_detalleNombres', get('data-nombres'));
+                set('medico_detalleApellidos', get('data-apellidos'));
+                set('medico_detalleDNI', get('data-dni'));
+                set('medico_detalleFechaNac', get('data-fecha-nacimiento'));
+                set('medico_detalleSexo', get('data-sexo'));
+                set('medico_detalleEstadoCivil', get('data-estado-civil'));
+                set('medico_detalleTelefono', get('data-telefono'));
+                set('medico_detalleEmail', get('data-email'));
+
+                set('medico_detalleEspecialidad', get('data-especialidad'));
+                set('medico_detalleColegiatura', get('data-numero-colegiado'));
+                set('medico_detalleTurno', get('data-turno'));
+                set('medico_detalleHoraInicioTurno', get('data-hora-inicio-turno'));
+                set('medico_detalleHoraFinTurno', get('data-hora-fin-turno'));
+                set('medico_detalleHoraInicioAtencion', get('data-hora-inicio-atencion'));
+                set('medico_detalleHoraFinAtencion', get('data-hora-fin-atencion'));
+
+                const estadoEl = document.getElementById('medico_detalleEstado');
+                if (estadoEl) {
+                    const estado = get('data-estado');
+                    estadoEl.textContent = estado;
+                }
+            });
+        }
+    };
+    
+    // Inicializar cuando el DOM esté listo
+    document.addEventListener('DOMContentLoaded', function() {
+        MedicoManager.init();
+        
+        // Asegurar que al cerrar el modal se elimine cualquier backdrop residual
+        const modalEl = document.getElementById('medico_detallesModal');
+        if (modalEl) {
+            modalEl.addEventListener('hidden.bs.modal', function () {
+                document.body.classList.remove('modal-open');
+                document.body.style.removeProperty('overflow');
+                document.body.style.removeProperty('padding-right');
+                document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+            });
+        }
+        
+        // También para el modal de eliminación
+        const modalEliminarEl = document.getElementById('medico_eliminarModal');
+        if (modalEliminarEl) {
+            modalEliminarEl.addEventListener('hidden.bs.modal', function () {
+                document.body.classList.remove('modal-open');
+                document.body.style.removeProperty('overflow');
+                document.body.style.removeProperty('padding-right');
+                document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+            });
+        }
+    });
+    </script>
+</div> 

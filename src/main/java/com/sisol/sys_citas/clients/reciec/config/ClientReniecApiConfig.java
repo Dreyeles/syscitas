@@ -13,7 +13,6 @@ public class ClientReniecApiConfig {
     private String baseUrl;
 
     @Bean(name = "reniecRestTemplate")
-    
     public RestTemplate reniecRestTemplate(){
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(baseUrl));
